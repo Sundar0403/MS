@@ -1,9 +1,17 @@
 package pojo;
 
 public class CustomerDetails {
+	private int customerId;
 	private String customerName;
 	private String customerAddress;
 	private long mobileNumber;
+	
+	public int getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -24,7 +32,8 @@ public class CustomerDetails {
 	}
 	@Override
 	public String toString() {
-		return "CustomerDetails [AccountHolderName=" + customerName + ", AccountHolderAddress=" + customerAddress +  ", mobileNumber=" + mobileNumber + "]";
+		return "CustomerDetails [customerId=" + customerId + ", customerName=" + customerName + ", customerAddress="
+				+ customerAddress + ", mobileNumber=" + mobileNumber + "]";
 	}
 	
 }

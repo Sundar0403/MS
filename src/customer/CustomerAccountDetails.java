@@ -1,4 +1,5 @@
 package customer;
+import excep.*;
 import logic.*;
 import account.*;
 import pojo.*;
@@ -8,86 +9,164 @@ public class CustomerAccountDetails {
 	CustomerLogic newLogic=new CustomerLogic();
 	
 	Scanner scan=new Scanner(System.in);
+	Map<Integer,CustomerDetails> customerMap=new HashMap<>();
+	Map<Integer,AccountDetails> inputMap=new HashMap<>();
+	Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=new HashMap<>();
 	
-	private Map<Object,Object> retrieveFromCustomer()
+	private void retrieveFromCustomer()
 	{
-		Map<Object,Object> inputMap=new HashMap();
-		List newList=newLogic.inputList();
 		System.out.println("Enter the Number of Customers :");
 		int values=scan.nextInt();
 		scan.nextLine();
 		for(int i=0;i<values;i++)
 		{
-			CustomerDetails pojo=new CustomerDetails();
-			System.out.println("Enter the Account Holder Name :");
+			CustomerDetails customerObj=new CustomerDetails();
+			int customerId=newLogic.getId();
+			customerObj.setCustomerId(customerId);
+			System.out.println("Enter the Customer Name :");
 			String name=scan.nextLine();
-			pojo.setCustomerName(name);
-			System.out.println("Enter the Account Holder Address :");
+			customerObj.setCustomerName(name);
+			System.out.println("Enter the Customer Address :");
 			String address=scan.nextLine();
-			pojo.setCustomerAddress(address);
-			System.out.println("Enter the Account Holder Mobile Number :");
+			customerObj.setCustomerAddress(address);
+			System.out.println("Enter the Customer Mobile Number :");
 			long mobNo=scan.nextLong();
 			scan.nextLine();
-			pojo.setMobileNumber(mobNo);
-			//newList.add(pojo);
-			Object customerId=newLogic.getId();
-			//inputMap.put(customerId,newList);
-			//customerId++;
-			inputMap=newLogic.getMap(customerId,pojo);
+			customerObj.setMobileNumber(mobNo);
+			customerMap=newLogic.addCustomer(customerObj,customerId);
 		}
-		return inputMap;
+		System.out.println(customerMap);
 	}
 	
 	private void getCustomer()
 	{
-		System.out.println("Enter the Id That the Details Needed to Retrieve :");
-		Object inputId=scan.nextInt();
-		//scan.nextLine();
-		System.out.println(newLogic.getIdDetails(inputId));
+		try
+		{
+			System.out.println("Enter the Id That the Details Needed to Retrieve :");
+			int inputId=scan.nextInt();
+			scan.nextLine();
+			System.out.println(newLogic.getCustomerDetails(inputId,customerMap));
+		}
+		catch(CustomException e)
+		{
+			System.out.println("Exception Occured :"+e.getMessage());
+			e.printStackTrace();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception Occured :"+e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 	private void retrieveFromAccount()
 	{ 
 		
-		Map<Object,Object> inputMap=retrieveFromCustomer();
-		List newList=newLogic.inputList();
 		System.out.println("Enter the Number of Accounts:");
 		int values=scan.nextInt();
 		scan.nextLine();
 		for(int i=0;i<values;i++)
 		{
-			AccountDetails pojo=new AccountDetails();
+			AccountDetails accountObj=new AccountDetails();
+			int accountId=newLogic.getAccountId();
+			accountObj.setAccountId(accountId);
 			System.out.println("Enter the Customer Id :");
 			int customerId=scan.nextInt();
+			scan.nextLine();	
+			accountObj.setCustomerId(customerId);
+			long accNo=newLogic.getAccountNo();
+			accountObj.setAccountNumber(accNo);
+			System.out.println("Enter the Account Balance:");
+			double accBalance=scan.nextDouble();
 			scan.nextLine();
-			if(inputMap.containsKey(customerId))
-			{	
-				pojo.setCustomerId(customerId);
-				System.out.println("Enter the Account Number :");
-				long accNo=scan.nextLong();
-				scan.nextLine();
-				pojo.setAccountNumber(accNo);
-				System.out.println("Enter the Account Balance:");
-				double accBalance=scan.nextDouble();
-				scan.nextLine();
-				pojo.setAccountBalance(accBalance);
-				System.out.println("Enter the Account Maintaining Branch :");
-				String branch=scan.nextLine();
-				pojo.setBranchName(branch);
-				//newList.add(pojo);
-				Object AccountId=newLogic.getAccountId();
-				//inputMap.put(customerId,newList);
-				//customerId++;
-				inputMap=newLogic.getMap(AccountId,pojo);
-			}
-			else
+			accountObj.setAccountBalance(accBalance);
+			System.out.println("Enter the Account Maintaining Branch :");
+			String branch=scan.nextLine();
+			accountObj.setBranchName(branch);
+			try
 			{
-				System.out.println("Customer Id Cannot Exist :");
-			}	
+				customerAccountMap=newLogic.addAccount(accountObj,customerId,accountId);
+			}
+			catch(CustomException e)
+			{
+				System.out.println("Exception Occured : "+e.getMessage());
+			}
+			catch(Exception e)
+			{
+				System.out.println("Exception Occured : "+e.getMessage());
+			}
 		}
-		System.out.println(inputMap);
+	
+		System.out.println(customerAccountMap);
+	}
+		private AccountDetails getAccounts()
+		{
+			AccountDetails accountObj=new AccountDetails();
+			try
+			{
+				System.out.println("Enter the Customer ID To Retrieve Account Details :");
+				int custId=scan.nextInt();
+				scan.nextLine();
+				inputMap=newLogic.getAllAccounts(custId);
+				System.out.println(inputMap);
+				System.out.println("Enter the Account ID to Retrieve Specific Account :");
+				int actId=scan.nextInt();
+				scan.nextLine();
+				accountObj=newLogic.getSpecificAccount(custId,actId);
+				System.out.println(accountObj);
+			}
+			catch(CustomException e)
+			{
+				System.out.println("Exception Occured : "+e.getMessage());
+				e.printStackTrace();
+			}
+			catch(Exception e)
+			{
+				System.out.println("Exception Occured : "+e.getMessage());
+				e.printStackTrace();
+			}
+			return accountObj;
+		}
+	
+	private void depositAmount()
+	{
+		try
+		{
+			AccountDetails deposit=getAccounts();
+			System.out.println(deposit);
+			System.out.println("Enter the Deposit Amount : ");
+			double amount=scan.nextDouble();
+			scan.nextLine();
+			amount=amount+deposit.getAccountBalance();
+			deposit.setAccountBalance(amount);
+			System.out.println(customerAccountMap);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception Occured : "+e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
+	private void withdrawAmount()
+	{
+		try
+		{
+			AccountDetails withdraw=getAccounts();
+			System.out.println(withdraw);
+			System.out.println("Enter the Withdraw Amount : ");
+			double amount=scan.nextDouble();
+			scan.nextLine();
+			amount=withdraw.getAccountBalance()-amount;
+			withdraw.setAccountBalance(amount);
+			System.out.println(customerAccountMap);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception Occured : "+e.getMessage());
+			e.printStackTrace();
+		}
+	}
 	
 	public static void main(String args[])
 	{
@@ -107,29 +186,39 @@ public class CustomerAccountDetails {
 		}
 		switch(choice)
 		{
-			/*case 1:
-				
-					System.out.println(mainObj.retrieveFromPojo());
-					break;*/
 					
 			case 1:
 				
-					System.out.println(mainObj.retrieveFromCustomer());
+					mainObj.retrieveFromCustomer();
 					mainObj.getCustomer();
 					break;
 					
 			case 2:
 				
-					//mainObj.retrieveFromCustomer();
+					mainObj.retrieveFromCustomer();
 					mainObj.retrieveFromAccount();
+					mainObj.getAccounts();
 					break;
 					
 			case 3:
 				
+					mainObj.retrieveFromCustomer();
 					mainObj.retrieveFromAccount();
-					mainObj.getCustomer();
+					mainObj.depositAmount();
+					break;
+					
+			case 4:
+				
+					mainObj.retrieveFromCustomer();
+					mainObj.retrieveFromAccount();
+					mainObj.withdrawAmount();
 					break;
 		}
 		scan.close();
 	}	
 }
+
+
+
+
+

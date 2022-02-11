@@ -1,11 +1,18 @@
 package account;
 
 public class AccountDetails {
+	private int accountId;
 	private long accountNumber;
 	private double accountBalance;
 	private String branchName;
 	private int customerId;
 	
+	public int getAccountId() {
+		return accountId;
+	}
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
+	}
 	public long getAccountNumber() {
 		return accountNumber;
 	}
@@ -32,7 +39,9 @@ public class AccountDetails {
 	}
 	@Override
 	public String toString() {
-		return "AccountDetails [accountNumber=" + accountNumber + ", accountBalance=" + accountBalance + ", branchName="
-				+ branchName + ", customerId=" + customerId + "]";
+		return "AccountDetails [accountId=" + accountId + ", accountNumber=" + accountNumber + ", accountBalance="
+				+ accountBalance + ", branchName=" + branchName + ", customerId=" + customerId + "]";
 	}
+	
+	
 }
