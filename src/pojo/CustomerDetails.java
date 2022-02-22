@@ -1,7 +1,12 @@
 package pojo;
 
-public class CustomerDetails {
+public class CustomerDetails implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8759154885224469485L;
 	private int customerId;
+	private boolean customerStatus=true;
 	private String customerName;
 	private String customerAddress;
 	private long mobileNumber;
@@ -11,6 +16,12 @@ public class CustomerDetails {
 	}
 	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
+	}
+	public boolean isCustomerStatus() {
+		return customerStatus;
+	}
+	public void setCustomerStatus(boolean customerStatus) {
+		this.customerStatus = customerStatus;
 	}
 	public String getCustomerName() {
 		return customerName;
@@ -32,8 +43,9 @@ public class CustomerDetails {
 	}
 	@Override
 	public String toString() {
-		return "CustomerDetails [customerId=" + customerId + ", customerName=" + customerName + ", customerAddress="
-				+ customerAddress + ", mobileNumber=" + mobileNumber + "]";
+		return "CustomerDetails [customerStatus=" + customerStatus + ", customerName="
+				+ customerName + ", customerAddress=" + customerAddress + ", mobileNumber=" + mobileNumber + "]";
 	}
+	
 	
 }
