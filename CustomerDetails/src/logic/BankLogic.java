@@ -1,5 +1,7 @@
 package logic;
-import implement.*;
+//import implement.*;
+import cache.*;
+import file.*;
 import utility.*;
 
 import java.io.*;
@@ -10,7 +12,11 @@ import java.util.*;
 import account.AccountDetails;
 import excep.*;
 
-public class BankLogic implements ImplementorFunction {
+public class BankLogic //implements ImplementorFunction 
+{
+	FileLayer fileObj=new FileLayer();
+	CacheLayer cacheObj=new CacheLayer();
+
 	private int id=0;
 	private int actId=1000;
 	private long actNo=324500000;
@@ -20,7 +26,7 @@ public class BankLogic implements ImplementorFunction {
 	public long lastActNo=324500000;
 	public static Map<Integer,CustomerDetails> customerMap=new HashMap<>();
 	//public static Map<Integer,AccountDetails> tempMap=new HashMap<>();
-	private static Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=new HashMap<>();
+	public static Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=new HashMap<>();
 	UtilityClass utilObj=new UtilityClass();
 	AccountDetails accObj=new AccountDetails();
 	public long getAccountNo()
@@ -77,6 +83,25 @@ public class BankLogic implements ImplementorFunction {
 		return customerAccountMap;
 	}
 	
+	public void addCustomerDetails(CustomerDetails customerObj) throws CustomException
+	{
+		
+		Map<Integer,CustomerDetails> customerMap=fileObj.addCustomer(customerObj);
+		cacheObj.addCustomer(customerMap);
+	}
+	public void addAccountDetails(AccountDetails accountObj,int customerId) throws CustomException
+	{
+		
+		Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=fileObj.addAccount(accountObj,customerId);
+		System.out.println(customerAccountMap);
+		cacheObj.addAccount(customerAccountMap);
+	}
+	
+	public void getCustomerDetails(int customerId) throws CustomException
+	{
+		fileObj.getCustomerDetails(customerId);
+	}
+	
 	public void customerMapCheck(int id) throws CustomException
 	{
 		if(customerMap.get(id)==null)
@@ -86,6 +111,8 @@ public class BankLogic implements ImplementorFunction {
 		
 	}
 	
+	
+	
 	public void fileCheck(File fileObj) throws CustomException
 	{
 		if(fileObj==null)
@@ -94,28 +121,20 @@ public class BankLogic implements ImplementorFunction {
 		}
 	}
 	
-	public void createFile(String fileDestination,String fileName) throws CustomException
+	public void createFile(String fileName) throws CustomException
 	{
+		fileObj.createFile(fileName);
 		
-		try
-		{
-			//utilObj.stringCheck(fileDestination);
-			//utilObj.stringCheck(fileName);
-			File fileObj=new File(fileDestination,fileName);
-			if(fileObj.createNewFile())
-			{
-				System.out.println("New File is Created:");
-			}
-			else
-			{
-				System.out.println("File Already Exists:");
-			}
-		} 
-		catch (IOException e) 
-		{
-			throw new CustomException("IOException Occured:");
-			//e.printStackTrace();
-		} 
+	}
+	
+	public void writeFile(String fileName) throws CustomException
+	{
+		fileObj.writeFile(fileName);
+	}
+	
+	public void readFile(String fileName) throws CustomException
+	{
+		fileObj.writeFile(fileName);
 	}
 	
 	public void writeFile(String filePath,String fileName/*,Map<Integer,CustomerDetails> customerMap,Map<Integer,Map<Integer,AccountDetails>> customerAccountMap*/) throws CustomException
@@ -224,18 +243,13 @@ public class BankLogic implements ImplementorFunction {
 		
 	}
 	
-	public CustomerDetails getCustomerDetails(int id/*Map<Integer,CustomerDetails> inputMap*/) throws CustomException
-	{
-		//customerMapCheck(id);
-		//return inputMap.get(id);
-		return customerMap.get(id);
-	}
+	/*
 	
-	public Map<Integer,AccountDetails> getAllAccounts(int id/*,Map<Integer,Map<Integer,AccountDetails>> customerAccountMap*/) throws CustomException
+	public Map<Integer,AccountDetails> getAllAccounts(int id/*,Map<Integer,Map<Integer,AccountDetails>> customerAccountMap) throws CustomException
 	{
 		customerMapCheck(id);
 		return customerAccountMap.get(id);
-	}
+	}*/
 	
 	public AccountDetails fetchAccountStatus(AccountDetails accountObj,boolean condition)
 	{

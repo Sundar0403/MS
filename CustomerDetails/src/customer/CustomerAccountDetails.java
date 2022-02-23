@@ -1,5 +1,6 @@
 package customer;
 import implement.*;
+import file.*;
 import java.io.*;
 import utility.*;
 import excep.*;
@@ -12,6 +13,7 @@ import java.util.*;
 public class CustomerAccountDetails {
 	BankLogic newLogic=new BankLogic();
 	UtilityClass utilObj=new UtilityClass();
+	//FileLayer fileObj=new FileLayer();
 	
 	Scanner scan=new Scanner(System.in);
 	Map<Integer,CustomerDetails> customerMap=new HashMap<>();
@@ -27,11 +29,11 @@ public class CustomerAccountDetails {
 		{
 			CustomerDetails customerObj=new CustomerDetails();
 			int customerId=newLogic.getId();
-			while(newLogic.customerMap.containsKey(customerId))
+			/*while(newLogic.customerMap.containsKey(customerId))
 			{
 				customerId=customerId+1;
 			}
-			customerObj.setCustomerId(customerId);
+			customerObj.setCustomerId(customerId);*/
 			System.out.println("Enter the Customer Name :");
 			String name=scan.nextLine();
 			customerObj.setCustomerName(name);
@@ -46,7 +48,7 @@ public class CustomerAccountDetails {
 			String status=scan.nextLine();
 			if(status.equals("true"))
 			{
-				/*customerMap=*/System.out.println(newLogic.addCustomer(customerObj,customerId));
+				/*customerMap=*/newLogic.addCustomerDetails(customerObj);
 			}
 			else if(status.equals("false"))
 			{
@@ -68,7 +70,7 @@ public class CustomerAccountDetails {
 				System.out.println("Enter the Id That the Details Needed to Retrieve :");
 				int inputId=scan.nextInt();
 				scan.nextLine();
-				System.out.println(newLogic.getCustomerDetails(inputId/*,customerMap*/));
+				newLogic.getCustomerDetails(inputId/*,customerMap*/);
 			}
 			catch(CustomException e)
 			{
@@ -86,27 +88,25 @@ public class CustomerAccountDetails {
 	{ 
 		
 		CustomerDetails customerObj=new CustomerDetails();
+
 		if(customerObj.isCustomerStatus()==true)
 		{
 			System.out.println("Enter the Number of Accounts:"); 
 			int values=scan.nextInt();
 			scan.nextLine();
+			
 			for(int i=0;i<values;i++)
-			{
-				AccountDetails accountObj=new AccountDetails();
+			{			
 				//int accountId=newLogic.getAccountId();
 				
-				int accountId=newLogic.lastActId+1;
+				/*int accountId=newLogic.lastActId+1;
 					
-				accountObj.setAccountId(accountId);
+				accountObj.setAccountId(accountId);*/
+				AccountDetails accountObj=new AccountDetails();	
 				System.out.println("Enter the Customer Id :");
 				int customerId=scan.nextInt();
 				scan.nextLine();	
 				accountObj.setCustomerId(customerId);
-				long accNo=newLogic.getAccountNo();
-				if(accNo<newLogic.lastActNo)
-					accNo=newLogic.lastActNo;
-				
 				accountObj.setAccountNumber(++newLogic.lastActNo);
 				System.out.println("Enter the Account Balance:");
 				double accBalance=scan.nextDouble();
@@ -119,18 +119,19 @@ public class CustomerAccountDetails {
 				String status=scan.nextLine();
 				if(status.equals("true"))
 				{
-					try
-					{
-						/*customerAccountMap=*/System.out.println(newLogic.addAccount(accountObj,customerId,accountId));
-					}
-					catch(CustomException e)
-					{
-						System.out.println("Exception Occured : "+e.getMessage());
-					}
-					catch(Exception e)
-					{
-						System.out.println("Exception Occured : "+e.getMessage());
-					}
+					//try
+					//{
+						System.out.println(accountObj);
+						/*customerAccountMap=*/newLogic.addAccountDetails(accountObj,customerId);
+					//}
+					//catch(CustomException e)
+					//{
+						//System.out.println("Exception Occured : "+e.getMessage());
+					//}
+					//catch(Exception e)
+					//{
+						//System.out.println("Exception Occured : "+e.getMessage());
+					//}
 				}
 				else if(status.equals("false"))
 				{
@@ -159,7 +160,7 @@ public class CustomerAccountDetails {
 				System.out.println("Enter the Customer ID To Retrieve Account Details :");
 				int custId=scan.nextInt();
 				scan.nextLine();
-				inputMap=newLogic.getAllAccounts(custId/*,customerAccountMap*/);
+				//inputMap=newLogic.getAllAccounts(custId/*,customerAccountMap*/);
 				System.out.println(inputMap);
 				System.out.println("Enter the Account ID to Retrieve Specific Account :");
 				int actId=scan.nextInt();
@@ -253,12 +254,12 @@ public class CustomerAccountDetails {
 	{
 		try
 		{
-			System.out.println("Enter the Filepath :");
-			String filePath=scan.nextLine();
+			/*System.out.println("Enter the Filepath :");
+			String filePath=scan.nextLine();*/
 			System.out.println("Enter the Filename :");
 			String fileName=scan.nextLine();
-			newLogic.createFile(filePath,fileName);
-			newLogic.writeFile(filePath,fileName/*,customerMap,customerAccountMap*/);
+			newLogic.createFile(fileName);
+			newLogic.writeFile(fileName/*,customerMap,customerAccountMap*/);
 			//newLogic.writeFile(filePath,fileName,customerAccountMap);
 		}
 		catch(CustomException e)
@@ -281,7 +282,7 @@ public class CustomerAccountDetails {
 			System.out.println("Enter the Filename :");
 			String fileName=scan.nextLine();
 			//newLogic.createFile(filePath,fileName);
-			newLogic.readsFile(filePath,fileName);
+			//fileObj.readsFile(filePath,fileName);
 			/*Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=newLogic.readFileAccounts(filePath,fileName);
 			System.out.println(customerMap);
 			System.out.println("Enter the Id That the Details Needed to Retrieve :");
@@ -289,11 +290,11 @@ public class CustomerAccountDetails {
 			scan.nextLine();
 			System.out.println(newLogic.getCustomerDetails(inputId,customerMap));*/
 		}
-		catch(CustomException e)
+		/*catch(CustomException e)
 		{
 			System.out.println("Exception Occured : "+e.getMessage());
 			e.printStackTrace();
-		}
+		}*/
 		catch(Exception e)
 		{
 			System.out.println("Exception Occured : "+e.getMessage());
@@ -488,18 +489,19 @@ public class CustomerAccountDetails {
 				}	
 				break;
 				
-			/*case 9:
+			case 9:
 				
 				try
 				{
-					mainObj.readFile();
-					
+					mainObj.retrieveFromCustomer();
+					mainObj.retrieveFromAccount();
 					mainObj.fileCreation();
 				}
 				catch(Exception e)
 				{
 					System.out.println("Exception Occured : "+e.getMessage());
-				}*/
+				}
+				break;
 		}
 		scan.close();
 	}	

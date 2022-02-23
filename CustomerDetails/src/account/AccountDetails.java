@@ -58,7 +58,7 @@ public class AccountDetails implements java.io.Serializable{
 	
 	@Override
 	public String toString() {
-		return "AccountDetails [accountId=" + accountId + ", accountNumber=" + accountNumber + ", accountStatus="
+		return "AccountDetails [ accountNumber=" + accountNumber + ", accountStatus="
 				+ accountStatus + ", accountBalance=" + accountBalance + ", branchName=" + branchName + ", customerId="
 				+ customerId + "]";
 	}

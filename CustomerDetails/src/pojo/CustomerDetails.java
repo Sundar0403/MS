@@ -43,7 +43,7 @@ public class CustomerDetails implements java.io.Serializable{
 	}
 	@Override
 	public String toString() {
-		return "CustomerDetails [customerId=" + customerId + ", customerStatus=" + customerStatus + ", customerName="
+		return "CustomerDetails [customerStatus=" + customerStatus + ", customerName="
 				+ customerName + ", customerAddress=" + customerAddress + ", mobileNumber=" + mobileNumber + "]";
 	}
 	
