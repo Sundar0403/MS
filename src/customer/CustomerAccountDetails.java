@@ -13,7 +13,7 @@ import java.util.*;
 public class CustomerAccountDetails {
 	BankLogic newLogic=new BankLogic();
 	UtilityClass utilObj=new UtilityClass();
-	FileLayer fileObj=new FileLayer();
+	//FileLayer fileObj=new FileLayer();
 	
 	Scanner scan=new Scanner(System.in);
 	Map<Integer,CustomerDetails> customerMap=new HashMap<>();
@@ -152,7 +152,7 @@ public class CustomerAccountDetails {
 			System.out.println("Account can't be created Beacuse it's a Deactivated Customer Id :");
 		}
 	}
-		private AccountDetails getAccounts()
+		private void getAccounts()
 		{
 			AccountDetails accountObj=new AccountDetails();
 			try
@@ -165,7 +165,7 @@ public class CustomerAccountDetails {
 				System.out.println("Enter the Account ID to Retrieve Specific Account :");
 				int actId=scan.nextInt();
 				scan.nextLine();
-				accountObj=newLogic.getSpecificAccount(custId,actId);
+				newLogic.getAccountDetails(custId,actId);
 				//System.out.println(accountObj);
 			}
 			catch(CustomException e)
@@ -178,14 +178,14 @@ public class CustomerAccountDetails {
 				System.out.println("Exception Occured : "+e.getMessage());
 				e.printStackTrace();
 			}
-			return accountObj;
+			
 		}
 		
-	private void getAccountDetails()
+	/*private void getAccountDetails()
 	{
 		AccountDetails accountObj=getAccounts();
 		System.out.println(accountObj);
-	}
+	}*/
 	
 	private void depositAmount()
 	{
@@ -194,7 +194,7 @@ public class CustomerAccountDetails {
 		{	
 			try
 			{
-				deposit=getAccounts();
+				getAccounts();
 				System.out.println(deposit);
 				System.out.println("Enter the Deposit Amount : ");
 				double amount=scan.nextDouble();
@@ -222,7 +222,7 @@ public class CustomerAccountDetails {
 		{
 			try
 			{
-				withdraw=getAccounts();
+				getAccounts();
 				System.out.println(withdraw);
 				System.out.println("Enter the Withdraw Amount : ");
 				double amount=scan.nextDouble();
@@ -254,12 +254,12 @@ public class CustomerAccountDetails {
 	{
 		try
 		{
-			System.out.println("Enter the Filepath :");
-			String filePath=scan.nextLine();
+			/*System.out.println("Enter the Filepath :");
+			String filePath=scan.nextLine();*/
 			System.out.println("Enter the Filename :");
 			String fileName=scan.nextLine();
-			fileObj.createFile(filePath,fileName);
-			fileObj.writeFile(filePath,fileName/*,customerMap,customerAccountMap*/);
+			newLogic.createFile(fileName);
+			newLogic.writeFile(fileName/*,customerMap,customerAccountMap*/);
 			//newLogic.writeFile(filePath,fileName,customerAccountMap);
 		}
 		catch(CustomException e)
@@ -282,7 +282,7 @@ public class CustomerAccountDetails {
 			System.out.println("Enter the Filename :");
 			String fileName=scan.nextLine();
 			//newLogic.createFile(filePath,fileName);
-			fileObj.readsFile(filePath,fileName);
+			//fileObj.readsFile(filePath,fileName);
 			/*Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=newLogic.readFileAccounts(filePath,fileName);
 			System.out.println(customerMap);
 			System.out.println("Enter the Id That the Details Needed to Retrieve :");
@@ -290,11 +290,11 @@ public class CustomerAccountDetails {
 			scan.nextLine();
 			System.out.println(newLogic.getCustomerDetails(inputId,customerMap));*/
 		}
-		catch(CustomException e)
+		/*catch(CustomException e)
 		{
 			System.out.println("Exception Occured : "+e.getMessage());
 			e.printStackTrace();
-		}
+		}*/
 		catch(Exception e)
 		{
 			System.out.println("Exception Occured : "+e.getMessage());
@@ -356,7 +356,7 @@ public class CustomerAccountDetails {
 				{
 					mainObj.retrieveFromCustomer();
 					mainObj.retrieveFromAccount();
-					mainObj.getAccountDetails();
+					mainObj.getAccounts();
 				}
 				catch(CustomException e)
 				{
@@ -453,7 +453,7 @@ public class CustomerAccountDetails {
 				{
 					//mainObj.retrieveFromCustomer();
 					mainObj.readFile();
-					mainObj.getAccountDetails();
+					mainObj.getAccounts();
 				}
 				/*catch(CustomException e)
 				{
@@ -495,18 +495,31 @@ public class CustomerAccountDetails {
 				{
 					mainObj.retrieveFromCustomer();
 					mainObj.retrieveFromAccount();
+					mainObj.fileCreation();
+					mainObj.getCustomer();
 				}
 				catch(Exception e)
 				{
 					System.out.println("Exception Occured : "+e.getMessage());
 				}
 				break;
+				
+			case 10:
+			
+				try
+				{
+					mainObj.retrieveFromCustomer();
+					mainObj.retrieveFromAccount();
+					mainObj.fileCreation();
+					mainObj.getCustomer();
+					mainObj.getAccounts();
+				}
+				catch(Exception e)
+				{
+					System.out.println("Exception Occured : "+e.getMessage());
+				}
+				break;		
 		}
 		scan.close();
 	}	
 }
-
-
-
-
-

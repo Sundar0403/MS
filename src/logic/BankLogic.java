@@ -1,5 +1,5 @@
 package logic;
-import implement.*;
+//import implement.*;
 import cache.*;
 import file.*;
 import utility.*;
@@ -12,7 +12,7 @@ import java.util.*;
 import account.AccountDetails;
 import excep.*;
 
-public class BankLogic implements ImplementorFunction 
+public class BankLogic //implements ImplementorFunction 
 {
 	FileLayer fileObj=new FileLayer();
 	CacheLayer cacheObj=new CacheLayer();
@@ -102,6 +102,13 @@ public class BankLogic implements ImplementorFunction
 		fileObj.getCustomerDetails(customerId);
 	}
 	
+	public void getAccountDetails(int customerId,int accountId) throws CustomException
+	{
+		fileObj.getAccountDetails(customerId,accountId);
+	}
+	
+	
+	
 	public void customerMapCheck(int id) throws CustomException
 	{
 		if(customerMap.get(id)==null)
@@ -121,28 +128,20 @@ public class BankLogic implements ImplementorFunction
 		}
 	}
 	
-	public void createFile(String fileDestination,String fileName) throws CustomException
+	public void createFile(String fileName) throws CustomException
 	{
+		fileObj.createFile(fileName);
 		
-		try
-		{
-			//utilObj.stringCheck(fileDestination);
-			//utilObj.stringCheck(fileName);
-			File fileObj=new File(fileDestination,fileName);
-			if(fileObj.createNewFile())
-			{
-				System.out.println("New File is Created:");
-			}
-			else
-			{
-				System.out.println("File Already Exists:");
-			}
-		} 
-		catch (IOException e) 
-		{
-			throw new CustomException("IOException Occured:");
-			//e.printStackTrace();
-		} 
+	}
+	
+	public void writeFile(String fileName) throws CustomException
+	{
+		fileObj.writeFile(fileName);
+	}
+	
+	public void readFile(String fileName) throws CustomException
+	{
+		fileObj.writeFile(fileName);
 	}
 	
 	public void writeFile(String filePath,String fileName/*,Map<Integer,CustomerDetails> customerMap,Map<Integer,Map<Integer,AccountDetails>> customerAccountMap*/) throws CustomException
