@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 //import logic.*;
 import account.AccountDetails;
 import excep.CustomException;
@@ -17,6 +18,7 @@ import utility.UtilityClass;
 public class FileLayer {
 	
 	//BankLogic bankObj=new BankLogic();
+	Scanner scan=new Scanner(System.in);
 	private int id=0;
 	private int actId=1000;
 	private long actNo=324500000;
@@ -49,28 +51,42 @@ public class FileLayer {
 	public Map<Integer,CustomerDetails> addCustomer(CustomerDetails customerObj) throws CustomException
 	{
 
+		System.out.println("Enter the FileName");
+		String fileName=scan.nextLine();
 		int customerId=getId();
+		Map<Integer,CustomerDetails> customerMap=readCustomerFile(fileName);
 		customerObj.setCustomerId(customerId);
 		while(customerMap.containsKey(customerId))
 		{
 			customerId=customerId+1;
 		}
 			customerMap.put(customerId,customerObj);
+			System.out.println(customerMap);
+			writeCustomerFile(customerMap);
 			return customerMap;
 	}
 	
-	public  void getCustomerDetails(int id/*Map<Integer,CustomerDetails> inputMap*/) throws CustomException
+	public  void getCustomerDetails(int id,Map<Integer,CustomerDetails> inputMap) throws CustomException
 	{
 		//customerMapCheck(id);
 		//return inputMap.get(id);
-		System.out.println(customerMap.get(id));
+		System.out.println(inputMap.get(id));
+		
+	}
+	public  void getAccountDetails(int customerId,int accountId/*Map<Integer,CustomerDetails> inputMap*/) throws CustomException
+	{
+		//customerMapCheck(id);
+		//return inputMap.get(id);
+		System.out.println(customerAccountMap.get(customerId).get(accountId));
 		
 	}
 	
 	public Map<Integer,Map<Integer,AccountDetails>> addAccount(AccountDetails accountObj,int customerId) throws CustomException
 	{
-
-		int accountId=getAccountId();
+		System.out.println("Enter the FileName");
+		String fileName=scan.nextLine();
+		Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=readAccountFile(fileName);
+		int accountId=lastActId;
 		System.out.println(accountId);
 		Map<Integer,AccountDetails> accountMap=customerAccountMap.get(customerId);
 		if(accountMap==null)
@@ -79,6 +95,8 @@ public class FileLayer {
 			customerAccountMap.put(customerId, accountMap);
 		}
 		accountMap.put(accountId, accountObj);
+	
+		writeAccountFile(customerAccountMap);
 		return customerAccountMap;
 	}
 	
@@ -135,14 +153,31 @@ public class FileLayer {
 		} 
 	}
 	
-	public void writeFile(String fileName) throws CustomException
+	public void writeCustomerFile(Map<Integer,CustomerDetails>customerMap) throws CustomException
 	{
-		
+		System.out.println("Enter the Filename To Write Customer Deatils:");
+		String fileName=scan.nextLine();
 		try(FileOutputStream output=new FileOutputStream(fileName);
 				ObjectOutputStream object=new ObjectOutputStream(output);)
 		{
 			object.writeObject(customerMap);
-			object.writeObject(customerAccountMap);
+			object.writeObject(lastId);
+		}
+	
+		catch(IOException e)
+		{
+			System.out.println("IOException Occured:");
+			e.printStackTrace();
+		}
+	}
+	public void writeAccountFile(Map<Integer,Map<Integer,AccountDetails>>AccountMap) throws CustomException
+	{
+		System.out.println("Enter the Filename To Write Account Details:");
+		String fileName=scan.nextLine();
+		try(FileOutputStream output=new FileOutputStream(fileName);
+				ObjectOutputStream object=new ObjectOutputStream(output);)
+		{
+			object.writeObject(AccountMap);
 			object.writeObject(lastActId);
 			object.writeObject(lastActNo);
 		}
@@ -154,21 +189,58 @@ public class FileLayer {
 		}
 	}
 	
-	public void readsFile(String filePath,String fileName) throws CustomException
+	public Map<Integer,CustomerDetails> readCustomerFile(String fileName) throws CustomException
 	{
-		
-		try(FileInputStream input=new FileInputStream(filePath+fileName);
+		Map<Integer,CustomerDetails> customerMap=new HashMap<>();
+		try(FileInputStream input=new FileInputStream(fileName);
 				ObjectInputStream object=new ObjectInputStream(input);)
 		{
 			customerMap=(Map<Integer,CustomerDetails>)object.readObject();
 			System.out.println(customerMap);
-			customerAccountMap=(Map<Integer,Map<Integer,AccountDetails>>)object.readObject();
-			System.out.println(customerAccountMap);
-			lastActId=(int)object.readObject();
+			lastId=(int)object.readObject();
+			System.out.println("Last Used Account Id : "+lastId);
+			System.out.println("Enter the Customer Id to Get Details :");
+			int id=scan.nextInt();
+			scan.nextLine();
+			System.out.println(customerMap.get(id));
+			/*lastActId=(int)object.readObject();
 			System.out.println("Last Used Account Id : "+lastActId);
 			lastActNo=(long)object.readObject();
-			System.out.println("Last Used Account Number : "+lastActNo);
+			System.out.println("Last Used Account Number : "+lastActNo);*/
 		}
+		catch(IOException e)
+		{
+			System.out.println("IOException Occured:");
+			e.printStackTrace();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception Occured:");
+			e.printStackTrace();
+		}
+		return customerMap;
+	}	
+		public Map<Integer,Map<Integer,AccountDetails>> readAccountFile(String fileName) throws CustomException
+		{
+			Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=new HashMap<>();
+			try(FileInputStream input=new FileInputStream(fileName);
+					ObjectInputStream object=new ObjectInputStream(input);)
+			{
+				
+				customerAccountMap=(Map<Integer,Map<Integer,AccountDetails>>)object.readObject();
+				System.out.println(customerAccountMap);
+				lastActId=(int)object.readObject();
+				System.out.println("Last Used Account Id : "+lastActId);
+				lastActNo=(long)object.readObject();
+				System.out.println("Last Used Account Number : "+lastActNo);
+				System.out.println("Enter the Customer Id & Account Id to Get Details :");
+				int id=scan.nextInt();
+				scan.nextLine();
+				int actId=scan.nextInt();
+				scan.nextLine();
+				System.out.println(customerAccountMap.get(id).get(actId));
+				
+			}
 	
 		catch(IOException e)
 		{
@@ -181,6 +253,7 @@ public class FileLayer {
 			e.printStackTrace();
 		}
 		//return customerMap;
+			return customerAccountMap;
 	}
 	
 

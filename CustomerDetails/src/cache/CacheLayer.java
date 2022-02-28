@@ -14,7 +14,7 @@ public class CacheLayer {
 		customerMap=inputMap;
 		System.out.println(customerMap);
 	}
-	public  void getCustomerDetails(int id/*Map<Integer,CustomerDetails> inputMap*/) throws CustomException
+	public  void getCustomerCacheDetails(int id/*Map<Integer,CustomerDetails> inputMap*/) throws CustomException
 	{
 		//customerMapCheck(id);
 		//return inputMap.get(id);
@@ -25,5 +25,12 @@ public class CacheLayer {
 	{
 		customerAccountDetails=inputMap;
 		//System.out.println(customerAccountDetails);
+	}
+	public  void getAccountCacheDetails(int customerId,int accountId/*Map<Integer,CustomerDetails> inputMap*/) throws CustomException
+	{
+		//customerMapCheck(id);
+		//return inputMap.get(id);
+		System.out.println(customerAccountDetails.get(customerId).get(accountId));
+		
 	}
 }

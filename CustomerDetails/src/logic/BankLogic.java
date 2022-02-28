@@ -97,10 +97,29 @@ public class BankLogic //implements ImplementorFunction
 		cacheObj.addAccount(customerAccountMap);
 	}
 	
-	public void getCustomerDetails(int customerId) throws CustomException
+	public void getCustomerDetails(int customerId,Map<Integer,CustomerDetails> customerMap) throws CustomException
 	{
-		fileObj.getCustomerDetails(customerId);
+		fileObj.getCustomerDetails(customerId,customerMap);
+		
 	}
+	
+	public void getAccountDetails(int customerId,int accountId) throws CustomException
+	{
+		fileObj.getAccountDetails(customerId,accountId);
+	}
+	public void getCustomerCacheDetails(int customerId) throws CustomException
+	{
+		cacheObj.getCustomerCacheDetails(customerId);
+		
+		
+	}
+	
+	public void getAccountCacheDetails(int customerId,int accountId) throws CustomException
+	{
+		cacheObj.getAccountCacheDetails(customerId,accountId);
+	}
+	
+	
 	
 	public void customerMapCheck(int id) throws CustomException
 	{
@@ -127,15 +146,16 @@ public class BankLogic //implements ImplementorFunction
 		
 	}
 	
-	public void writeFile(String fileName) throws CustomException
+	/*public void readCustomerFile(String fileName) throws CustomException
 	{
-		fileObj.writeFile(fileName);
-	}
-	
-	public void readFile(String fileName) throws CustomException
+		Map<Integer,CustomerDetails> tempMap=fileObj.readCustomerFile(fileName);
+		cacheObj.addCustomer(tempMap);
+	}*/
+	/*public void readAccountFile(String fileName) throws CustomException
 	{
-		fileObj.writeFile(fileName);
-	}
+		Map<Integer,Map<Integer,AccountDetails>> accountMap=fileObj.readAccountFile(fileName);
+		cacheObj.addAccount(accountMap);
+	}*/
 	
 	public void writeFile(String filePath,String fileName/*,Map<Integer,CustomerDetails> customerMap,Map<Integer,Map<Integer,AccountDetails>> customerAccountMap*/) throws CustomException
 	{
