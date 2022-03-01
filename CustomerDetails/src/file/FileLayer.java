@@ -43,9 +43,8 @@ public class FileLayer {
 	
 	public int getAccountId()
 	{
-		System.out.println("asfd");
 		++lastActId;
-		return actId++;
+		return ++actId;
 	}
 	
 	public Map<Integer,CustomerDetails> addCustomer(CustomerDetails customerObj) throws CustomException
@@ -83,21 +82,89 @@ public class FileLayer {
 	
 	public Map<Integer,Map<Integer,AccountDetails>> addAccount(AccountDetails accountObj,int customerId) throws CustomException
 	{
+		
 		System.out.println("Enter the FileName");
 		String fileName=scan.nextLine();
 		Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=readAccountFile(fileName);
-		int accountId=lastActId;
-		System.out.println(accountId);
+		
 		Map<Integer,AccountDetails> accountMap=customerAccountMap.get(customerId);
 		if(accountMap==null)
 		{	
 			accountMap=new HashMap<>();
+			//accountMap.put(accountId, accountObj);
 			customerAccountMap.put(customerId, accountMap);
 		}
+		long accountNo=++lastActNo;
+		accountObj.setAccountNumber(accountNo);
+		int accountId=++lastActId;
+		System.out.println(accountId);
 		accountMap.put(accountId, accountObj);
-	
+		
 		writeAccountFile(customerAccountMap);
 		return customerAccountMap;
+	}
+	
+	public void deposit(int customerId,int AccountId,double amount) throws CustomException
+	{
+		System.out.println("Enter the FileName");
+		String fileName=scan.nextLine();
+		double deposit;
+		Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=readAccountFile(fileName);
+		System.out.println(customerAccountMap);
+		AccountDetails accountObj=customerAccountMap.get(customerId).get(AccountId);
+		if(accountObj.isAccountStatus()==true)
+		{
+			if(amount>100)
+			{	
+				if(amount<100000)
+				{
+					deposit=amount+accountObj.getAccountBalance();
+					accountObj.setAccountBalance(deposit);
+					System.out.println(accountObj);
+					System.out.println(customerAccountMap);
+				}
+				else
+				{
+					System.out.println("Deposit Amount Should Not Be Greater than 100000");
+				}
+			}
+			else
+			{
+				System.out.println("Deposit Amount Should Not Be Less than 100");
+			}
+		}
+		else
+		{
+			System.out.println("This is a Deactivated Account Can't be Deposit");
+		}
+	}
+	
+	public void withdraw(int customerId,int AccountId,double amount) throws CustomException
+	{
+		System.out.println("Enter the FileName");
+		String fileName=scan.nextLine();
+		double withdraw;
+		Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=readAccountFile(fileName);
+		System.out.println(customerAccountMap);
+		AccountDetails accountObj=customerAccountMap.get(customerId).get(AccountId);
+		if(accountObj.isAccountStatus()==true)
+		{
+			if(amount<accountObj.getAccountBalance())
+			{
+				withdraw=amount+accountObj.getAccountBalance();
+				accountObj.setAccountBalance(withdraw);
+				System.out.println(accountObj);
+				System.out.println(customerAccountMap);
+			}
+			else
+			{
+				System.out.println("Insufficient Balance to Withdraw");
+			}
+		}
+		else
+		{
+			System.out.println("This is a Deactivated Account Can't be Deposit");
+		}
 	}
 	
 	public void getCustomerFromCache(int customerId)
@@ -188,6 +255,7 @@ public class FileLayer {
 			e.printStackTrace();
 		}
 	}
+
 	
 	public Map<Integer,CustomerDetails> readCustomerFile(String fileName) throws CustomException
 	{
@@ -196,17 +264,9 @@ public class FileLayer {
 				ObjectInputStream object=new ObjectInputStream(input);)
 		{
 			customerMap=(Map<Integer,CustomerDetails>)object.readObject();
-			System.out.println(customerMap);
+			//System.out.println(customerMap);
 			lastId=(int)object.readObject();
 			System.out.println("Last Used Account Id : "+lastId);
-			System.out.println("Enter the Customer Id to Get Details :");
-			int id=scan.nextInt();
-			scan.nextLine();
-			System.out.println(customerMap.get(id));
-			/*lastActId=(int)object.readObject();
-			System.out.println("Last Used Account Id : "+lastActId);
-			lastActNo=(long)object.readObject();
-			System.out.println("Last Used Account Number : "+lastActNo);*/
 		}
 		catch(IOException e)
 		{
@@ -228,18 +288,11 @@ public class FileLayer {
 			{
 				
 				customerAccountMap=(Map<Integer,Map<Integer,AccountDetails>>)object.readObject();
-				System.out.println(customerAccountMap);
+				//System.out.println(customerAccountMap);
 				lastActId=(int)object.readObject();
 				System.out.println("Last Used Account Id : "+lastActId);
 				lastActNo=(long)object.readObject();
-				System.out.println("Last Used Account Number : "+lastActNo);
-				System.out.println("Enter the Customer Id & Account Id to Get Details :");
-				int id=scan.nextInt();
-				scan.nextLine();
-				int actId=scan.nextInt();
-				scan.nextLine();
-				System.out.println(customerAccountMap.get(id).get(actId));
-				
+				System.out.println("Last Used Account Number : "+lastActNo);		
 			}
 	
 		catch(IOException e)

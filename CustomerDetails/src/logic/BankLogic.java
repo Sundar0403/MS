@@ -1,6 +1,7 @@
 package logic;
 //import implement.*;
 import cache.*;
+
 import file.*;
 import utility.*;
 
@@ -16,6 +17,7 @@ public class BankLogic //implements ImplementorFunction
 {
 	FileLayer fileObj=new FileLayer();
 	CacheLayer cacheObj=new CacheLayer();
+	Scanner scan=new Scanner(System.in);
 
 	private int id=0;
 	private int actId=1000;
@@ -129,8 +131,55 @@ public class BankLogic //implements ImplementorFunction
 		}
 		
 	}
+	public void readCustomer(String fName) throws CustomException
+	{
+		Map<Integer,CustomerDetails> tempMap=fileObj.readCustomerFile(fName);
+		cacheObj.addCustomer(tempMap);
+	}
+	public void readAccount(String fName) throws CustomException
+	{
+		Map<Integer,Map<Integer,AccountDetails>> tempMap=fileObj.readAccountFile(fName);
+		cacheObj.addAccount(tempMap);
+	}
 	
-	
+	public void deposit(int customerId,int accountId,double amount,String fName) throws CustomException
+	{
+		try
+		{
+			System.out.println("--------------This is in File Layer-----------");
+			fileObj.deposit(customerId,accountId,amount);
+			System.out.println("");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("-------------This is in Cache Layer-----------");
+			Map<Integer,Map<Integer,AccountDetails>> tempMap=fileObj.readAccountFile(fName);
+			System.out.println(tempMap);
+			cacheObj.deposit(customerId,accountId,amount,tempMap);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception Occured :");
+		}
+	}
+	public void withdraw(int customerId,int accountId,double amount,String fName) throws CustomException
+	{
+		try
+		{
+			System.out.println("--------------This is in File Layer-----------");
+			fileObj.withdraw(customerId,accountId,amount);
+			System.out.println("");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("-------------This is in Cache Layer-----------");
+			Map<Integer,Map<Integer,AccountDetails>> tempMap=fileObj.readAccountFile(fName);
+			System.out.println(tempMap);
+			cacheObj.withdraw(customerId,accountId,amount,tempMap);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception Occured :");
+		}
+	}
 	
 	public void fileCheck(File fileObj) throws CustomException
 	{

@@ -24,7 +24,7 @@ public class CacheLayer {
 	public void addAccount(Map<Integer,Map<Integer,AccountDetails>> inputMap)
 	{
 		customerAccountDetails=inputMap;
-		//System.out.println(customerAccountDetails);
+		System.out.println(customerAccountDetails);
 	}
 	public  void getAccountCacheDetails(int customerId,int accountId/*Map<Integer,CustomerDetails> inputMap*/) throws CustomException
 	{
@@ -32,5 +32,62 @@ public class CacheLayer {
 		//return inputMap.get(id);
 		System.out.println(customerAccountDetails.get(customerId).get(accountId));
 		
+	}
+	public void deposit(int customerId,int AccountId,double amount,Map<Integer,Map<Integer,AccountDetails>> accountMap) throws CustomException
+	{
+		
+		double deposit;
+		customerAccountDetails=accountMap;
+		AccountDetails accountObj=customerAccountDetails.get(customerId).get(AccountId);
+		if(accountObj.isAccountStatus()==true)
+		{
+			if(amount>100)
+			{
+				if(amount<100000)
+				{
+					deposit=amount+accountObj.getAccountBalance();
+					accountObj.setAccountBalance(deposit);
+					System.out.println(accountObj);
+					System.out.println(customerAccountDetails);
+				}
+				else
+				{
+					System.out.println("Deposit Amount Should be Less than 100000");
+				}
+			}
+			else
+			{
+				System.out.println("Deposit Amount Should be Greater than 100");
+			}
+		}
+		else
+		{
+			System.out.println("This is a Deactivated Account Can't be Deposit");
+		}
+	}
+	public void withdraw(int customerId,int AccountId,double amount,Map<Integer,Map<Integer,AccountDetails>> inputMap) throws CustomException
+	{
+		double withdraw;
+		customerAccountDetails=inputMap;
+		System.out.println(customerAccountDetails);
+		AccountDetails accountObj=customerAccountDetails.get(customerId).get(AccountId);
+		if(accountObj.isAccountStatus()==true)
+		{
+			if(amount<accountObj.getAccountBalance())
+			{
+				withdraw=amount+accountObj.getAccountBalance();
+				accountObj.setAccountBalance(withdraw);
+				System.out.println(accountObj);
+				System.out.println(customerAccountDetails);
+			}
+			else
+			{
+				System.out.println("Insufficient Balance to Withdraw");
+			}
+		}
+		else
+		{
+			System.out.println("This is a Deactivated Account Can't be Deposit");
+		}
 	}
 }

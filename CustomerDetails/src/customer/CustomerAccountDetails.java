@@ -107,7 +107,7 @@ public class CustomerAccountDetails {
 				int customerId=scan.nextInt();
 				scan.nextLine();	
 				accountObj.setCustomerId(customerId);
-				accountObj.setAccountNumber(++fileObj.lastActNo);
+				
 				System.out.println("Enter the Account Balance:");
 				double accBalance=scan.nextDouble();
 				scan.nextLine();
@@ -189,29 +189,25 @@ public class CustomerAccountDetails {
 	
 	private void depositAmount()
 	{
-		AccountDetails deposit=new AccountDetails();
-		if(deposit.isAccountStatus()==true)
-		{	
-			try
-			{
-				getAccounts();
-				System.out.println(deposit);
-				System.out.println("Enter the Deposit Amount : ");
-				double amount=scan.nextDouble();
-				scan.nextLine();
-				amount=amount+deposit.getAccountBalance();
-				deposit.setAccountBalance(amount);
-				System.out.println(/*customerAccountMap*/deposit);
-			}
-			catch(Exception e)
-			{
-				System.out.println("Exception Occured : "+e.getMessage());
-				e.printStackTrace();
-			}
-		}
-		else
+		try
 		{
-			System.out.println("Deposit can't be done, Beacuse it's a Deactivated Account");
+			System.out.println("Enter the Customer Id to Deposit:");
+			int customerId=scan.nextInt();
+			scan.nextLine();
+			System.out.println("Enter the Account Id to Deposit:");
+			int accountId=scan.nextInt();
+			scan.nextLine();
+			System.out.println("Enter the Amount to Deposit:");
+			double amount=scan.nextDouble();
+			scan.nextLine();
+			System.out.println("Enter the Filename:");
+			String fName=scan.nextLine();
+			newLogic.deposit(customerId, accountId, amount,fName);
+			
+		}
+		catch(CustomException e)
+		{
+			System.out.println("Deposit Can't be Done :");
 		}
 	}
 	
@@ -278,9 +274,10 @@ public class CustomerAccountDetails {
 		try
 		{
 			System.out.println("Enter the Filename :");
-			String fileName=scan.nextLine();
-			//newLogic.readCustomerFile(fileName);
-			//newLogic.readAccountFile(fileName);
+			String fileName1=scan.nextLine();
+			String fileName2=scan.nextLine();
+			newLogic.readCustomer(fileName1);
+			newLogic.readAccount(fileName2);
 			//newLogic.createFile(filePath,fileName);
 			//fileObj.readsFile(filePath,fileName);
 			/*Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=newLogic.readFileAccounts(filePath,fileName);
@@ -525,15 +522,40 @@ public class CustomerAccountDetails {
 				
 				try
 				{
+					mainObj.readFile();
+				}
+				catch(Exception e)
+				{
+					System.out.println("Exception Occured : "+e.getMessage());
+				}
+				break;
+				
+			case 12:
+				
+				try
+				{
 					mainObj.fileCreation();
 					//mainObj.readFile();
+					//mainObj.retrieveFromCustomer();
 					mainObj.retrieveFromAccount();
 				}
 				catch(Exception e)
 				{
 					System.out.println("Exception Occured : "+e.getMessage());
 				}
-				break;		
+				break;	
+				
+			case 13:
+				
+				try
+				{
+					mainObj.depositAmount();
+				}
+				catch(Exception e)
+				{
+					System.out.println("Exception Occured : "+e.getMessage());
+				}
+				break;
 		}
 		scan.close();
 	}	
