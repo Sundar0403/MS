@@ -1,0 +1,97 @@
+@charset "UTF-8";
+.id
+{
+	margin-left:auto;
+	margin-right:auto;
+	height:300px;
+	width:300px;
+	margin-top:400px;
+	margin-bottom:1200px;
+	margin-left:800px;
+	margin-right:600px;
+}
+.id1
+{
+	margin-left:auto;
+	margin-right:auto;
+	height:300px;
+	width:300px;
+	margin-top:400px;
+	margin-bottom:1200px;
+	margin-left:800px;
+	margin-right:600px;
+}
+.id4
+{
+	margin-left:auto;
+	margin-right:auto;
+	height:300px;
+	width:300px;
+	margin-top:0px;
+	margin-bottom:1200px;
+	margin-left:800px;
+	margin-right:600px;
+}
+.id3
+{
+	margin-left:auto;
+	margin-right:auto;
+	height:300px;
+	width:300px;
+	margin-top:0px;
+	margin-bottom:0px;
+	margin-left:800px;
+	margin-right:600px;
+}
+h2
+{
+	text-align:center;
+}
+
+fieldset.blue
+{
+	background-color:rgb(100,200,300);
+	height:200px;
+	width:200px;
+}
+
+fieldset.red
+{
+	background-color:rgb(100,200,300);
+	height:300px;
+	width:200px;
+}
+fieldset.green
+{
+	background-color:rgb(100,200,300);
+	height:400px;
+	width:200px;
+}
+
+p
+{
+	color:white;
+	font-family:Times New Roman;
+	font-size:25px;
+}
+marquee
+{
+	position:absolute;
+	font-style:italic;
+	font-family:Times New Roman;
+	
+}
+body
+{
+	background-image:url("https://wallpapercave.com/wp/wp6602988.jpg");
+	background-repeat:no repeat;
+	background-size:cover;
+}
+input[type="button"]
+{
+	padding:5px;
+}
+button
+{
+	padding:5px;
+}

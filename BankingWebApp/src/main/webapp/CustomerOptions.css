@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+table
+{
+	margin:auto;
+	border:2px solid black;
+	width:50%;
+	text-align:center;
+	border-collapse:collapse;
+}
+h2
+{
+	text-align:center;
+	background-color:white;
+	width:200px;
+}
+
+h1
+{
+	text-align:center;
+}
+th
+{
+	margin:auto;
+	border:2px solid black;
+	padding:10px;
+}
+td
+{
+	margin:auto;
+	border:2px solid black;
+	padding:10px;
+}
+button
+{
+	padding:10px;
+}
+form{
+	margin:0px;
+	width:100px;
+}
+input[type="button"]
+{
+	padding:10px;
+	color:red;
+	background-color:grey;
+}
+input[type="button"]:hover
+{
+	color:black;
+	background-color:red;
+}
+body
+{
+	background-image:url("https://wallpapercave.com/wp/wp6602988.jpg");
+	background-repeat:no repeat;
+	background-size:cover;
+}

@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+form{
+	margin:0px;
+	width:250px;
+}
+input[type="button"]
+{
+	padding:10px;
+	color:red;
+	background-color:grey;
+}
+button
+{
+	padding:10px;
+	color:red;
+	background-color:grey;
+}
+input[type="button"]:hover
+{
+	color:black;
+	background-color:red;
+}
+input[type="button"].add
+{
+	padding:10px;
+	color:red;
+	background-color:grey;
+}
+input[type="button"]:hover
+{
+	color:black;
+	background-color:red;
+}
+button
+{
+	padding:10px;
+	color:red;
+	background-color:grey;
+}
+button:hover
+{
+	color:black;
+	background-color:red;
+}
