@@ -2,6 +2,7 @@ package com.bank.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import account.AccountDetails;
+import excep.CustomException;
+import logic.BankLogic;
+import pojo.CustomerDetails;
 
 /**
  * Servlet implementation class AdminOptions
@@ -40,13 +46,39 @@ public class TransferServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		//doGet(request, response);
-		String custId=request.getParameter("custId");
-		String fromAct=request.getParameter("from");
-		String toAct=request.getParameter("to");
-		String amount=request.getParameter("amount");
+		BankLogic bankObj=new BankLogic();
+		AccountDetails accountObj=new AccountDetails();
+		CustomerDetails customerObj=new CustomerDetails();
+		int fromActId=Integer.parseInt(request.getParameter("fromActId"));
+		int toActId=Integer.parseInt(request.getParameter("toActId"));
+		double amount=Double.parseDouble(request.getParameter("transferAmount"));
 		
-		RequestDispatcher reqDispatch=request.getRequestDispatcher("AdminOptions.jsp");
-		reqDispatch.forward(request, response);
+		try
+		{
+			Map<Integer,Map<Integer,AccountDetails>> accountMap=bankObj.readAccount();
+			for(int key:accountMap.keySet())
+			{	
+				bankObj.withdraw(key,fromActId,amount);
+			}
+			for(int toKey:accountMap.keySet())
+			{
+				bankObj.deposit(toKey,toActId,amount);
+			}	
+			accountMap=bankObj.readAccount();
+			System.out.println("----------------This is in Servlet Layer------------------");
+			System.out.println(accountMap);
+			request.setAttribute("AccountDetails",accountMap);
+			RequestDispatcher req=request.getRequestDispatcher("AdminOptions.jsp");
+			req.forward(request, response);
+		}
+		catch(CustomException e)
+		{
+			System.out.println("Can't get the Detils");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Can't get the Detils");
+		}
 	}
 
 }

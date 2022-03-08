@@ -72,7 +72,7 @@ public class CustomerAccountDetails {
 				System.out.println("Enter the Id That the Details Needed to Retrieve :");
 				int inputId=scan.nextInt();
 				scan.nextLine();
-				newLogic.getCustomerDetails(inputId,fName);
+				newLogic.getCustomerDetails(inputId);
 				newLogic.getCustomerCacheDetails(inputId,fName);
 			}
 			catch(CustomException e)
@@ -170,7 +170,8 @@ public class CustomerAccountDetails {
 				System.out.println("Enter the Account ID to Retrieve Specific Account :");
 				int actId=scan.nextInt();
 				scan.nextLine();
-				newLogic.getAccountDetails(custId,actId,fileName);
+				newLogic.getAccountDetails(custId,actId);
+				newLogic.getAllAccountDetails(custId);
 				newLogic.getAccountCacheDetails(custId,actId,fileName);
 				//System.out.println(accountObj);
 			}
@@ -230,7 +231,7 @@ public class CustomerAccountDetails {
 			scan.nextLine();
 			System.out.println("Enter the Filename:");
 			String fName=scan.nextLine();
-			newLogic.withdraw(customerId, accountId, amount,fName);
+			newLogic.withdraw(customerId, accountId, amount);
 			
 		}
 		catch(CustomException e)
@@ -320,7 +321,7 @@ public class CustomerAccountDetails {
 		System.out.println("Enter the CustomerId to Change the Customer Status :");
 		int custId=scan.nextInt();
 		scan.nextLine();
-		newLogic.fetchCustomerStatus(custId,fileName);
+		newLogic.fetchCustomerStatus(custId);
 	}
 	private void fetchAccountStatus() throws CustomException
 	{
@@ -331,7 +332,7 @@ public class CustomerAccountDetails {
 		System.out.println("Enter the AccountId to Change the Account Status :");
 		int ActId=scan.nextInt();
 		scan.nextLine();
-		newLogic.fetchAccountStatus(custId,ActId,fileName);
+		newLogic.fetchAccountStatus(custId,ActId);
 	}
 
 	public static void main(String args[])

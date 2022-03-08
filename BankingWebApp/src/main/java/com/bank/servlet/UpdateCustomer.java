@@ -1,10 +1,7 @@
 package com.bank.servlet;
-import java.util.*;
-import logic.*;
-import pojo.CustomerDetails;
-import excep.*;
-import account.*;
+
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,17 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import excep.CustomException;
+import logic.BankLogic;
+import pojo.CustomerDetails;
+
 /**
- * Servlet implementation class Deposit
+ * Servlet implementation class UpdateCustomer
  */
-@WebServlet("/Deposit")
-public class Deposit extends HttpServlet {
+@WebServlet("/UpdateCustomer")
+public class UpdateCustomer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Deposit() {
+    public UpdateCustomer() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,31 +44,25 @@ public class Deposit extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		BankLogic bankObj=new BankLogic();
-		AccountDetails accountObj=new AccountDetails();
-		CustomerDetails customerObj=new CustomerDetails();
-		int actId=Integer.parseInt(request.getParameter("actId"));
-		double amount=Double.parseDouble(request.getParameter("depositAmount"));
+		int customerId=Integer.parseInt(request.getParameter("custId"));
+		String customerName=request.getParameter("custName");
+		String customerAddress=request.getParameter("address");
+		long mobNo=Long.parseLong(request.getParameter("mobNo"));
 		try
 		{
-			Map<Integer,Map<Integer,AccountDetails>> accountMap=bankObj.readAccount();
-			for(int key:accountMap.keySet())
-			{
-				bankObj.deposit(key,actId,amount);
-			}
-			accountMap=bankObj.readAccount();
-			System.out.println("----------------This is in Servlet Layer------------------");
-			System.out.println(accountMap);
-			request.setAttribute("AccountDetails",accountMap);
-			RequestDispatcher req=request.getRequestDispatcher("AdminOptions.jsp");
-			req.forward(request, response);
-		}
-		catch(CustomException e)
-		{
-			System.out.println("Can't get the Detils");
+			CustomerDetails custObj=new CustomerDetails();
+			custObj.setCustomerId(customerId);
+			custObj.setCustomerName(customerName);
+			custObj.setCustomerAddress(customerAddress);
+			custObj.setMobileNumber(mobNo);
+			Map<Integer,CustomerDetails> customerMap=bankObj.updateDetails(customerId,custObj);
+			request.setAttribute("CustomerDetails",customerMap);
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("CustomerDetails.jsp");
+			reqDispatch.forward(request,response);
 		}
 		catch(Exception e)
 		{
-			System.out.println("Can't get the Detils");
+			System.out.println("Exception Occured :"+e.getMessage());
 		}
 	}
 

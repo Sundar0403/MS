@@ -21,11 +21,8 @@ form.true
 <body>
 <jsp:include page="CommonOptions.jsp"/>
 	<center><h2>Deposit Amount</h2></center>
-	<form class="true" action="Deposit" method="post" style="" style="">
+	<form class="true" action="Deposit" method="post">
 		<fieldset>
-		
-		<label for="name" style="background-color:white;">CustomerId:</label>
-		<input type="number" id="name" name="custId"><br><br>
 		
 		
 		<label for="name1" style="background-color:white;">AccountId:</label>

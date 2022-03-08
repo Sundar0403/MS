@@ -20,12 +20,12 @@
 	<table bgcolor="white">
 		<tr class="main">
 
-			<th>CustomerId</th>
+			
 			<th>AccountId</th>
 			<th>AccountNumber</th>
-			<th>AccountStatus</th>
 			<th>AccountBalance</th>
 			<th>BranchName</th>
+			<th>Status Change</th>
 		</tr>
 
 		<%
@@ -41,17 +41,21 @@
 			 	        {
 			 	        	
 				        AccountDetails accountObj=inputMap.get(key1);
+				        if(accountObj.isAccountStatus()==true)
+				        {
 		%>
 			<tr>
-			<td><%out.print(accountObj.getCustomerId()); %></td>
-			<td><%out.print(accountObj.getAccountId()); %></td>
+			
+			<td><form action="updateAccount" method="post">
+			<button><%out.print(accountObj.getAccountId()); %></button></form></td>
 			<td><%out.print(accountObj.getAccountNumber()); %></td>
-			<td><%out.print(accountObj.isAccountStatus()); %></td>
 			<td><%out.print(accountObj.getAccountBalance()); %></td>
 			<td><%out.print(accountObj.getBranchName()); %></td>
+			<td><form action="Deactivate?customerId=<%=accountObj.getCustomerId()  %>&accountId=<%=accountObj.getAccountId()  %>" method="post" ><button>Deactivate</button></form></td>
 			</tr>
 		<%
-			        }
+				        }
+				       }
 		}
 		%>
 	</table>

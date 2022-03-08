@@ -43,15 +43,15 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String username=request.getParameter("username");
+		int username=Integer.parseInt(request.getParameter("username"));
 		String password=request.getParameter("password");
-		
+		BankLogic bankObj=new BankLogic();
 		System.out.println(username);
 		System.out.println(password);
 		
-		if(username.equals("Mani")&&password.equals("1234"))
+		if(username==101&&password.equals("1234"))
 		{
-			BankLogic bankObj=new BankLogic();
+			
 			try
 			{
 				Map<Integer,Map<Integer,AccountDetails>> accountMap=bankObj.readAccount();
@@ -76,8 +76,25 @@ public class LoginServlet extends HttpServlet {
 		}
 		else
 		{
-			RequestDispatcher reqDispatch=request.getRequestDispatcher("CustomerOptions.jsp");
-			reqDispatch.forward(request,response);
+			try
+			{
+				Map<Integer,Map<Integer,AccountDetails>> CustomerAccountMap=bankObj.readAccount();
+				System.out.println("servlet :"+CustomerAccountMap);
+				Map<Integer,AccountDetails> accountMap=bankObj.getAllAccountDetails(username);
+				request.setAttribute("CustomerAccountDetails",accountMap);
+				RequestDispatcher reqDispatch=request.getRequestDispatcher("CustomerOptions.jsp");
+				reqDispatch.forward(request,response);
+			}
+			catch(CustomException e)
+			{
+				System.out.println("Details Can't Received");
+				e.printStackTrace();
+			}
+			catch(Exception e)
+			{
+				System.out.println("Details Can't Received");
+				e.printStackTrace();
+			}
 		}	
 	}
 

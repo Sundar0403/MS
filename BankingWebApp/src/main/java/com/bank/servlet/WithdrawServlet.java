@@ -1,10 +1,7 @@
 package com.bank.servlet;
-import java.util.*;
-import logic.*;
-import pojo.CustomerDetails;
-import excep.*;
-import account.*;
+
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,17 +10,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import account.AccountDetails;
+import excep.CustomException;
+import logic.BankLogic;
+import pojo.CustomerDetails;
+
 /**
- * Servlet implementation class Deposit
+ * Servlet implementation class WithdrawServlet
  */
-@WebServlet("/Deposit")
-public class Deposit extends HttpServlet {
+@WebServlet("/WithdrawServlet")
+public class WithdrawServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Deposit() {
+    public WithdrawServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,13 +48,14 @@ public class Deposit extends HttpServlet {
 		AccountDetails accountObj=new AccountDetails();
 		CustomerDetails customerObj=new CustomerDetails();
 		int actId=Integer.parseInt(request.getParameter("actId"));
-		double amount=Double.parseDouble(request.getParameter("depositAmount"));
+		double amount=Double.parseDouble(request.getParameter("withdrawAmount"));
 		try
 		{
+			
 			Map<Integer,Map<Integer,AccountDetails>> accountMap=bankObj.readAccount();
 			for(int key:accountMap.keySet())
 			{
-				bankObj.deposit(key,actId,amount);
+				bankObj.withdraw(key,actId,amount);
 			}
 			accountMap=bankObj.readAccount();
 			System.out.println("----------------This is in Servlet Layer------------------");

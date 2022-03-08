@@ -101,17 +101,28 @@ public class BankLogic //implements ImplementorFunction
 		return customerAccountMap;
 	}
 	
-	public void getCustomerDetails(int customerId,String fName) throws CustomException
+	public CustomerDetails getCustomerDetails(int customerId) throws CustomException
 	{
 		System.out.println("This is in File Layer :");
-		fileObj.getCustomerDetails(customerId,fName);
+		return fileObj.getCustomerDetails(customerId);
 		
 	}
 	
-	public void getAccountDetails(int customerId,int accountId,String fName) throws CustomException
+	public Map<Integer,CustomerDetails> updateDetails(int customerId,CustomerDetails custObj) throws CustomException
+	{
+		return fileObj.updateDetails(customerId,custObj);
+	}
+	
+	public AccountDetails getAccountDetails(int customerId,int accountId) throws CustomException
 	{
 		System.out.println("This is in File Layer :");
-		fileObj.getAccountDetails(customerId,accountId,fName);
+		return fileObj.getAccountDetails(customerId,accountId);
+	}
+	public Map<Integer,AccountDetails> getAllAccountDetails(int customerId) throws CustomException
+	{
+		System.out.println("This is in File Layer :");
+		Map<Integer,AccountDetails> inputMap=fileObj.getAllAccountDetails(customerId);
+		return inputMap;
 	}
 	public void getCustomerCacheDetails(int customerId,String fName) throws CustomException
 	{
@@ -127,21 +138,21 @@ public class BankLogic //implements ImplementorFunction
 		cacheObj.getAccountCacheDetails(customerId,accountId,tempMap);
 	}
 	
-	public void fetchCustomerStatus(int custId,String fName) throws CustomException
+	public void fetchCustomerStatus(int custId) throws CustomException
 	{
 		System.out.println("This is in Cache Layer :");
 		Map<Integer,CustomerDetails> tempMap=fileObj.readCustomerFile();
 		cacheObj.fetchCustomerStatus(custId,tempMap);
 		System.out.println("This is in File Layer :");
-		fileObj.fetchCustomerStatus(fName,custId);
+		fileObj.fetchCustomerStatus(custId);
 	}
-	public void fetchAccountStatus(int custId,int ActId,String fName) throws CustomException
+	public void fetchAccountStatus(int custId,int ActId) throws CustomException
 	{
 		System.out.println("This is in Cache Layer :");
 		Map<Integer,Map<Integer,AccountDetails>> tempMap=fileObj.readAccountFile();
 		cacheObj.fetchAccountStatus(custId,ActId,tempMap);
 		System.out.println("This is in File Layer :");
-		fileObj.fetchAccountStatus(fName,custId,ActId);
+		fileObj.fetchAccountStatus(custId,ActId);
 	}
 	
 	public void customerMapCheck(int id) throws CustomException
@@ -188,7 +199,7 @@ public class BankLogic //implements ImplementorFunction
 			System.out.println("Exception Occured :");
 		}
 	}
-	public void withdraw(int customerId,int accountId,double amount,String fName) throws CustomException
+	public void withdraw(int customerId,int accountId,double amount) throws CustomException
 	{
 		try
 		{

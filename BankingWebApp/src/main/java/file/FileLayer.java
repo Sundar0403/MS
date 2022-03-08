@@ -63,20 +63,36 @@ public class FileLayer {
 			return customerMap;
 	}
 	
-	public  void getCustomerDetails(int id,String fName) throws CustomException
+	public  CustomerDetails getCustomerDetails(int id) throws CustomException
 	{
 		//customerMapCheck(id);
 		//return inputMap.get(id);
 		Map<Integer,CustomerDetails> inputMap=readCustomerFile();
-		System.out.println(inputMap.get(id));
+		return inputMap.get(id);
 		
 	}
-	public  void getAccountDetails(int customerId,int accountId,String fName/*Map<Integer,CustomerDetails> inputMap*/) throws CustomException
+	public Map<Integer,CustomerDetails> updateDetails(int customerId,CustomerDetails custObj) throws CustomException
+	{
+		Map<Integer,CustomerDetails> inputMap=readCustomerFile();
+		inputMap.put(customerId,custObj);
+		writeCustomerFile(inputMap);
+		return inputMap;
+	}
+	public  AccountDetails getAccountDetails(int customerId,int accountId/*Map<Integer,CustomerDetails> inputMap*/) throws CustomException
 	{
 		//customerMapCheck(id);
 		//return inputMap.get(id);
 		Map<Integer,Map<Integer,AccountDetails>> accountMap=readAccountFile();
 		System.out.println(accountMap.get(customerId).get(accountId));
+		return accountMap.get(customerId).get(accountId);
+		
+	}
+	public  Map<Integer,AccountDetails> getAllAccountDetails(int customerId/*Map<Integer,CustomerDetails> inputMap*/) throws CustomException
+	{
+		//customerMapCheck(id);
+		//return inputMap.get(id);
+		Map<Integer,Map<Integer,AccountDetails>> accountMap=readAccountFile();
+		return accountMap.get(customerId);
 		
 	}
 	
@@ -105,8 +121,6 @@ public class FileLayer {
 	
 	public void deposit(int customerId,int AccountId,double amount) throws CustomException
 	{
-		System.out.println("Enter the FileName");
-		String fileName=scan.nextLine();
 		double deposit;
 		Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=readAccountFile();
 		System.out.println(customerAccountMap);
@@ -141,8 +155,6 @@ public class FileLayer {
 	
 	public void withdraw(int customerId,int AccountId,double amount) throws CustomException
 	{
-		System.out.println("Enter the FileName");
-		String fileName=scan.nextLine();
 		double withdraw;
 		Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=readAccountFile();
 		System.out.println(customerAccountMap);
@@ -168,7 +180,7 @@ public class FileLayer {
 		}
 	}
 	
-	public void fetchCustomerStatus(String fName,int customerId) throws CustomException
+	public void fetchCustomerStatus(int customerId) throws CustomException
 	{
 		Map<Integer,CustomerDetails> inputMap=readCustomerFile();
 		
@@ -177,7 +189,7 @@ public class FileLayer {
 		writeCustomerFile(inputMap);
 		
 	}
-	public void fetchAccountStatus(String fName,int customerId,int accountId) throws CustomException
+	public void fetchAccountStatus(int customerId,int accountId) throws CustomException
 	{
 		Map<Integer,Map<Integer,AccountDetails>> inputMap=readAccountFile();
 		

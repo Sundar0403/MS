@@ -19,13 +19,20 @@ form.true
 </style>
 </head>
 <body>
-<jsp:include page="CommonOptions.jsp"/>
+<jsp:include page="Customer.jsp"/>
 	<center><h2>Transfer Amount</h2></center>
 	<form class="true" action="TransferServlet" method="post">
-		<fieldset>
+		<fieldset style="background-color:white;">
+		
+		<label for="name" style="background-color:white;">From CustomerId</label>
+		<input type="number" id="name" name="fromCustId"><br><br>
 		
 		<label for="name" style="background-color:white;">From AccountId</label>
 		<input type="number" id="name" name="fromActId"><br><br>
+		
+		
+		<label for="name1" style="background-color:white;">To CustomerId:</label>
+		<input type="number" id="name1" name="toCustId"><br><br>
 		
 		<label for="name1" style="background-color:white;">To AccountId:</label>
 		<input type="number" id="name1" name="toActId"><br><br>

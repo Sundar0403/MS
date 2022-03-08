@@ -16,7 +16,7 @@
 <fieldset class="blue">
 	<h2>Login</h2>
 	<label for="name">UserName :</label>
-	<input type="text" id="name" name="username" required>
+	<input type="number" id="name" name="username" required>
 	<br><label for="name">Password :</label>
 	<input type="password" id="name" name="password" required><br><br>
 	<input type="button" name="" value="Reset">

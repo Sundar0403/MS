@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="logic.BankLogic" %>
+    <%@ page import="account.AccountDetails" %>
+    <%@ page import="pojo.CustomerDetails" %>
+    <%@ page import="java.util.Map" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,22 +21,15 @@ form.true
 <body>
 <jsp:include page="CommonOptions.jsp"/>
 	<center><h2>Withdraw Amount</h2></center>
-	<form class="true" action="AdminOptions.jsp" method="post">
+	<form class="true" action="WithdrawServlet" method="post">
 		<fieldset>
-		<label for="name">AccountId:</label>
-		<select id="from" name="from">
-			<option value="01">01</option>
-			<option value="02">02</option>
-			<option value="03">03</option>
-			<option value="04">04</option>
-			<option value="05">05</option>
-			<option value="06">06</option>
-			<option value="07">07</option>
-			<option value="08">08</option>
-		</select><br><br>
 		
-		<label for="Enter">Withdraw Amount:</label>
-		<input type="number" id="Enter" min="100" max="100000"><br><br>
+		
+		<label for="name1" style="background-color:white;">AccountId:</label>
+		<input type="number" id="name1" name="actId"><br><br>
+		
+		<br><label for="Enter" style="background-color:white;">Withdraw Amount:</label>
+		<input type="number" id="Enter" name="withdrawAmount"><br><br>
 		<button>Submit</button>
 		</fieldset>
 	</form>

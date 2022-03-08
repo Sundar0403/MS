@@ -14,11 +14,12 @@
 	<a href="Admin.jsp"><input style="margin-left:1300px;"type="button" class="add" value="Logout"></a>
 </form>
 
-		<br><form action="CustomerServlet" method="post" name="getCustomer"><button>Customer</button></form><br>
-		<br><form action="AccountServlet" method="post" name="getCustomer"><button>Account</button></form><br>
+		<form action="CustomerServlet" method="post" name="getCustomer"><button>Customer</button></form>
+		<br><form action="AccountServlet" method="post" name="getCustomer"><button>Account</button></form>
 		<br><a href="Deposit.jsp"><input type="button" value="Deposit"></a><br>
 		<br><a href="Withdraw.jsp"><input type="button" value="Withdraw"></a><br>
-		<br><a href="TransferAmount.jsp"><input type="button" value="Transfer"></a>
+		<br><a href="TransferAmount.jsp"><input type="button" value="Transfer"></a><br>
+		<br><a href="Update.jsp"><input type="button" value="Update"></a>
 
 </body>
 </html>

@@ -7,13 +7,13 @@ form{
 input[type="button"]
 {
 	padding:10px;
-	color:red;
+	color:white;
 	background-color:grey;
 }
 button
 {
 	padding:10px;
-	color:red;
+	color:white;
 	background-color:grey;
 }
 input[type="button"]:hover
@@ -24,7 +24,7 @@ input[type="button"]:hover
 input[type="button"].add
 {
 	padding:10px;
-	color:red;
+	color:white;
 	background-color:grey;
 }
 input[type="button"]:hover
@@ -35,7 +35,7 @@ input[type="button"]:hover
 button
 {
 	padding:10px;
-	color:red;
+	color:white;
 	background-color:grey;
 }
 button:hover
