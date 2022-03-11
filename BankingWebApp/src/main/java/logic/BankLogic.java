@@ -108,9 +108,37 @@ public class BankLogic //implements ImplementorFunction
 		
 	}
 	
+	public List<String> getBranches()
+	{
+		List<String> branchList=new ArrayList<String>();
+		
+		branchList.add("Pallathur");
+		branchList.add("Chennai");
+		branchList.add("Coimbatore");
+		branchList.add("Madurai");
+		branchList.add("Trichy");
+		branchList.add("Salem");
+		branchList.add("Tirunelveli");
+		branchList.add("Vellore");
+		branchList.add("Erode");
+		branchList.add("Tuticorin");
+		branchList.add("Tirupur");
+		branchList.add("Thanjavur");
+		branchList.add("Dindigul");
+		branchList.add("Karaikudi");
+		
+		return branchList;
+	}
+	
 	public Map<Integer,CustomerDetails> updateDetails(int customerId,CustomerDetails custObj) throws CustomException
 	{
 		return fileObj.updateDetails(customerId,custObj);
+	}
+	
+	public Map<Integer,Map<Integer,AccountDetails>> updateAccountDetails(int customerId,int accountId,AccountDetails accountObj) throws CustomException
+	{
+		System.out.println("Logic Update");
+		return fileObj.updateAccountDetails(customerId,accountId,accountObj);
 	}
 	
 	public AccountDetails getAccountDetails(int customerId,int accountId) throws CustomException
@@ -122,6 +150,7 @@ public class BankLogic //implements ImplementorFunction
 	{
 		System.out.println("This is in File Layer :");
 		Map<Integer,AccountDetails> inputMap=fileObj.getAllAccountDetails(customerId);
+		System.out.println("Printing MAp"+inputMap);
 		return inputMap;
 	}
 	public void getCustomerCacheDetails(int customerId,String fName) throws CustomException
@@ -153,6 +182,15 @@ public class BankLogic //implements ImplementorFunction
 		cacheObj.fetchAccountStatus(custId,ActId,tempMap);
 		System.out.println("This is in File Layer :");
 		fileObj.fetchAccountStatus(custId,ActId);
+	}
+	public void activateCustomer(int customerId) throws CustomException
+	{
+		fileObj.activateCustomerStatus(customerId);
+	}
+	
+	public void activateAccount(int customerId,int accountId) throws CustomException
+	{
+		fileObj.activateAccountStatus(customerId,accountId);
 	}
 	
 	public void customerMapCheck(int id) throws CustomException
@@ -218,7 +256,10 @@ public class BankLogic //implements ImplementorFunction
 			System.out.println("Exception Occured :");
 		}
 	}
-	
+	public void amountTransfer(int fromActId,int toActId,double amount) throws CustomException
+	{
+		fileObj.accountTransfer(fromActId,toActId,amount);
+	}
 	public void fileCheck(File fileObj) throws CustomException
 	{
 		if(fileObj==null)

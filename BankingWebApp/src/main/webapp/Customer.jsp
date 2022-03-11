@@ -16,14 +16,12 @@ form.red
 </style>
 </head>
 <body>
-<form>
-	<a href="Admin.jsp"><input style="margin-left:1300px;"type="button" class="add" value="Logout"></a>
-</form >
-<form class="red">
+<form action="LogoutServlet" method="post" name="logout"><button>Logout</button></form><br>
+<form action="CustomerTransfer?customerId=<%= (int)session.getAttribute("customerId")  %>" class="red">
 	<fieldset>
 	<legend style="color:white;">Option</legend>
-	<br><a href="CustomerTransferAmount.jsp"><input type="button" value="Transfer"></a>
+	<br><button>Transfer</button></a>
 	</fieldset>
-</form>	
+</form>		
 </body>
 </html>

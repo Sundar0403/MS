@@ -6,7 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 //import logic.*;
@@ -63,6 +65,27 @@ public class FileLayer {
 			return customerMap;
 	}
 	
+	public List<String> getBranches()
+	{
+		List<String> branchList=new ArrayList<String>();
+		branchList.add("Pallathur");
+		branchList.add("Chennai");
+		branchList.add("Coimbatore");
+		branchList.add("Madurai");
+		branchList.add("Trichy");
+		branchList.add("Salem");
+		branchList.add("Tirunelveli");
+		branchList.add("Vellore");
+		branchList.add("Erode");
+		branchList.add("Tuticorin");
+		branchList.add("Tirupur");
+		branchList.add("Thanjavur");
+		branchList.add("Dindigul");
+		branchList.add("Karaikudi");
+		
+		return branchList;
+	}
+	
 	public  CustomerDetails getCustomerDetails(int id) throws CustomException
 	{
 		//customerMapCheck(id);
@@ -77,6 +100,16 @@ public class FileLayer {
 		inputMap.put(customerId,custObj);
 		writeCustomerFile(inputMap);
 		return inputMap;
+	}
+	public Map<Integer,Map<Integer,AccountDetails>> updateAccountDetails(int customerId,int accountId,AccountDetails accountObj) throws CustomException
+	{
+		System.out.println("File Update");
+		Map<Integer,Map<Integer,AccountDetails>> accountMap=readAccountFile();
+		Map<Integer,AccountDetails> inputMap=getAllAccountDetails(customerId);
+		inputMap.put(accountId,accountObj);
+		accountMap.put(customerId,inputMap);
+		writeAccountFile(accountMap);
+		return accountMap;
 	}
 	public  AccountDetails getAccountDetails(int customerId,int accountId/*Map<Integer,CustomerDetails> inputMap*/) throws CustomException
 	{
@@ -153,6 +186,69 @@ public class FileLayer {
 		}
 	}
 	
+	public void accountTransfer(int fromActId,int toActId,double amount) throws CustomException
+	{
+		Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=readAccountFile();
+		for(int key:customerAccountMap.keySet())
+		{
+			Map<Integer,AccountDetails> accountMap=customerAccountMap.get(key);
+			if(accountMap.containsKey(fromActId))
+			{
+				AccountDetails accountObj=accountMap.get(fromActId);
+				if(accountObj.isAccountStatus()==true)
+				{
+					if(amount<accountObj.getAccountBalance())
+					{
+						double withdraw=accountObj.getAccountBalance()-amount;
+						accountObj.setAccountBalance(withdraw);
+						System.out.println(accountObj);
+						System.out.println(customerAccountMap);
+						writeAccountFile(customerAccountMap);
+					}
+					else
+					{
+						System.out.println("Insufficient Balance to Withdraw");
+					}
+				}
+				else
+				{
+					System.out.println("This is a Deactivated Account Can't be Deposit");
+				}
+				
+			}
+			if(accountMap.containsKey(toActId))
+			{
+				AccountDetails accountObj=accountMap.get(toActId);
+				if(accountObj.isAccountStatus()==true)
+				{
+					if(amount>100)
+					{	
+						if(amount<100000)
+						{
+							double deposit=accountObj.getAccountBalance()+amount;
+							accountObj.setAccountBalance(deposit);
+							System.out.println(accountObj);
+							System.out.println(customerAccountMap);
+							writeAccountFile(customerAccountMap);
+						}
+						else
+						{
+							System.out.println("Deposit Amount Should Not Be Greater than 100000");
+						}
+					}
+					else
+					{
+						System.out.println("Deposit Amount Should Not Be Less than 100");
+					}
+				}
+				else
+				{
+					System.out.println("This is a Deactivated Account Can't be Deposit");
+				}
+			}
+		}
+	}
+	
 	public void withdraw(int customerId,int AccountId,double amount) throws CustomException
 	{
 		double withdraw;
@@ -197,6 +293,24 @@ public class FileLayer {
 		accountObj.setAccountStatus(false);
 		writeAccountFile(inputMap);
 	}
+	public void activateCustomerStatus(int customerId) throws CustomException
+	{
+		Map<Integer,CustomerDetails> inputMap=readCustomerFile();
+		
+		CustomerDetails customerObj=inputMap.get(customerId);
+		customerObj.setCustomerStatus(true);
+		writeCustomerFile(inputMap);
+		
+	}
+	public void activateAccountStatus(int customerId,int accountId) throws CustomException
+	{
+		Map<Integer,Map<Integer,AccountDetails>> inputMap=readAccountFile();
+		
+		AccountDetails accountObj=inputMap.get(customerId).get(accountId);
+		accountObj.setAccountStatus(true);
+		writeAccountFile(inputMap);
+	}
+	
 	/*public Map<Integer,Map<Integer,AccountDetails>> addAccount(AccountDetails accountObj,int customerId) throws CustomException
 	{
 		

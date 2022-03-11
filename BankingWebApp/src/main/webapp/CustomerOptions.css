@@ -3,6 +3,7 @@
 table
 {
 	margin:auto;
+	
 	border:2px solid black;
 	width:50%;
 	text-align:center;
@@ -11,12 +12,14 @@ table
 h2
 {
 	text-align:center;
+	margin-top:-300px;
 	background-color:white;
 	width:200px;
 }
 
 h1
 {
+	
 	text-align:center;
 }
 th
@@ -42,7 +45,7 @@ form{
 input[type="button"]
 {
 	padding:10px;
-	color:red;
+	color:white;
 	background-color:grey;
 }
 input[type="button"]:hover

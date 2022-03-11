@@ -26,10 +26,36 @@ form.true
 		
 		
 		<label for="name1" style="background-color:white;">AccountId:</label>
-		<input type="number" id="name1" name="actId"><br><br>
+		<select name="actId" >
+		
+		<%Map<Integer,Map<Integer,AccountDetails>> customerAccountMap=(Map<Integer,Map<Integer,AccountDetails>>)request.getAttribute("Account"); 
+		 out.print(customerAccountMap);
+			
+			for(int key:customerAccountMap.keySet())
+			{
+				Map<Integer,AccountDetails> accountMap=customerAccountMap.get(key);
+				
+				for(int innerKey:accountMap.keySet())
+				{
+					AccountDetails accountObj=accountMap.get(innerKey);
+					if(accountObj.isAccountStatus()==true)
+					{	
+		
+		%>
+		
+		<option value="<%out.print(accountObj.getAccountId()); %>"><%out.print(accountObj.getAccountId()); %></option>
+		
+		<%
+					}
+				}
+			}
+		
+		%>
+		
+		</select><br><br>
 		
 		<br><label for="Enter" style="background-color:white;">Deposit Amount:</label>
-		<input type="number" id="Enter" min="100" max="100000" name="depositAmount"><br><br>
+		<input type="number" id="Enter" min="100" max="100000" name="depositAmount" required><br><br>
 		<button>Submit</button>
 		</fieldset>
 	</form>

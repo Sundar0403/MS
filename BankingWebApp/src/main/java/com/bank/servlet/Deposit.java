@@ -45,7 +45,10 @@ public class Deposit extends HttpServlet {
 		BankLogic bankObj=new BankLogic();
 		AccountDetails accountObj=new AccountDetails();
 		CustomerDetails customerObj=new CustomerDetails();
-		int actId=Integer.parseInt(request.getParameter("actId"));
+		System.out.println("This is in Deposit");
+		int actId=Integer.parseInt((String)request.getParameter("actId"));
+		System.out.println("This is in Deposit");
+		System.out.println(actId);
 		double amount=Double.parseDouble(request.getParameter("depositAmount"));
 		try
 		{

@@ -26,6 +26,14 @@ public class UtilityClass
     	}
     }
     
+    public void numCheck(int value) throws CustomException
+    {
+    	if(value<0)
+    	{
+    		throw new CustomException("Number Can't be Less Than 0 or Out of Range");
+    	}
+    }
+    
     public void ObjectCheck(Object object) throws CustomException
     {
         if(object==null)

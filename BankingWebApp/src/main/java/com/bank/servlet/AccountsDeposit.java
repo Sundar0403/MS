@@ -11,21 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import account.AccountDetails;
-import excep.CustomException;
 import logic.BankLogic;
-import pojo.CustomerDetails;
 
 /**
- * Servlet implementation class WithdrawServlet
+ * Servlet implementation class AccountsDeposit
  */
-@WebServlet("/WithdrawServlet")
-public class WithdrawServlet extends HttpServlet {
+@WebServlet("/AccountsDeposit")
+public class AccountsDeposit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public WithdrawServlet() {
+    public AccountsDeposit() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,8 +33,10 @@ public class WithdrawServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -45,32 +45,22 @@ public class WithdrawServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		BankLogic bankObj=new BankLogic();
-		AccountDetails accountObj=new AccountDetails();
-		CustomerDetails customerObj=new CustomerDetails();
-		int actId=Integer.parseInt((String)request.getParameter("actId"));
-		double amount=Double.parseDouble(request.getParameter("withdrawAmount"));
+		
+		//int customerId=(int)request.getSession(false).getAttribute("customerId");
 		try
 		{
-			
 			Map<Integer,Map<Integer,AccountDetails>> accountMap=bankObj.readAccount();
-			for(int key:accountMap.keySet())
-			{
-				bankObj.withdraw(key,actId,amount);
-			}
-			accountMap=bankObj.readAccount();
-			System.out.println("----------------This is in Servlet Layer------------------");
-			System.out.println(accountMap);
-			request.setAttribute("AccountDetails",accountMap);
-			RequestDispatcher req=request.getRequestDispatcher("AdminOptions.jsp");
-			req.forward(request, response);
-		}
-		catch(CustomException e)
-		{
-			System.out.println("Can't get the Detils");
+			System.out.println(1);
+			request.setAttribute("Account", accountMap);
+			System.out.println(2);
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Deposit.jsp");
+			System.out.println(3);
+			reqDispatch.forward(request,response);
+			
 		}
 		catch(Exception e)
 		{
-			System.out.println("Can't get the Detils");
+			System.out.println("Exception Occured :"+e.getMessage());
 		}
 	}
 

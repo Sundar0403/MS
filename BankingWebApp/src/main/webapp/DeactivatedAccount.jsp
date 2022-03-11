@@ -13,11 +13,9 @@
 <body>
 	<jsp:include page="CommonOptions.jsp" />
 
-	
-<div>
-	
-		<center><h2>ACCOUNT DETAILS</h2></center>
-	
+	<center>
+		<h2>DEACTIVATED ACCOUNT DETAILS</h2>
+	</center>
 
 	<table bgcolor="white">
 		<tr class="main">
@@ -43,17 +41,16 @@
 			 	        {
 			 	        	
 				        AccountDetails accountObj=inputMap.get(key1);
-				        if(accountObj.isAccountStatus()==true)
+				        if(accountObj.isAccountStatus()==false)
 				        {
 		%>
 			<tr>
 			
-			<td><form action="GetAccount?customerId=<%=accountObj.getCustomerId()  %>&accountId=<%=accountObj.getAccountId()  %>" method="post">
-			<button><%out.print(accountObj.getAccountId()); %></button></form></td>
+			<td><%out.print(accountObj.getAccountId()); %></td>
 			<td><%out.print(accountObj.getAccountNumber()); %></td>
 			<td><%out.print(accountObj.getAccountBalance()); %></td>
 			<td><%out.print(accountObj.getBranchName()); %></td>
-			<td><form action="Deactivate?customerId=<%=accountObj.getCustomerId()  %>&accountId=<%=accountObj.getAccountId()  %>" method="post" ><button>Deactivate</button></form></td>
+			<td><form action="ActivateAccount?customerId=<%=accountObj.getCustomerId()  %>&accountId=<%=accountObj.getAccountId()  %>" method="post" ><button>Activate</button></form></td>
 			</tr>
 		<%
 				        }
@@ -61,6 +58,5 @@
 		}
 		%>
 	</table>
-</div>	
 </body>
 </html>

@@ -1,7 +1,6 @@
 package com.bank.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -14,19 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import account.AccountDetails;
 import excep.CustomException;
 import logic.BankLogic;
-import pojo.CustomerDetails;
 
 /**
- * Servlet implementation class AdminOptions
+ * Servlet implementation class DeactivatedAccount
  */
-@WebServlet("/TransferServlet")
-public class TransferServlet extends HttpServlet {
+@WebServlet("/DeactivatedAccount")
+public class DeactivatedAccount extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TransferServlet() {
+    public DeactivatedAccount() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,35 +42,23 @@ public class TransferServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
 		//doGet(request, response);
 		BankLogic bankObj=new BankLogic();
-		AccountDetails accountObj=new AccountDetails();
-		CustomerDetails customerObj=new CustomerDetails();
-		int fromActId=Integer.parseInt(request.getParameter("fromActId"));
-		int toActId=Integer.parseInt(request.getParameter("toActId"));
-		double amount=Double.parseDouble(request.getParameter("transferAmount"));
-		
 		try
 		{
-			bankObj.amountTransfer(fromActId,toActId,amount);
-			Map<Integer,Map<Integer,AccountDetails>> accountMap=bankObj.readAccount();	
-			//accountMap=bankObj.readAccount();
-			System.out.println("----------------This is in Servlet Layer------------------");
-			System.out.println(accountMap);
+			Map<Integer,Map<Integer,AccountDetails>> accountMap=bankObj.readAccount();
 			request.setAttribute("AccountDetails",accountMap);
-			RequestDispatcher req=request.getRequestDispatcher("AdminOptions.jsp");
-			req.forward(request, response);
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("DeactivatedAccount.jsp");
+			reqDispatch.forward(request,response);
 		}
 		catch(CustomException e)
 		{
-			System.out.println("Can't get the Detils");
+			System.out.println("Details Can't Received");
 		}
 		catch(Exception e)
 		{
-			System.out.println("Can't get the Detils");
+			System.out.println("Details Can't Received");
 		}
 	}
 
 }
-

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@page import="account.AccountDetails" %>
     <%@page import="java.util.Map" %>
+    <%@page import="javax.servlet.RequestDispatcher" %>
     
 <!DOCTYPE html>
 <html>
@@ -9,11 +10,26 @@
 <meta charset="UTF-8">
 <title>CUSTOMER DETAILS</title>
 <link rel="stylesheet" type="text/css" href="CustomerOptions.css">
+<style>
+form.red
+{
+	margin:0px;
+	width:150px;
+	height:300px;
+	
+}
+</style>
 </head>
 <body>
 <h1>Customer Page</h1>
-
+<% if(session.getAttribute("customerId")==null)
+				{
+					RequestDispatcher reqDispatch=request.getRequestDispatcher("Login.jsp");
+					reqDispatch.forward(request,response);
+				}%>
 <jsp:include page="Customer.jsp"/>
+
+
 <table style="background-color:white;">
 <tr class="main">
 	<th>CustomerId</th>
@@ -26,9 +42,11 @@
 
 
 <%Map<Integer,AccountDetails>inputMap=(Map<Integer,AccountDetails>)request.getAttribute("CustomerAccountDetails"); 
-		for(Object key:inputMap.keySet())
+		for(int key:inputMap.keySet())
 		{
 			AccountDetails accountObj=inputMap.get(key);
+			if(accountObj.isAccountStatus()==true)
+			{
 	%>
 		<tr>
 			<td><%out.print(accountObj.getCustomerId()); %></td>
@@ -39,8 +57,10 @@
 			<td><%out.print(accountObj.getBranchName()); %></td>
 			</tr>
 		<%
-			  }
+			}  
+			}
 		%>
+	
 
 </table>
 </body>
