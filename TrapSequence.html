@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+button
+{
+	background-color:rgb(100,200,100);
+	padding:20px;
+	color:black;
+}
+body
+{
+	margin-left:400px;
+	margin-top:200px;
+}	
+</style>
+<script>
+function sum(a)
+{
+	
+	 value=a;
+	 var rem;
+	sum=0;
+	while(value>0)
+	{
+		rem=value%10;
+		
+		sum=sum+rem;
+		alert(sum);
+		value=Math.floor(value/10);
+	}
+	return sum;
+}
+function trapSequence()
+{
+	alert("hi");
+	var n1=3;
+	var n2=13;
+	var b=5;
+	var a=3;
+	var count=0;
+	var value=new Map();
+	
+	while(a<n2)
+	{
+		var add=sum(a);
+		if(a==b || a%b==0 || b%a==0)
+		{
+			count++;
+			value.set(a,b);
+			a=a+1;
+			b=b+2;
+			alert(a);
+		}
+		else if(add==b || add%b==0 || b%add==0)
+		{
+			count++;
+			value.set(add,b);
+			add=add+1;
+			b=b+2;
+			alert(a);
+		}
+		else
+		{
+			a=a+1;
+			alert(a);
+			if(b>3)
+			{
+				b=b-1;
+			}
+			alert(b);
+		}
+	}	
+	for(var value of value)
+	{
+		document.getElementById("trap").innerHTML+=value+" & ";
+	}
+
+}
+</script>
+</head>
+<body>
+	<button onclick="trapSequence()">Generate</button>
+	<p id="trap"></p>
+</body>
+</html>
