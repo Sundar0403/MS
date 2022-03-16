@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+div.first
+{
+	border:1px solid black;
+	text-align:center;
+	margin-left:auto;
+	margin-top:100px;
+	background-color:rgb(100,200,150);
+	margin-right:auto;
+	width:300px;
+	height:200px;
+}
+div.second
+{
+	border:1px solid black;
+	text-align:center;
+	margin-left:auto;
+	margin-top:100px;
+	background-color:rgb(100,200,150);
+	margin-right:auto;
+	width:600px;	
+}
+</style>
+<script>
+function setBoxes()
+{
+	var value=document.getElementById("size").value;
+	for(var i=0;i<value;i++)
+	{
+		
+		var newElement=document.createElement("input");
+		newElement.setAttribute("type","text");
+		newElement.id="father"+i;
+		document.getElementById("second").appendChild(newElement);
+		
+	
+		var newChild=document.createElement("input");
+		newChild.setAttribute("type","text");
+		newChild.id="child"+i;
+		document.getElementById("second").appendChild(newChild);
+		document.getElementById("child"+i).style.marginLeft="10px";
+		document.getElementById("second").appendChild(document.createElement("br"));
+		document.getElementById("second").appendChild(document.createElement("br"));
+	}
+	var submit=document.createElement("input");
+	submit.setAttribute("type","submit");
+	submit.setAttribute("onclick","getDetails()");
+	submit.setAttribute("value","submit");
+	document.getElementById("second").appendChild(submit);
+}
+</script>
+</head>
+<body>
+	<div class="first" id="first">
+	
+		<br><br><label for="num">No. of Details to Enter :</label><br>
+		<input type="number" id="size" size="20"><br><br>
+		<button onclick="setBoxes()" class="first">Submit</button>
+		
+	</div>
+	<div class="second" id="second">
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<b>Father's Name</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<b>Child Name</b><br>
+	</div>
+</body>
+</html>
