@@ -15,7 +15,7 @@ div.first
 	width:300px;
 	height:200px;
 }
-div.second
+div.second,div.third
 {
 	border:1px solid black;
 	text-align:center;
@@ -25,6 +25,11 @@ div.second
 	margin-right:auto;
 	width:600px;	
 }
+button.first
+{
+	padding:10px;
+}
+
 </style>
 <script>
 function setBoxes()
@@ -48,10 +53,30 @@ function setBoxes()
 		document.getElementById("second").appendChild(document.createElement("br"));
 	}
 	var submit=document.createElement("input");
-	submit.setAttribute("type","submit");
+	submit.type="submit";
 	submit.setAttribute("onclick","getDetails()");
-	submit.setAttribute("value","submit");
+	submit.innerText="submit";
 	document.getElementById("second").appendChild(submit);
+}
+function getDetails()
+{
+	var value=document.getElementById("size").value;
+	var map=new Map();
+	var fatherName;
+	var childs;
+	var childName=[];
+	for(var i=0;i<value;i++)
+	{
+		fatherName=document.getElementById("father"+i).value;
+		childs=document.getElementById("child"+i).value;
+		map.set(fatherName,childName[i]);
+		alert("The Details are Registered Successfully");
+	}
+	for(var hi of map)
+	{
+		alert("hi");
+		document.getElementById("third").innerHTML+=hi;
+	}
 }
 </script>
 </head>
@@ -64,7 +89,10 @@ function setBoxes()
 		
 	</div>
 	<div class="second" id="second">
-	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<b>Father's Name</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<b>Child Name</b><br>
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<b>Father Name</b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<b>Child Name</b><br>
+	</div>
+	<div class="third" id="third">
+		
 	</div>
 </body>
 </html>

@@ -1,0 +1,64 @@
+@charset "UTF-8";
+body
+{
+	padding:10px;
+	width:1000px;
+	margin:auto;
+	border:1px solid black;
+}
+div.sidebar
+{
+	padding:10px;
+	margin:0px;
+	width:300px;
+	height:1960px;
+	background-color:grey;
+	opacity:0.9;
+}
+div.sideHeader
+{
+	color:black;
+}
+div.header
+{
+	padding:10px;
+	margin-left:100px;
+	margin-top:-100px;
+	background-color:grey;
+}
+p
+{
+	color:black;
+	opacity:1;
+}
+div.objective
+{
+	margin-top:-1960px;
+	margin-left:340px;
+	padding:10px;
+	background-color:grey;
+}
+div.academic,div.cocurricular,div.extracurricular,div.project,div.interest,div.proficiency,div.skills,div.declaration
+{
+	margin-left:340px;
+	padding:10px;
+	background-color:grey;
+}
+div.academicValue,div.objectiveValue,div.cocurricularValue,div.extracurricularValue,div.projectValue,div.interestValue,div.proficiencyValue,div.signature,div.skillsValue,div.declarationValue
+{
+	margin-left:380px;
+	font-family: "Times New Roman";
+	padding:5px;
+	background-color:white;
+}
+ol
+{
+	margin-left:30px;
+}
+table,th,td
+{
+	padding:7px;
+	font-size:17px;
+	border:1px solid black;
+	border-collapse:collapse;
+}

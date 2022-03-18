@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="MyCalculator.css">
+<script>
+	
+var firstdisp="";
+var seconddisp="";
+var firstvalue=0;
+var array=[];
+	function display(i,oper)
+	{
+		
+		
+		var main="";
+		var operator="";
+		var firstVal="";
+		var count=0;
+		var add=0;
+		var lastCount=0;
+
+		var equals="";
+		++count;
+		if(oper=="0")
+		{	
+				firstdisp=document.getElementById(i).value;
+				document.getElementById("area").innerHTML+=firstdisp;
+				
+		}
+		seconddisp=firstdisp;
+		array+=seconddisp;
+		alert(array);
+		
+		if(oper>0)
+		{
+			
+			
+			document.getElementById("area").innerText="";
+			operator=document.getElementById(oper).value;
+			alert(operator);
+			document.getElementById(oper).style.backgroundColor="red";
+			
+			/*if(oper==0)
+			{
+				alert("hi");
+				seconddisp=document.getElementById(i).value;
+				alert(seconddisp);
+				document.getElementById("area").innerHTML+=seconddisp;	
+				alert("hi");
+			}*/
+		}	
+			if(operator=="=")
+			{
+				
+				firstvalue=parseInt(array[0]);
+				alert(firstvalue);
+				secondvalue=parseInt(array[1]);
+				alert(secondvalue);
+				add=firstvalue+secondvalue;
+				alert(add);
+				
+				document.getElementById('equal').onclick=function()
+				{
+					
+					document.getElementById(oper).style.backgroundColor="orange";
+					document.getElementById(oper).addEventListener("mouseout", function() {
+					document.getElementById(oper).style.backgroundColor="orange";
+					});
+					document.getElementById(oper).addEventListener("mouseover", function() {
+					    document.getElementById(oper).style.backgroundColor = "grey";
+					});
+					document.getElementById("area").innerText="";
+					document.getElementById("area").innerHTML=add;
+				}
+				
+				}
+		}
+		
+	function hide()
+	{
+		document.getElementById("area").style.display="none";
+	}
+	function unhide()
+	{
+		document.getElementById("area").style.display="block";
+	}
+	function clean()
+	{
+		document.getElementById("area").innerHTML="";
+	}
+	function displaySum(add)
+	{
+		alert(add);
+		document.getElementById("area").innerHTML="";
+		document.getElementById("area").innerHTML=add;
+	}
+	function summ()
+	{
+		alert("sum");
+		document.getElementById("sum").style.backgroundColor="red";
+		var firstValue=document.getElementById("area").value;
+		alert(firstValue);
+		document.getElementById("area").style.display="hidden";
+		
+	}
+</script>
+</head>
+<body>
+	<div class="main">
+		<div class="sub">
+		
+			<textarea rows="" cols="37" id="area" readOnly style="font-size:25px;" placeholder="DISPLAY HERE"></textarea>
+		</div><br>
+		<div>
+			<button onclick="display(1,0)" id="1" value="1">1</button>
+			<button onclick="display(2,0)" class="rowOne" id="2" value="2">2</button>
+			<button onclick="display(3,0)" class="rowOne" id="3"value="3">3</button>
+			<button onclick="clean()" class="rowOne" id="clear">C</button>
+			&nbsp&nbsp<button class="rowOne" id="cube">a<sup>3</sup></button>
+		</div><br>
+		<div>
+			<button onclick="display(4,0)" id="4" value="4">4</button>
+			<button onclick="display(5,0)" class="rowOne" id="5" value="5">5</button>
+			<button onclick="display(6,0)" class="rowOne" id="6" value="6">6</button>
+			<button  onclick="display(0,11)" class="rowOne" id="11" value="+">+</button>
+			&nbsp&nbsp&nbsp<button style="padding:25px;" class="rowOne" id="dot">.</button>
+		</div><br>
+		<div>
+			<button onclick="display(7,0)" id="7" value="7">7</button>
+			<button onclick="display(8,0)" class="rowOne" id="8" value="8">8</button>
+			<button onclick="display(9,0)" class="rowOne" id="9" value="9">9</button>
+			<button class="rowOne" id="sub">-</button>
+			&nbsp&nbsp&nbsp&nbsp<button class="rowOne" id="square">a<sup>2</sup></button>
+		</div>
+		<div><br>
+			<button id="division">/</button>
+			<button onclick="display(10,0)" class="rowOne" id="10" value="0">0</button>
+			<button class="rowOne" id="multi">*</button>
+			<button class="rowOne" id="percent">%</button>
+			&nbsp&nbsp&nbsp&nbsp<button onclick="display(0,15)" class="rowOne" id="equal" value="=">=</button>
+		</div>
+	</div>
+</body>
+</html>

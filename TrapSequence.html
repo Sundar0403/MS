@@ -20,69 +20,97 @@ body
 function sum(a)
 {
 	
-	 value=a;
-	 var rem;
-	sum=0;
-	while(value>0)
+	var summ=0;
+	while(a>0)
 	{
-		rem=value%10;
+		rem=a%10;
 		
-		sum=sum+rem;
-		alert(sum);
-		value=Math.floor(value/10);
+		summ=summ+rem;
+		a=Math.floor(a/10);
 	}
-	return sum;
+	return summ;
+}
+function digitSum(summ)
+{
+	if(summ>=10)
+	{
+		var sums=0;
+		while(summ>0)
+		{
+			rems=summ%10;
+			sums=sums+rems;
+			summ=Math.floor(summ/10);
+		}
+		return sums;
+	}
+	return summ;
 }
 function trapSequence()
 {
-	alert("hi");
-	var n1=3;
-	var n2=13;
-	var b=5;
-	var a=3;
+	var a=200;
+	var n2=300;
+	var b=7;
+	var i=0;
 	var count=0;
 	var value=new Map();
 	
-	while(a<n2)
+	
+	var add;
+	var digitAdd;
+	
+	while(a<=n2)
 	{
-		var add=sum(a);
-		if(a==b || a%b==0 || b%a==0)
+		add=sum(a);
+		digitAdd=add;
+		while(digitAdd>9)
 		{
-			count++;
-			value.set(a,b);
-			a=a+1;
-			b=b+2;
-			alert(a);
+			digitAdd=digitSum(digitAdd);
+		}	
+		
+		if(a>n2)
+		{
+			break;
 		}
-		else if(add==b || add%b==0 || b%add==0)
+		if(a%b==0 || b%a==0 || add%b==0 || b%add==0||digitAdd%b==0||b%digitAdd==0)
 		{
-			count++;
-			value.set(add,b);
-			add=add+1;
+			++count;
+			value.set(a,b);
 			b=b+2;
-			alert(a);
+			console.log(a,b);
 		}
 		else
 		{
-			a=a+1;
-			alert(a);
 			if(b>3)
 			{
 				b=b-1;
 			}
-			alert(b);
+			else
+			{
+				b=3;
+			}
+			console.log(a,b);
 		}
+		a++;
 	}	
 	for(var value of value)
 	{
-		document.getElementById("trap").innerHTML+=value+" & ";
+		document.getElementById("trap").innerHTML+="Trap"+" - &nbsp"+(++i)+"&nbsp : &nbsp"+value+"<br>";
 	}
-
+	document.getElementById("count").innerHTML="No of Trap Sequences Occured are :"+count;
 }
 </script>
 </head>
 <body>
 	<button onclick="trapSequence()">Generate</button>
 	<p id="trap"></p>
+	<p id="count"></p>
 </body>
 </html>
+
+
+
+
+
+
+
+
