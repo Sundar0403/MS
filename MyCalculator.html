@@ -7,9 +7,12 @@
 <script>
 	
 var firstdisp="";
+var tempdisp="";
 var seconddisp="";
-var firstvalue=0;
+var lastcount=0;
+var secondvalue=0;
 var array=[];
+
 	function display(i,oper)
 	{
 		
@@ -29,19 +32,22 @@ var array=[];
 				document.getElementById("area").innerHTML+=firstdisp;
 				
 		}
-		seconddisp=firstdisp;
-		array+=seconddisp;
-		alert(array);
+		/*seconddisp=firstdisp;
+		tempdisp=seconddisp;
+		array+=tempdisp;
+		alert(array);*/
 		
 		if(oper>0)
 		{
 			
-			
+			tempdisp+=firstdisp;
+			firstdisp+=seconddisp;
+			seconddisp+=tempdisp;
+			alert(tempdisp);
 			document.getElementById("area").innerText="";
 			operator=document.getElementById(oper).value;
 			alert(operator);
 			document.getElementById(oper).style.backgroundColor="red";
-			
 			/*if(oper==0)
 			{
 				alert("hi");
@@ -51,25 +57,29 @@ var array=[];
 				alert("hi");
 			}*/
 		}	
-			if(operator=="=")
+			if(operator="+" || operator=="=")
 			{
 				
-				firstvalue=parseInt(array[0]);
-				alert(firstvalue);
-				secondvalue=parseInt(array[1]);
-				alert(secondvalue);
-				add=firstvalue+secondvalue;
-				alert(add);
+				
+				firstvalue=parseInt(tempdisp);
+				secondvalue=firstvalue;
+				alert(typeof(secondvalue));
+				/*alert(firstvalue);
+				secondvalue=parseInt(firstdisp[1]);
+				alert(secondvalue);*/
+				
 				
 				document.getElementById('equal').onclick=function()
 				{
-					
-					document.getElementById(oper).style.backgroundColor="orange";
-					document.getElementById(oper).addEventListener("mouseout", function() {
-					document.getElementById(oper).style.backgroundColor="orange";
+					alert(secondvalue);
+					add=add+secondvalue;
+					alert(add);
+					document.getElementById("10").style.backgroundColor="orange";
+					document.getElementById("10").addEventListener("mouseout", function() {
+					document.getElementById("10").style.backgroundColor="orange";
 					});
-					document.getElementById(oper).addEventListener("mouseover", function() {
-					    document.getElementById(oper).style.backgroundColor = "grey";
+					document.getElementById("10").addEventListener("mouseover", function() {
+					    document.getElementById("10").style.backgroundColor = "grey";
 					});
 					document.getElementById("area").innerText="";
 					document.getElementById("area").innerHTML=add;

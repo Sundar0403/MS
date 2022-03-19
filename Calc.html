@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="MyCalculator.css">
+<script>
+	
+var firstvalue=0;
+var secondvalue=0;
+var value=0;
+var operator="";
+
+function numberDisplay(num)
+{
+	document.getElementById("area").value+=	num;
+	firstvalue=Number(document.getElementById("area").value);
+	alert(firstvalue);
+}
+function getOperator(oper)
+{
+	secondvalue=firstvalue;
+	alert(secondvalue);
+	document.getElementById(oper).style.backgroundColor="red";
+	operator=oper;
+	clean();
+}
+function equals(value)
+{
+	
+	
+	document.getElementById(operator).style.backgroundColor="orange";
+	document.getElementById(operator).addEventListener("mouseout",function(){
+		document.getElementById(operator).style.backgroundColor="orange";
+	});
+	document.getElementById(operator).addEventListener("mouseover",function(){
+		document.getElementById(operator).style.backgroundColor="grey";
+	});
+	document.getElementById(operator).addEventListener("click",function(){
+		document.getElementById(operator).style.backgroundColor="red";
+		document.getElementById(operator).addEventListener("mouseout",function(){
+			document.getElementById(operator).style.backgroundColor="red";
+		});
+	});
+
+	switch(operator)
+	{
+	
+		case 11:
+			secondvalue+=firstvalue;
+			value+=secondvalue;
+			document.getElementById("area").value="";
+			document.getElementById("area").value=secondvalue;
+			break;
+			
+		case 12:
+			value=secondvalue-firstvalue;
+			document.getElementById("area").value="";
+			document.getElementById("area").value=value;
+			break;
+			
+		case 13:
+			value=firstvalue*secondvalue;
+			document.getElementById("area").value="";
+			document.getElementById("area").value=value;
+			break;
+			
+		case 14:
+			value=secondvalue/firstvalue;
+			document.getElementById("area").value="";
+			document.getElementById("area").value=value;
+			break;
+	}	
+}
+function clean()
+{
+	document.getElementById("area").value="";
+}	
+
+</script>
+</head>
+<body>
+	<div class="main">
+		<div class="sub">
+		
+			<right><textarea rows="" cols="37" id="area"  readOnly style="font-size:25px;" placeholder="DISPLAY HERE"></textarea><right>
+		</div><br>
+		<div>
+			<button onclick="numberDisplay(1)" id="1" value="1">1</button>
+			<button onclick="numberDisplay(2)" class="rowOne" id="2" value="2">2</button>
+			<button onclick="numberDisplay(3)" class="rowOne" id="3"value="3">3</button>
+			<button onclick="clean()" class="rowOne" id="clear">C</button>
+			&nbsp&nbsp<button class="rowOne" id="cube">a<sup>3</sup></button>
+		</div><br>
+		<div>
+			<button onclick="numberDisplay(4)" id="4" value="4">4</button>
+			<button onclick="numberDisplay(5)" class="rowOne" id="5" value="5">5</button>
+			<button onclick="numberDisplay(6)" class="rowOne" id="6" value="6">6</button>
+			<button  onclick="getOperator(11)" class="rowOne" id="11" value="+">+</button>
+			&nbsp&nbsp&nbsp<button style="padding:25px;" class="rowOne" id="dot">.</button>
+		</div><br>
+		<div>
+			<button onclick="numberDisplay(7)" id="7" value="7">7</button>
+			<button onclick="numberDisplay(8)" class="rowOne" id="8" value="8">8</button>
+			<button onclick="numberDisplay(9)" class="rowOne" id="9" value="9">9</button>
+			<button onclick="getOperator(12)"class="rowOne" id="12" value="-">-</button>
+			&nbsp&nbsp&nbsp&nbsp<button class="rowOne" id="square">a<sup>2</sup></button>
+		</div>
+		<div><br>
+			<button onclick="getOperator(14)" id="14" value="/">/</button>
+			<button onclick="numberDisplay(0)" class="rowOne" id="0" value="0">0</button>
+			<button onclick="getOperator(13)" class="rowOne" id="13" value="*">*</button>
+			<button class="rowOne" id="percent">%</button>
+			&nbsp&nbsp&nbsp&nbsp<button onclick="equals(1)" class="rowOne" id="equal" value="=">=</button>
+		</div>
+	</div>
+</body>
+</html>

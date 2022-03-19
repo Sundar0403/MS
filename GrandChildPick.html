@@ -69,6 +69,7 @@ function getDetails()
 	{
 		fatherName=document.getElementById("father"+i).value;
 		childs=document.getElementById("child"+i).value;
+		if(map.has(fatherName))
 		map.set(fatherName,childName[i]);
 		alert("The Details are Registered Successfully");
 	}

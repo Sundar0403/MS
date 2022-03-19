@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+button
+{
+	background-color:rgb(100,200,100);
+	padding:20px;
+	color:black;
+}
+</style>
+<script>
+function binary(value)
+{
+	var binary=0,remainder=0;
+	var temp=value;
+	var i=1;
+	while(value>0)
+	{
+		remainder=value%2;
+		alert(remainder);
+		binary=binary+remainder*i;
+		i=i*10;
+		value=Math.floor(value/2);
+	}
+	document.getElementById("binary").innerHTML="Binary of Given Value : "+temp+" is "+binary;
+}
+</script>
+</head>
+<body>
+	<button onclick="binary(32)">Click Here</button>
+	<p id="binary"></p>
+</body>
+</html>
