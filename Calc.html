@@ -2,74 +2,274 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>CALCULATOR 1</title>
 <link rel="stylesheet" type="text/css" href="MyCalculator.css">
 <script>
 	
 var firstvalue=0;
 var secondvalue=0;
-var value=0;
+var tempvalue=0;
+var values=0;
 var operator="";
+var operate=[];
+var tempOper=[];
+var count=0;
 
 function numberDisplay(num)
 {
-	document.getElementById("area").value+=	num;
-	firstvalue=Number(document.getElementById("area").value);
-	alert(firstvalue);
+	if(firstvalue!=null&&firstvalue!=0&&tempOper!=null&&tempOper!="")
+	{	
+		document.getElementById("area").value+=	num;
+		secondvalue=Number(document.getElementById("area").value);
+		operate="";
+	}
+	else
+	{
+		document.getElementById("area").value+=	num;
+		firstvalue=Number(document.getElementById("area").value);
+	}
+	tempvalue=operations(tempOper);
 }
+function operations(operate)
+{
+	if(secondvalue!=0&&operate=="+")
+	{
+		values=firstvalue+secondvalue;
+		firstvalue=values;
+		return values;
+	}
+	if(secondvalue!=0&&operate=="-")
+	{
+		values=firstvalue-secondvalue;
+		alert(values);
+		firstvalue=values;
+		return values;
+	}
+	if(secondvalue!=0&&operate=="*")
+	{
+		if(operate[1]=='-')
+		{	
+			values=firstvalue*(-secondvalue);
+			alert(values);
+			firstvalue=values;
+			return values;
+		}
+		if(!operate[1])
+		{
+			values=firstvalue*secondvalue;
+			firstvalue=values;
+			return values;
+		}
+	}
+	if(secondvalue!=0&&operate=="/")
+	{
+		if(operate[1]=='-'||operate[1]=='+/')
+		{
+			values=firstvalue/(-secondvalue);
+			alert(values);
+			firstvalue=values;
+			return values;
+		}
+		if(!tempOper[1])
+		{
+			values=firstvalue/secondvalue;
+			alert(values);
+			firstvalue=values;
+			return values;
+		}	
+	}
+}
+
 function getOperator(oper)
 {
-	secondvalue=firstvalue;
-	alert(secondvalue);
-	document.getElementById(oper).style.backgroundColor="red";
-	operator=oper;
-	clean();
+	count++;
+	operate+=document.getElementById(oper).value;
+	tempOper=operate;
+	if(firstvalue>0||firstvalue<0)
+	{	
+		document.getElementById(oper).style.backgroundColor="red";
+		operator=oper;
+		clean();
+	}
+	if(!document.getElementById("equal").onclick)
+	{
+		while(true)
+		{	
+			document.getElementById(oper).style.backgroundColor="red";
+		}	
+	}
+	if(operate[0]=='+'&&operate[1]=='-')
+	{
+		document.getElementById("area").value+=	operate[1];
+		firstvalue=Number(document.getElementById("area").value);
+		document.getElementById(operator).style.backgroundColor="orange";
+		document.getElementById(operator).addEventListener("mouseout",function(){
+			document.getElementById(operator).style.backgroundColor="orange";
+		});
+		document.getElementById(operator).addEventListener("mouseover",function(){
+			document.getElementById(operator).style.backgroundColor="grey";
+		});
+	}
+	if(operate[0]=='-'&&operate[1]=='+'||operate[0]=='*'&&operate[1]=='/'||operate[0]=='/'&&operate[1]=='*')
+	{
+		document.getElementById(operate[0]).style.backgroundColor="orange";
+		document.getElementById(operate[0]).addEventListener("mouseout",function(){
+			document.getElementById(operate[0]).style.backgroundColor="orange";
+		});
+		document.getElementById(operate[0]).addEventListener("mouseover",function(){
+			document.getElementById(operate[0]).style.backgroundColor="grey";
+		});
+		document.getElementById(oper).style.backgroundColor="red";
+	}
+	if(operate[0]=='*'&&operate[1]=='+'||operate[0]=='/'&&operate[1]=='+')
+	{
+		document.getElementById(operate[1]).style.backgroundColor="orange";
+		document.getElementById(operate[1]).addEventListener("mouseout",function(){
+			document.getElementById(operate[1]).style.backgroundColor="orange";
+		});
+		document.getElementById(operate[1]).addEventListener("mouseover",function(){
+			document.getElementById(operate[1]).style.backgroundColor="grey";
+		});
+		document.getElementById(operate[0]).style.backgroundColor="red";	
+	}	
+	if(operate[0]=='-'&&operate[1]=='-')
+	{
+		document.getElementById("area").value+=	operate[1];
+		firstvalue=Number(document.getElementById("area").value);
+	}
+	
+	if(operate[0]=='+'&&operate[1]=='+')
+	{
+		clean();
+	}
+	if(count>2&&operate[1]!='-')
+	{
+		operating=operate.length;
+		for(i=0;i<operating-1;i++)
+		{	
+		document.getElementById(operate[i]).style.backgroundColor="orange";
+		document.getElementById(operate[i]).addEventListener("mouseout",function(){
+			document.getElementById(operate[i]).style.backgroundColor="orange";
+		});
+		document.getElementById(operate[i]).addEventListener("mouseover",function(){
+			document.getElementById(operate[i]).style.backgroundColor="grey";
+		});
+		}
+		document.getElementById(operate[operating-1]).style.backgroundColor="red";
+		tempOper=operate[operating-1];
+		alert(tempOper);
+	}
+	if(count>2&&operate[1]=='-')
+	{
+		return tempOper;
+	}	
+	if(operate[1]=='-')
+	{
+		return operate;
+	}	
+	if(operate[0]=='+'&&operate[1]=='*'||operate[0]=='-'&&operate[1]=='*'||operate[0]=='+'&&operate[1]=='/'||operate[0]=='-'&&operate[1]=='/')
+	{
+		document.getElementById(operate[0]).style.backgroundColor="orange";
+		document.getElementById(operate[0]).addEventListener("mouseout",function(){
+			document.getElementById(operate[0]).style.backgroundColor="orange";
+		});
+		document.getElementById(operate[0]).addEventListener("mouseover",function(){
+			document.getElementById(operate[0]).style.backgroundColor="grey";
+		});
+		document.getElementById(oper).style.backgroundColor="red";
+	}
+	
+	if(firstvalue==0&&operate=="-")
+	{
+		document.getElementById("area").value+=	operate;
+		firstvalue=Number(document.getElementById("area").value);
+	}	
+}
+function negativeOperator(oper)
+{
+		
 }
 function equals(value)
 {
-	
-	
-	document.getElementById(operator).style.backgroundColor="orange";
-	document.getElementById(operator).addEventListener("mouseout",function(){
-		document.getElementById(operator).style.backgroundColor="orange";
+	document.getElementById(tempOper[0]).style.backgroundColor="orange";
+	document.getElementById(tempOper[0]).addEventListener("mouseout",function(){
+		document.getElementById(tempOper[0]).style.backgroundColor="orange";
 	});
-	document.getElementById(operator).addEventListener("mouseover",function(){
-		document.getElementById(operator).style.backgroundColor="grey";
+	document.getElementById(tempOper[0]).addEventListener("mouseover",function(){
+		document.getElementById(tempOper[0]).style.backgroundColor="grey";
 	});
-	document.getElementById(operator).addEventListener("click",function(){
-		document.getElementById(operator).style.backgroundColor="red";
-		document.getElementById(operator).addEventListener("mouseout",function(){
-			document.getElementById(operator).style.backgroundColor="red";
+	document.getElementById(tempOper[0]).addEventListener("click",function(){
+		document.getElementById(tempOper[0]).style.backgroundColor="red";
+		document.getElementById(tempOper[0]).addEventListener("mouseout",function(){
+			document.getElementById(tempOper[0]).style.backgroundColor="red";
 		});
 	});
+	if(tempOper[1])
+	{	
+		for(i=0;i<tempOper.length;i++)
+		{	
+		document.getElementById(tempOper[i]).style.backgroundColor="orange";
+	document.getElementById(tempOper[i]).addEventListener("mouseout",function(){
+		document.getElementById(tempOper[i]).style.backgroundColor="orange";
+	});
+	document.getElementById(tempOper[i]).addEventListener("mouseover",function(){
+		document.getElementById(tempOper[i]).style.backgroundColor="grey";
+	});
+	document.getElementById(tempOper[i]).addEventListener("click",function(){
+		document.getElementById(tempOper[i]).style.backgroundColor="red";
+		document.getElementById(tempOper[i]).addEventListener("mouseout",function(){
+			document.getElementById(tempOper[i]).style.backgroundColor="red";
+		});
+	});
+	}
+	}
 
-	switch(operator)
+	
+	switch(tempOper)
 	{
 	
-		case 11:
-			secondvalue+=firstvalue;
-			value+=secondvalue;
+		case '+': case '+-': case '-+': case '++':
+			
 			document.getElementById("area").value="";
-			document.getElementById("area").value=secondvalue;
+			document.getElementById("area").value=tempvalue;
 			break;
 			
-		case 12:
-			value=secondvalue-firstvalue;
+		case '-': case '--':
+
 			document.getElementById("area").value="";
-			document.getElementById("area").value=value;
+			document.getElementById("area").value=tempvalue;
 			break;
 			
-		case 13:
-			value=firstvalue*secondvalue;
-			document.getElementById("area").value="";
-			document.getElementById("area").value=value;
-			break;
+		case'*': case '+*': case '-*': case '/*': case '*+':
 			
-		case 14:
-			value=secondvalue/firstvalue;
-			document.getElementById("area").value="";
-			document.getElementById("area").value=value;
-			break;
+			if(!tempOper[1]||tempOper[1]=='*'||tempOper[1]=='+')
+			{	
+				document.getElementById("area").value="";
+				document.getElementById("area").value=tempvalue;
+				break;
+			}
+			if(tempOper[1]=='-')
+			{	
+				document.getElementById("area").value="";
+				document.getElementById("area").value=tempvalue;
+				break;
+			}
+			
+		case '/': case '+/': case '-/': case '*/': case '/+':
+			
+			if(!tempOper[1]||tempOper[1]=='/'||tempOper[1]=='+')
+			{	
+				
+				document.getElementById("area").value="";
+				document.getElementById("area").value=tempvalue;
+				break;
+			}
+			if(tempOper[1]=='-')
+			{	
+				document.getElementById("area").value="";
+				document.getElementById("area").value=tempvalue;
+				break;
+			}
 	}	
 }
 function clean()
@@ -80,7 +280,9 @@ function clean()
 </script>
 </head>
 <body>
+    <center ><h1 style="margin-top:250px;">CALCULATOR</h1></center>
 	<div class="main">
+		
 		<div class="sub">
 		
 			<right><textarea rows="" cols="37" id="area"  readOnly style="font-size:25px;" placeholder="DISPLAY HERE"></textarea><right>
@@ -96,20 +298,20 @@ function clean()
 			<button onclick="numberDisplay(4)" id="4" value="4">4</button>
 			<button onclick="numberDisplay(5)" class="rowOne" id="5" value="5">5</button>
 			<button onclick="numberDisplay(6)" class="rowOne" id="6" value="6">6</button>
-			<button  onclick="getOperator(11)" class="rowOne" id="11" value="+">+</button>
-			&nbsp&nbsp&nbsp<button style="padding:25px;" class="rowOne" id="dot">.</button>
+			<button  onclick="getOperator('+')" class="rowOne" id="+" value="+">+</button>
+			&nbsp&nbsp&nbsp<button onclick="numberDisplay('.')" style="padding:25px;" class="rowOne" id="." value=".">.</button>
 		</div><br>
 		<div>
 			<button onclick="numberDisplay(7)" id="7" value="7">7</button>
 			<button onclick="numberDisplay(8)" class="rowOne" id="8" value="8">8</button>
 			<button onclick="numberDisplay(9)" class="rowOne" id="9" value="9">9</button>
-			<button onclick="getOperator(12)"class="rowOne" id="12" value="-">-</button>
+			<button onclick="getOperator('-')"class="rowOne" id="-" value="-">-</button>
 			&nbsp&nbsp&nbsp&nbsp<button class="rowOne" id="square">a<sup>2</sup></button>
 		</div>
 		<div><br>
-			<button onclick="getOperator(14)" id="14" value="/">/</button>
+			<button onclick="getOperator('/')" id="/" value="/">/</button>
 			<button onclick="numberDisplay(0)" class="rowOne" id="0" value="0">0</button>
-			<button onclick="getOperator(13)" class="rowOne" id="13" value="*">*</button>
+			<button onclick="getOperator('*')" class="rowOne" id="*" value="*">*</button>
 			<button class="rowOne" id="percent">%</button>
 			&nbsp&nbsp&nbsp&nbsp<button onclick="equals(1)" class="rowOne" id="equal" value="=">=</button>
 		</div>
