@@ -35,6 +35,8 @@ button
 	font-size:20px;
 	border-radius:20px;
 	background-color:white;
+	 box-shadow: 5px 5px white;
+	transform: translateY(4px);
 	padding:25px;
 }
 button:hover
@@ -49,6 +51,8 @@ button.rowOne
 	color:black;
 	margin-left:40px;
 	background-color:white;
+	 box-shadow: 5px 5px white;
+	transform: translateY(4px);
 	padding:25px;
 }
 button.rowOne:hover
