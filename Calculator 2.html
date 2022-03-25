@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>CALCULATOR 2</title>
+<title>CALCULATOR 3</title>
 <link rel="stylesheet" type="text/css" href="MyCalculator.css">
 <script>
 	
@@ -13,6 +13,7 @@ var secondNumber="";
 var tempvalue=0;
 var disp="";
 var values=0;
+var newOper="";
 var operator=[];
 var operate=[];
 var tempOper=[];
@@ -28,7 +29,6 @@ function numberDisplay(num)
 	{	
 		separator="";
 		document.getElementById("area").value+=	num;
-		
 		separator=separate(document.getElementById("area").value);
 		document.getElementById("area").value=separator;
 		secondvalue=Number(separator.replaceAll(",",""));
@@ -55,11 +55,60 @@ function numberDisplay(num)
 }
 function separate(num)
 {
+	var firstSymbol="";
+	if(num.includes("-"))
+	{
+		alert("inside");
+		var index=num.indexOf(".");
+		//	alert(index);
+			firstSymbol=num.substring(0,1);
+			var firstString=num.substring(1,index);
+//			alert(firstString);
+			var lastString=num.substring(index,num.length);
+//			alert(lastString);
+			var temp=firstString.replaceAll(",","");
+			var numbers=Number(temp);
+			var newNumber="";
+			if(numbers>999)
+			{
+				
+				var arr=[];	
+				arr=temp.split("");
+				var count=0;
+				var length=arr.length;
+				var lastDigit=arr[length-1];
+				
+				
+				for(var i=length-2;i>=0;i--)
+				{
+					newNumber=arr[i]+newNumber;
+					
+					if(count==1 && i!=0)
+					{
+						newNumber=","+newNumber;
+						count=0;
+					}
+					else
+					{
+						count++;
+					}	
+				}
+				newNumber=firstSymbol+newNumber+lastDigit+lastString;
+				
+				
+			}
+			else
+			{
+				return num;
+			}	
+			return newNumber;
+	}	
 	if(num.includes("."))
 	{
 		var index=num.indexOf(".");
 	//	alert(index);
-		var firstString=num.substring(0,index);
+		
+		var firstString=num.substring(1,index);
 //		alert(firstString);
 		var lastString=num.substring(index,num.length);
 //		alert(lastString);
@@ -90,7 +139,7 @@ function separate(num)
 					count++;
 				}	
 			}
-			newNumber=newNumber+lastDigit+lastString;
+			newNumber=firstSymbol+newNumber+lastDigit+lastString;
 			
 			
 		}
@@ -147,14 +196,12 @@ function operations(operate)
 	alert(operate);
 	if(firstvalue!=0&&operate=="+"||secondvalue!=0&&firstvalue!=0&&operate=="-+"||secondvalue!=0&&operate=="++")
 	{
-		if(secondvalue==0&&count==1)
+		if(secondvalue==0&&counts==1)
 		{	
 			values=firstvalue+secondvalue;
 	//		alert(values);
 			firstvalue=values;
 		}
-		else
-		{	
 			values=0;
 //			alert(firstvalue);
 //			alert(secondvalue);
@@ -162,31 +209,49 @@ function operations(operate)
 			firstvalue=values;
 		//	alert(values);
 			return values;
-		}
+
 		
 	}
 
 	if(firstvalue!=0&&operate=="-"||secondvalue!=0&&operate=="--"||secondvalue!=0&&operate=="+-")
 	{
-//		alert(operate);	
-		if(secondvalue==0&&counts==1)
+		var c=0;
+		c++;
+		alert("count"+counts);	
+		if(firstvalue>0&&secondvalue==0&&counts==1)
 		{
+			alert("INSIDE COUNT");
 			values=0;
 			values=values+firstvalue;
+			//alert(values);
 			firstvalue=values;
 		}
-		if(secondvalue<0)
+	
+		if(secondvalue<0&&c==1)
 		{
+			
 			values=0;
-			values=firstvalue+secondvalue;
 			firstvalue=values;
+			//alert(values);
+		}
+		if(secondvalue<0&&count>1||firstvalue>0&&secondvalue<0)
+		{	
+			//alert("firstvalue"+ firstvalue);
+			//alert("secondvalue"+ secondvalue);
+			values=firstvalue-secondvalue;
+			firstvalue=values;
+			//alert(values);
+			//alert(firstvalue);
 			return values;
 		}	
+			
+		else
+		{	
 			values=0;
 			values=firstvalue-secondvalue;
 			firstvalue=values;
-			return values;
-			
+			return values;	
+		}	
 	}
 	if(firstvalue!=0&&operate=="*"||secondvalue!=0&&operate=="*-"||secondvalue!=0&&operate=="-*"||secondvalue!=0&&operate=="+*"||secondvalue!=0&&operate=="/*"||secondvalue!=0&&operate=="*+")
 	{
@@ -208,9 +273,9 @@ function operations(operate)
 		}
 		if(!operate[1]&&counts>1||operate[1]=='*'&&counts>1||operate[1]=='+'&&counts>1)
 		{
-//			alert(counts);
-//			alert(equalCount);
-//			alert(firstvalue);
+		alert(counts);
+			alert(equalCount);
+			alert(firstvalue);
 			values=firstvalue*secondvalue;
 			firstvalue=values;
 			return values;
@@ -270,9 +335,15 @@ function getOperator(oper)
 		tempOper=operate[operate.length-1];
 //		alert(tempOper);
 	}
+	if(firstvalue>0||firstvalue<0||firstvalue==0)
+	{	
+		document.getElementById(oper).style.backgroundColor="red";
+		operator=oper;
+		clean();
+	}
 	if(firstvalue==0&&operate=="-")
 	{
-		alert(operate);
+		//alert(operate);
 		document.getElementById("area").value+=operate;
 	}
 	if(operate[1]=='-')
@@ -281,19 +352,7 @@ function getOperator(oper)
 		document.getElementById("area").value=	operate[1];
 		seconddisp=document.getElementById("area").value;
 	}
-	if(secondvalue==0||i==1)
-	{
-		tempvalue=operations(tempOper);
-		document.getElementById(operate).style.backgroundColor="white";
-		document.getElementById(operate).addEventListener("mouseout",function(){
-			document.getElementById(operate).style.backgroundColor="white";
-		});
-		document.getElementById(operate).addEventListener("mouseover",function(){
-			document.getElementById(operate).style.backgroundColor="grey";
-		});
-		operator=tempOper;
-		
-	}
+	
 	
 	if(operate.length>1)
 	{
@@ -308,7 +367,8 @@ function getOperator(oper)
 		{	
 //			alert(count);
 //			alert(operator);
-			tempvalue=operations(operator);
+			alert(operator);
+			tempvalue=operations(newOper);
 			operator=tempOper;
 		}
 		
@@ -318,12 +378,7 @@ function getOperator(oper)
 			operator=tempOper;
 		}	*/
 	}
-	if(firstvalue>0||firstvalue<0||firstvalue==0)
-	{	
-		document.getElementById(oper).style.backgroundColor="red";
-		operator=oper;
-		clean();
-	}
+	
 	if(!document.getElementById("equal").onclick)
 	{
 		while(true)
@@ -358,7 +413,19 @@ function getOperator(oper)
 	{
 		document.getElementById("area").value=	operate[1];
 	}
-	
+	if(secondvalue==0||i==1)
+	{
+		tempvalue=operations(tempOper);
+		document.getElementById(operate).style.backgroundColor="white";
+		document.getElementById(operate).addEventListener("mouseout",function(){
+			document.getElementById(operate).style.backgroundColor="white";
+		});
+		document.getElementById(operate).addEventListener("mouseover",function(){
+			document.getElementById(operate).style.backgroundColor="grey";
+		});
+		operator=tempOper;
+		
+	}
 	if(operate[0]=='+'&&operate[1]=='+')
 	{
 		clean();
@@ -393,7 +460,7 @@ function getOperator(oper)
 		document.getElementById(oper).style.backgroundColor="red";
 	}
 	
-		
+	newOper=operate;	
 }
 function negativeOperator(oper)
 {
@@ -540,7 +607,6 @@ function clean()
 {
 	document.getElementById("area").value="";
 	//document.getElementsByTagName("button").style.backgroundColor="(180,150,200)";
-	separate('1000000');
 }	
 
 </script>
@@ -554,7 +620,7 @@ function clean()
 </style>
 </head>
 <body style="background-color:rgb(100,100,100);">
-    <center ><h1 style="margin-top:250px;">CALCULATOR 2</h1></center>
+    <center ><h1 style="margin-top:250px;">CALCULATOR 3</h1></center>
 	<div class="main">
 		<div class="sub" style="background-color:black;">
 			<right><input type="text" rows="" size="46" id="area1"  readOnly style="font-size:20px;" ><right>
