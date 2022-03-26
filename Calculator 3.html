@@ -370,6 +370,14 @@ function getOperator(oper)
 			alert(operator);
 			tempvalue=operations(newOper);
 			operator=tempOper;
+			document.getElementById(newOper).style.backgroundColor="white";
+			document.getElementById(newOper).addEventListener("mouseout",function(){
+				document.getElementById(newOper).style.backgroundColor="white";
+			});
+			document.getElementById(newOper).addEventListener("mouseover",function(){
+				document.getElementById(newOper).style.backgroundColor="grey";
+			});
+			document.getElementById(operator).style.backgroundColor="red";
 		}
 		
 		/*if(count>1)
@@ -389,26 +397,26 @@ function getOperator(oper)
 	
 	if(operate[0]=='-'&&operate[1]=='+'||operate[0]=='*'&&operate[1]=='/'||operate[0]=='/'&&operate[1]=='*')
 	{
-		document.getElementById(operate[0]).style.backgroundColor="rgb(180,150,200)";
-		document.getElementById(operate[0]).addEventListener("mouseout",function(){
-			document.getElementById(operate[0]).style.backgroundColor="rgb(180,150,200)";
+		document.getElementById(newOper).style.backgroundColor="white";
+		document.getElementById(newOper).addEventListener("mouseout",function(){
+			document.getElementById(newOper).style.backgroundColor="white";
 		});
-		document.getElementById(operate[0]).addEventListener("mouseover",function(){
-			document.getElementById(operate[0]).style.backgroundColor="grey";
+		document.getElementById(newOper).addEventListener("mouseover",function(){
+			document.getElementById(newOper).style.backgroundColor="grey";
 		});
-		document.getElementById(oper).style.backgroundColor="red";
+		document.getElementById(operator).style.backgroundColor="red";
 	}
 	if(operate[0]=='*'&&operate[1]=='+'||operate[0]=='/'&&operate[1]=='+')
 	{
-		document.getElementById(operate[1]).style.backgroundColor="rgb(180,150,200)";
-		document.getElementById(operate[1]).addEventListener("mouseout",function(){
-			document.getElementById(operate[1]).style.backgroundColor="rgb(180,150,200)";
+		document.getElementById(newOper).style.backgroundColor="white";
+		document.getElementById(newOper).addEventListener("mouseout",function(){
+			document.getElementById(newOper).style.backgroundColor="white";
 		});
-		document.getElementById(operate[1]).addEventListener("mouseover",function(){
-			document.getElementById(operate[1]).style.backgroundColor="grey";
+		document.getElementById(newOper).addEventListener("mouseover",function(){
+			document.getElementById(newOper).style.backgroundColor="grey";
 		});
-		document.getElementById(operate[0]).style.backgroundColor="red";	
-	}	
+		document.getElementById(operator).style.backgroundColor="red";	
+	}
 	if(operate[0]=='-'&&operate[1]=='-')
 	{
 		document.getElementById("area").value=	operate[1];
@@ -435,29 +443,29 @@ function getOperator(oper)
 		operating=operate.length;
 		for(var j=0;j<operating-1;j++)
 		{	
-		document.getElementById(operate[j]).style.backgroundColor="rgb(180,150,200)";
-		document.getElementById(operate[j]).addEventListener("mouseout",function(){
-			document.getElementById(operate[j]).style.backgroundColor="rgb(180,150,200)";
+		document.getElementById(newOper).style.backgroundColor="white";
+		document.getElementById(newOper).addEventListener("mouseout",function(){
+			document.getElementById(newOper).style.backgroundColor="white";
 		});
-		document.getElementById(operate[j]).addEventListener("mouseover",function(){
-			document.getElementById(operate[j]).style.backgroundColor="grey";
+		document.getElementById(newOper).addEventListener("mouseover",function(){
+			document.getElementById(newOper).style.backgroundColor="grey";
 		});
 		}
-		document.getElementById(operate[operating-1]).style.backgroundColor="red";
+		document.getElementById(operator).style.backgroundColor="red";
 		tempOper=operate[operating-1];
 	}
 	
 	
 	if(operate[0]=='+'&&operate[1]=='*'||operate[0]=='-'&&operate[1]=='*'||operate[0]=='+'&&operate[1]=='/'||operate[0]=='-'&&operate[1]=='/')
 	{
-		document.getElementById(operate[0]).style.backgroundColor="rgb(180,150,200)";
-		document.getElementById(operate[0]).addEventListener("mouseout",function(){
-			document.getElementById(operate[0]).style.backgroundColor="rgb(180,150,200)";
+		document.getElementById(newOper).style.backgroundColor="white";
+		document.getElementById(newOper).addEventListener("mouseout",function(){
+			document.getElementById(newOper).style.backgroundColor="white";
 		});
-		document.getElementById(operate[0]).addEventListener("mouseover",function(){
-			document.getElementById(operate[0]).style.backgroundColor="grey";
+		document.getElementById(newOper).addEventListener("mouseover",function(){
+			document.getElementById(newOper).style.backgroundColor="grey";
 		});
-		document.getElementById(oper).style.backgroundColor="red";
+		document.getElementById(operator).style.backgroundColor="red";
 	}
 	
 	newOper=operate;	
@@ -471,9 +479,9 @@ function equals(value)
 //	alert("equal "+tempOper);
 	equalCount++;
 	tempvalue=operations(tempOper);
-	document.getElementById(tempOper[0]).style.backgroundColor="rgb(180,150,200)";
+	document.getElementById(tempOper[0]).style.backgroundColor="white";
 	document.getElementById(tempOper[0]).addEventListener("mouseout",function(){
-		document.getElementById(tempOper[0]).style.backgroundColor="rgb(180,150,200)";
+		document.getElementById(tempOper[0]).style.backgroundColor="white";
 	});
 	document.getElementById(tempOper[0]).addEventListener("mouseover",function(){
 		document.getElementById(tempOper[0]).style.backgroundColor="grey";
@@ -488,9 +496,9 @@ function equals(value)
 	{	
 		for(i=0;i<tempOper.length;i++)
 		{	
-		document.getElementById(tempOper[i]).style.backgroundColor="rgb(180,150,200)";
+		document.getElementById(tempOper[i]).style.backgroundColor="white";
 	document.getElementById(tempOper[i]).addEventListener("mouseout",function(){
-		document.getElementById(tempOper[i]).style.backgroundColor="rgb(180,150,200)";
+		document.getElementById(tempOper[i]).style.backgroundColor="white";
 	});
 	document.getElementById(tempOper[i]).addEventListener("mouseover",function(){
 		document.getElementById(tempOper[i]).style.backgroundColor="grey";
@@ -633,7 +641,7 @@ function clean()
 			<button onclick="numberDisplay(2)" class="rowOne" id="2" value="2">2</button>
 			<button onclick="numberDisplay(3)" class="rowOne" id="3"value="3">3</button>
 			<button onclick="clean()" class="rowOne" id="clear">C</button>
-			&nbsp&nbsp<button class="rowOne" id="(">(</button>
+			&nbsp&nbsp<button onclick="numberDisplay('(')"class="rowOne" id="(" value="(">(</button>
 		</div><br>
 		<div>
 			<button onclick="numberDisplay(4)" id="4" value="4">4</button>
@@ -647,7 +655,7 @@ function clean()
 			<button onclick="numberDisplay(8)" class="rowOne" id="8" value="8">8</button>
 			<button onclick="numberDisplay(9)" class="rowOne" id="9" value="9">9</button>
 			<button onclick="getOperator('-')"class="rowOne" id="-" value="-">-</button>
-			&nbsp&nbsp&nbsp&nbsp<button class="rowOne" id=")">)</button>
+			&nbsp&nbsp&nbsp&nbsp<button onclick="numberDisplay(')')"class="rowOne" id=")" value=")">)</button>
 		</div>
 		<div><br>
 			<button onclick="getOperator('/')" id="/" value="/">/</button>
