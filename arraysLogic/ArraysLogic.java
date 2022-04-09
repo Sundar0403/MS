@@ -112,6 +112,10 @@ public class ArraysLogic
 		scan.nextLine();
 		System.out.println(newMap.get(number));
 	}
+	public void closestSumArray(int arr[],int num)
+	{
+		
+	}
 	public void misMatchArray(String arr1[],String arr2[],int num)
 	{
 		String result="";

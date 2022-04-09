@@ -19,6 +19,19 @@ public class ArraysMain
 		}
 		logicObj.printArrays(arr);
 	}
+	private void closestSumArray()
+	{
+		
+		int num=scan.nextInt();
+		scan.nextLine();
+		int arr[]=new int[num];
+		for(int i=0;i<num,;i++)
+		{
+			arr[i]=scan.nextInt();
+				
+		}
+		logicObj.closestSumArray(arr,num);
+	}
 	private void rotateArray()
 	{
 		int num=scan.nextInt();
