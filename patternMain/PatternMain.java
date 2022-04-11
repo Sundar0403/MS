@@ -12,6 +12,12 @@ public class PatternMain
 		scan.nextLine();
 		logicObj.rightTrianglePattern(num);
 	}
+	private void rightPascalTrianglePattern()
+	{
+		int num=scan.nextInt();
+		scan.nextLine();
+		logicObj.rightPascalTrianglePattern(num);
+	}
 	private void numberPattern()
 	{
 		int num=scan.nextInt();
@@ -28,7 +34,7 @@ public class PatternMain
 	{
 		int num=scan.nextInt();
 		scan.nextLine();
-		//logicObj.leftTrianglePattern(num);
+		logicObj.pyramidPattern(num);
 	}
 	private void leftTrianglePattern()
 	{
@@ -46,12 +52,20 @@ public class PatternMain
 		switch(choice)
 		{
 			
+			case 1:
+				mainObj.pyramidPattern();
+				break;
+			
 			case 2:
 				mainObj.rightTrianglePattern();
 				break;
 				
 			case 3:
 				mainObj.leftTrianglePattern();
+				break;	
+				
+			case 6:
+				mainObj.rightPascalTrianglePattern();
 				break;	
 				
 			case 9:

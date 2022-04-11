@@ -9,7 +9,28 @@ public class PatternLogic
 		{
 			for(int j=0;j<=i;j++)
 			{
-				System.out.print("* ");
+				System.out.print("*");
+			}
+			System.out.println();
+		}
+	}
+	public void rightPascalTrianglePattern(int num)
+	{
+		for(int i=0;i<num;i++)
+		{
+			for(int j=0;j<=i;j++)
+			{
+				System.out.print("*");
+				System.out.print(" ");
+			}
+			System.out.println();
+		}
+		for(int k=num-2;k>=0;k--)
+		{
+			for(int l=0;l<=k;l++)
+			{
+				System.out.print("*");
+				System.out.print(" ");
 			}
 			System.out.println();
 		}
@@ -78,13 +99,25 @@ public class PatternLogic
 			count--;
 		}
 	}
-/*	public void leftTrianglePattern(int num)
+	public void pyramidPattern(int num)
 	{
 		int count=num-1;
-		for(int i=0;i<num;i++)
+		for(int i=num-1;i>=0;i--)
 		{
-			for(int j=num-1;j
+			for(int j=0;j<num;j++)
+			{
+				if(j>=count)
+				{
+					System.out.print("* ");
+					count--;
+				}
+				else
+				{
+					System.out.print(" ");
+				}	
+			}
+			System.out.println();
 		}
-	}*/
+	}
 }
 
