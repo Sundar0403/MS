@@ -2,11 +2,11 @@ package account;
 
 public class AccountDetails
 {
-	private static int customerId;
-	private static int accountId;
-	private static double accountBalance=0.0;
-	private static String branch; 
-	private static boolean accountStatus=true;
+	private int customerId;
+	private int accountId;
+	private double accountBalance=0.0;
+	private String branch; 
+	private boolean accountStatus=true;
 	
 	public void setCustomerId(int customerId)
 	{

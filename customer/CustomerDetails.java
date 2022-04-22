@@ -3,11 +3,11 @@ import java.util.*;
 
 public class CustomerDetails
 {
-	private static int custId;
-	private static String customerName;
-	private static String userId;
-	private static String customerPassword;
-	private static boolean customerStatus=true;
+	private int custId;
+	private String customerName;
+	private String userId;
+	private String customerPassword;
+	private boolean customerStatus=true;
 	
 	public void setCustomerId(int custId)
 	{
@@ -51,6 +51,6 @@ public class CustomerDetails
 	
 	public String toString()
 	{
-		return "CustomerId = "+custId+"{"+"Customer Name="+customerName+" , "+"User Id="+userId+" , "+"Customer Password="+customerPassword+" , "+"Customer Status="+customerStatus+"}";
+		return "CustomerId ={"+"Customer Name="+customerName+" , "+"User Id="+userId+" , "+"Customer Password="+customerPassword+" , "+"Customer Status="+customerStatus+"}";
 	}
 }

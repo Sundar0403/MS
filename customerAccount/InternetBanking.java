@@ -2,16 +2,23 @@ package customerAccount;
 import customer.*;
 import account.*;
 import logic.*;
+import transactionHistory.*;
+import java.text.*;
 import java.util.*;
 
 public class InternetBanking
 {
 	Map<Integer,CustomerDetails> customerMap=new HashMap<>();
 	
-	
+	String debit="DR";
+	String credit="CR";
 	Map<Integer,List<Integer>> customerAccountMap=new HashMap<>();
 	Map<Integer,AccountDetails> accountMap=new HashMap<>();
 	
+	Map<Integer,List<TransactionHistoryDetails>> transactionMap=new HashMap<>();
+	//Map<Integer,List<TransactionHistoryDetails>> transactionMap=new HashMap<>();
+	
+	List<TransactionHistoryDetails> transactionList=new ArrayList<>();
 	Scanner scan=new Scanner(System.in);
 	
 	InternetBankingLogic logicObj=new InternetBankingLogic();
@@ -39,10 +46,11 @@ public class InternetBanking
 		int count=0;
 		String password="";
 		String rePass="";
+		
 		CustomerDetails custObj=new CustomerDetails();
 		AccountDetails accountObj=new AccountDetails();
-		
 		int custId=logicObj.getCustId();
+		System.out.println(custId);
 		custObj.setCustomerId(custId);
 		System.out.println("Enter the Customer Name:");
 		String name=scan.nextLine();
@@ -69,6 +77,7 @@ public class InternetBanking
 		}
 		custObj.setCustomerPassword(password);
 		customerMap=logicObj.userSignUp(custId,custObj);
+		System.out.println(customerMap);
 		
 		System.out.println("The Details are entered Successfully:");	
 		
@@ -108,6 +117,197 @@ public class InternetBanking
 		customerAccountMap=logicObj.customerAccount(customerId,accountList);
 		System.out.println(customerAccountMap);
 	}
+	
+	private void retrieveAccount() throws Exception
+	{
+		System.out.println("Enter the Customer Id to Receive Account Details");
+		int customerId=scan.nextInt();
+		scan.nextLine();
+		
+		List<Integer> accountList=logicObj.getAllAccounts(customerId);
+		
+		System.out.println("Enter the Account Id to Receive Account Details");
+		int accountId=scan.nextInt();
+		scan.nextLine();
+		
+		if(accountList.contains(accountId))
+		{
+			AccountDetails accountObj=logicObj.getAccount(accountId);
+			System.out.println(accountObj);
+		}
+		else
+		{
+			System.out.println("Account Id Entered is Incorrect");
+			throw new Exception();
+		}	
+	}
+	
+	private void retrieveCustomer() throws Exception
+	{
+		System.out.println("Enter the Customer Id to Receive Customer Details");
+		int customerId=scan.nextInt();
+		scan.nextLine();
+		
+		CustomerDetails customerObj=logicObj.getCustomer(customerId);
+		System.out.println(customerObj);
+	}
+	
+	private void deposit() throws Exception
+	{
+		System.out.println("Enter the Customer Id to Receive Account Details");
+		int customerId=scan.nextInt();
+		scan.nextLine();
+		
+		List<Integer> accountList=logicObj.getAllAccounts(customerId);
+		
+		System.out.println("Enter the Account Id to Receive Account Details");
+		int accountId=scan.nextInt();
+		scan.nextLine();
+		
+		if(accountList.contains(accountId))
+		{
+			AccountDetails accountObj=logicObj.getAccount(accountId);
+			System.out.println("Enter the Deposit Amount:");
+			double amount=scan.nextDouble();
+			scan.nextLine();
+			if(amount>100&&amount<100000)
+			{
+				accountObj=logicObj.deposit(amount,accountObj);
+			}
+			else
+			{
+				System.out.println("Can't Deposit Now");
+			}	
+		}
+		else
+		{
+			System.out.println("Account Id Entered is Incorrect");
+			throw new Exception();
+		}
+	}
+	private void withdraw() throws Exception
+	{
+		System.out.println("Enter the Customer Id to Receive Account Details");
+		int customerId=scan.nextInt();
+		scan.nextLine();
+		
+		List<Integer> accountList=logicObj.getAllAccounts(customerId);
+		
+		System.out.println("Enter the Account Id to Receive Account Details");
+		int accountId=scan.nextInt();
+		scan.nextLine();
+		
+		if(accountList.contains(accountId))
+		{
+			AccountDetails accountObj=logicObj.getAccount(accountId);
+			System.out.println("Enter the withdraw Amount:");
+			double amount=scan.nextDouble();
+			scan.nextLine();
+			if(accountObj.getAccountBalance()-amount>100)
+			{
+				accountObj=logicObj.withdraw(amount,accountObj);
+			}
+			else
+			{
+				System.out.println("Insufficient Balance to Withdraw");
+			}	
+		}
+		else
+		{
+			System.out.println("Account Id Entered is Incorrect");
+			throw new Exception();
+		}
+	}
+	
+	private void moneyTransfer() throws Exception
+	{
+		boolean result=false;
+		System.out.println("Enter the Sender Customer Id to Receive Account Details");
+		int customerId=scan.nextInt();
+		scan.nextLine();
+		
+		List<Integer> accountList=logicObj.getAllAccounts(customerId);
+		
+		System.out.println("Enter the Sender Account Id to Receive Account Details");
+		int accountId=scan.nextInt();
+		scan.nextLine();
+		
+		double amount=0.0;
+		
+		if(accountList.contains(accountId))
+		{
+			System.out.println("Enter the Receiver Account Id to Transfer the Amount");
+			int receiverAccountId=scan.nextInt();
+			scan.nextLine();
+			AccountDetails accountObj=logicObj.getAccount(accountId);
+			System.out.println("Enter the Transfer Amount:");
+			amount=scan.nextDouble();
+			scan.nextLine();
+			if(accountObj.getAccountBalance()-amount>100 && amount>100 && amount<100000)
+			{
+				accountObj=logicObj.moneyTransfer(amount,accountObj,receiverAccountId);
+				System.out.println(accountObj);
+				result=true;
+			}
+			else
+			{
+				System.out.println("Insufficient Balance to Withdraw");
+				result=false;
+			}	
+		}
+		else
+		{
+			System.out.println("Account Id Entered is Incorrect");
+			throw new Exception();
+		}
+		TransactionHistoryDetails transactionObj=new TransactionHistoryDetails();
+		transactionObj.setCustomerId(accountId);
+		int transId=logicObj.getTransactionId();
+		transactionObj.setTransactionId(transId);
+		SimpleDateFormat date=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date dates=new Date();
+		transactionObj.setDate(date.format(dates));
+		transactionObj.setTransactionType(debit);
+		transactionObj.setAmount(amount);
+		transactionObj.setTransactionStatus(result);
+		
+		transactionList.add(transactionObj);
+		transactionMap=logicObj.transactionUpdate(accountId,transactionList);
+	}
+	
+	private void balanceEnquiry() throws Exception
+	{
+		System.out.println("Enter the Customer Id to Receive Account Details");
+		int customerId=scan.nextInt();
+		scan.nextLine();
+		
+		List<Integer> accountList=logicObj.getAllAccounts(customerId);
+		
+		System.out.println("Enter the Account Id to Receive Account Details");
+		int accountId=scan.nextInt();
+		scan.nextLine();
+		
+		if(accountList.contains(accountId))
+		{
+			double accountBalance=logicObj.balanceEnquiry(accountId);
+			System.out.println("Account Balance : "+accountBalance);
+		}
+		else
+		{
+			System.out.println("Account Id Entered is Incorrect");
+			throw new Exception();
+		}
+	}
+	
+	private void getTransactionHistory() throws Exception
+	{
+		System.out.println("Enter the Customer Id to Receive Account Details");
+		int customerId=scan.nextInt();
+		scan.nextLine();
+		List<TransactionHistoryDetails> transactionList=logicObj.getTransactionHistory(customerId);
+		System.out.println(transactionList);
+	}
+	
 	public static void main(String args[])
 	{
 		Scanner scan=new Scanner(System.in);
@@ -132,6 +332,7 @@ public class InternetBanking
 			catch(Exception e)
 			{
 				System.out.println("Enter Valid Input");
+				count++;
 			}
 			switch(choice)
 			{
@@ -167,6 +368,7 @@ public class InternetBanking
 					try
 					{
 						flag=false;
+						count++;
 						break;
 					}
 					catch(Exception e)
@@ -177,13 +379,19 @@ public class InternetBanking
 			}
 			
 		}
-		System.out.println(" Enter the Task to Process:");
-		System.out.println("------------- 1 . ACCOUNT CREATION : --------------");
-		System.out.println("------------- 2 . ACCOUNT DEPOSIT : --------------");
-		System.out.println("------------- 3 . ACCOUNT WITHDRAW : --------------");
+		//System.out.println(" Enter the Task to Process:");
+		
 		while(condition)
 		{
 			System.out.println("Enter the Task to Execute:");
+			System.out.println("------------- 1 . ACCOUNT CREATION : --------------");
+			System.out.println("------------- 2 . GET ACCOUNT : --------------");
+			System.out.println("------------- 3 . GET CUSTOMER : --------------");
+			System.out.println("------------- 4.DEPOSIT : ---------------");
+			System.out.println("------------- 5.WITHDRAW : ---------------");
+			System.out.println("------------- 6.MONEY TRANSFER : ---------------");
+			System.out.println("------------- 7.BALANCE ENQUIRY : ---------------");
+			System.out.println("------------- 8.TRANSACTION HISTORY : ---------------");
 			try
 			{
 				innerChoice=scan.nextInt();
@@ -204,7 +412,102 @@ public class InternetBanking
 					catch(Exception e)
 					{
 						System.out.println("Error Occured :");
-					}		
+					}
+					
+				case 2:
+					try
+					{
+						bankObj.retrieveAccount();
+						break;
+					}
+					catch(Exception e)
+					{
+						System.out.println("Account Retrieval Failed : "+e.getMessage());
+					}
+					
+				case 3:
+					try
+					{
+						bankObj.retrieveCustomer();
+						break;
+					}
+					catch(Exception e)
+					{
+						System.out.println("Customer Retrieval Failed : "+e.getMessage());
+						break;
+					}
+					
+				case 4:
+					try
+					{
+						bankObj.deposit();
+						break;
+					}
+					catch(Exception e)
+					{
+						System.out.println("Deposit Can't be Done Now : "+e.getMessage());
+						break;
+					}
+					
+				case 5:
+					try
+					{
+						bankObj.withdraw();
+						break;
+					}
+					catch(Exception e)
+					{
+						System.out.println("Withdraw Can't be Done Now : "+e.getMessage());
+						break;
+					}
+					
+				case 6:
+					try
+					{
+						bankObj.moneyTransfer();
+						break;
+					}
+					catch(Exception e)
+					{
+						System.out.println("Withdraw Can't be Done Now : "+e.getMessage());
+						break;
+					}
+					
+				case 7:
+					try
+					{
+						bankObj.balanceEnquiry();
+						break;
+					}
+					catch(Exception e)
+					{
+						System.out.println("Withdraw Can't be Done Now : "+e.getMessage());
+						break;
+					}
+					
+				case 8:
+					try
+					{
+						bankObj.getTransactionHistory();
+						break;
+					}
+					catch(Exception e)
+					{
+						System.out.println("Withdraw Can't be Done Now : "+e.getMessage());
+						break;
+					}					
+					
+				default:
+					try
+					{
+						condition=false;
+						break;
+					}
+					catch(Exception e)
+					{
+						System.out.println("Error Occured :");
+						break;
+					}					
 			}
 		}
 	}
