@@ -2,10 +2,22 @@ package loan;
 
 public class LoanDetails
 {
-	private static int loanId;
-	private static double loanAmount;
-	private static double loanEmi;
-	private static boolean loanStatus=true;
+	private int actId;
+	private int loanId;
+	private double loanAmount;
+	private double loanEmi;
+	private boolean loanPending=true;
+	private boolean loanApproval=false;
+	
+	public void setActId(int actId)
+	{
+		this.actId=actId;
+	}
+	
+	public int getActId()
+	{
+		return actId;
+	} 
 	
 	public void setLoanId(int loanId)
 	{
@@ -37,18 +49,28 @@ public class LoanDetails
 		return loanEmi;
 	}
 	
-	public void setLoanStatus(boolean loanStatus)
+	public void setLoanPending(boolean loanPending)
 	{
 		this.loanStatus=loanStatus;
 	}
 	
-	public boolean getLoanStatus()
+	public boolean getLoanPending()
 	{
-		return loanStatus;
+		return loanPending;
+	}
+	
+	public void setLoanApproval(boolean loanApproval)
+	{
+		this.loanApproval=loanApproval;
+	}
+	
+	public boolean getLoanApproval()
+	{
+		return loanApproval;
 	}
 	
 	public String toString()
 	{
-		return "LoanId ="+loanId +" {"+"Loan Amount="+loanAmount+" , "+"Loan EMI="+loanEmi+" , "+"Loan Status="+loanStatus+"}";
+		return "LoanId ="+loanId +" {"+"Loan Amount="+loanAmount+" , "+"Loan EMI="+loanEmi+" , "+"Loan Pending="+loanStatus+" , "+" Loan Approval="+loanApproval+"}";
 	}
 }

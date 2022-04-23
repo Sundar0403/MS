@@ -2,6 +2,7 @@ package customerAccount;
 import customer.*;
 import account.*;
 import logic.*;
+import admin.*;
 import transactionHistory.*;
 import java.text.*;
 import java.util.*;
@@ -12,6 +13,7 @@ public class InternetBanking
 	
 	String debit="DR";
 	String credit="CR";
+	String role="";
 	Map<Integer,List<Integer>> customerAccountMap=new HashMap<>();
 	Map<Integer,AccountDetails> accountMap=new HashMap<>();
 	
@@ -25,21 +27,33 @@ public class InternetBanking
 	
 	private boolean userLogin() throws Exception
 	{
-		System.out.println("Enter the Customer Id:");
+		/*System.out.println("Enter the Customer Id:");
 		int custId=scan.nextInt();
-		scan.nextLine();
-		CustomerDetails custObj=customerMap.get(custId);
-		System.out.println(custObj);
+		scan.nextLine();*/
+		
+		AdminDetails adminObj=new AdminDetails();
 		System.out.println("Enter the User Login Id:");
-		String userId=scan.nextLine();
+		int userId=scan.nextInt();
+		scan.nextLine();
+		CustomerDetails custObj=customerMap.get(userId);
+		System.out.println(custObj);
+		
 		System.out.println("Enter the User Login Password:");
 		String password=scan.nextLine();
-		
-		if(custObj.getUserId().equals(userId) && custObj.getCustomerPassword().equals(password))
+	
+		if(custObj!=null && custObj.getCustomerId()==userId && custObj.getCustomerPassword().equals(password))
 		{
+			/*role=adminObj.getRole();
+			System.out.println(role);*/
 			return true;
 		}
-		return false;
+		else if(adminObj.getAdminId()==userId && adminObj.getAdminPassword().equals(password))
+		{
+			role=adminObj.getRole();
+			System.out.println(role);
+			return true;
+		}
+		return true;
 	}
 	private void userSignUp() throws Exception
 	{
@@ -56,9 +70,10 @@ public class InternetBanking
 		String name=scan.nextLine();
 		custObj.setCustomerName(name);
 		
-		System.out.println("Enter the User Id:");
-		String userId=scan.nextLine();
-		custObj.setUserId(userId);
+		/*System.out.println("Enter the User Id:");
+		int userId=scan.nextInt();
+		scan.nextLine();
+		custObj.setUserId(userId);*/
 		while(count==0)
 		{
 			System.out.println("Enter the User Password:");
@@ -277,26 +292,34 @@ public class InternetBanking
 	
 	private void balanceEnquiry() throws Exception
 	{
-		System.out.println("Enter the Customer Id to Receive Account Details");
-		int customerId=scan.nextInt();
-		scan.nextLine();
-		
-		List<Integer> accountList=logicObj.getAllAccounts(customerId);
 		
 		System.out.println("Enter the Account Id to Receive Account Details");
 		int accountId=scan.nextInt();
 		scan.nextLine();
 		
-		if(accountList.contains(accountId))
+		if(!role.equals("admin"))
 		{
 			double accountBalance=logicObj.balanceEnquiry(accountId);
-			System.out.println("Account Balance : "+accountBalance);
+			System.out.println(accountBalance);
 		}
 		else
 		{
-			System.out.println("Account Id Entered is Incorrect");
-			throw new Exception();
-		}
+			System.out.println("Enter the Customer Id to Receive Account Details");
+			int customerId=scan.nextInt();
+			scan.nextLine();
+		
+			List<Integer> accountList=logicObj.getAllAccounts(customerId);
+			if(accountList.contains(accountId))
+			{
+				double accountBalance=logicObj.balanceEnquiry(accountId);
+				System.out.println("Account Balance : "+accountBalance);
+			}
+			else
+			{
+				System.out.println("Account Id Entered is Incorrect");
+				throw new Exception();
+			}
+		}	
 	}
 	
 	private void getTransactionHistory() throws Exception
@@ -305,7 +328,35 @@ public class InternetBanking
 		int customerId=scan.nextInt();
 		scan.nextLine();
 		List<TransactionHistoryDetails> transactionList=logicObj.getTransactionHistory(customerId);
-		System.out.println(transactionList);
+		for(int i=transactionList.size()-1;i>=0;i--)
+		{
+			System.out.println(transactionList.get(i));
+		}
+		
+	}
+	
+	private void changeAccountStatus() throws Exception
+	{
+		System.out.println("Enter the Customer Id to Change the Account Status : ");
+		int customerId=scan.nextInt();
+		scan.nextLine();
+		
+		List<Integer> accountList=logicObj.getAllAccounts(customerId);
+		
+		System.out.println("Enter the Account Id to Change the Account Status : ");
+		int accountId=scan.nextInt();
+		scan.nextLine();
+		
+		if(accountList.contains(accountId))
+		{
+			AccountDetails accountObj=logicObj.changeAccountStatus(accountId);
+			System.out.println(accountObj);
+		}
+		else
+		{
+			System.out.println("Account Id Entered is Incorrect");
+			throw new Exception();
+		}
 	}
 	
 	public static void main(String args[])
@@ -348,7 +399,8 @@ public class InternetBanking
 					}
 					catch(Exception e)
 					{
-						System.out.println("Cant Login Now");
+					       e.printStackTrace();
+						//System.out.println(e.printStackTrace);
 						break;
 					}
 				
@@ -387,11 +439,11 @@ public class InternetBanking
 			System.out.println("------------- 1 . ACCOUNT CREATION : --------------");
 			System.out.println("------------- 2 . GET ACCOUNT : --------------");
 			System.out.println("------------- 3 . GET CUSTOMER : --------------");
-			System.out.println("------------- 4.DEPOSIT : ---------------");
-			System.out.println("------------- 5.WITHDRAW : ---------------");
-			System.out.println("------------- 6.MONEY TRANSFER : ---------------");
-			System.out.println("------------- 7.BALANCE ENQUIRY : ---------------");
-			System.out.println("------------- 8.TRANSACTION HISTORY : ---------------");
+			System.out.println("------------- 4 . DEPOSIT : ---------------");
+			System.out.println("------------- 5 . WITHDRAW : ---------------");
+			System.out.println("------------- 6 . MONEY TRANSFER : ---------------");
+			System.out.println("------------- 7 . BALANCE ENQUIRY : ---------------");
+			System.out.println("------------- 8 . TRANSACTION HISTORY : ---------------");
 			try
 			{
 				innerChoice=scan.nextInt();
@@ -406,8 +458,16 @@ public class InternetBanking
 				case 1:
 					try
 					{
-						bankObj.accountCreation();
-						break;
+						if(bankObj.role.equals("admin"))
+						{
+							bankObj.userSignUp();
+							bankObj.accountCreation();
+							break;
+						}
+						else
+						{
+							bankObj.accountCreation();
+						}	
 					}
 					catch(Exception e)
 					{
@@ -494,6 +554,18 @@ public class InternetBanking
 					catch(Exception e)
 					{
 						System.out.println("Withdraw Can't be Done Now : "+e.getMessage());
+						break;
+					}
+					
+				case 9:
+					try
+					{
+						bankObj.changeAccountStatus();
+						break;
+					}
+					catch(Exception e)
+					{
+						System.out.println("Account Status Can't be Changed Now : "+e.getMessage());
 						break;
 					}					
 					

@@ -57,6 +57,13 @@ public class CacheLayer
 		return transactionMap;
 	}
 	
+	public AccountDetails changeAccountStatus(int accountId)
+	{
+		AccountDetails accountObj=getAccount(accountId);
+		accountObj.setAccountStatus(false);
+		return accountObj;
+	}
+	
 	public List<TransactionHistoryDetails> getTransactionHistory(int customerId)
 	{
 		transactionList=transactionMap.get(customerId);

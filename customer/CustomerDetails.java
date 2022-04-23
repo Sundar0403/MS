@@ -29,7 +29,7 @@ public class CustomerDetails
 		return customerName;
 	}
 	
-	public void setUserId(String userId)
+	/*public void setUserId(String userId)
 	{
 		this.userId=userId;
 	}
@@ -37,7 +37,7 @@ public class CustomerDetails
 	public String getUserId()
 	{
 		return userId;
-	}
+	}*/
 	
 	public void setCustomerPassword(String customerPassword)
 	{

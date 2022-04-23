@@ -48,6 +48,16 @@ public class AccountDetails
 		return branch;
 	}
 	
+	public void setAccountStatus(boolean accountStatus)
+	{
+		this.accountStatus=accountStatus;
+	}
+	
+	public boolean getAccountStatus()
+	{
+		return accountStatus;
+	}
+	
 	public String toString()
 	{
 		return "CustomerId = "+customerId+"{"+"AccountId = "+accountId+"{"+"Account Balance="+accountBalance+" , "+"Branch="+branch+" , "+"Account Status="+accountStatus+"}";

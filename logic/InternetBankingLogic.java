@@ -69,6 +69,13 @@ public class InternetBankingLogic
 		return accountObj;
 	}
 	
+	public AccountDetails changeAccountStatus(int accountId)
+	{
+		AccountDetails accountObj=new AccountDetails();
+		accountObj=cacheObj.changeAccountStatus(accountId);
+		return accountObj;
+	}
+	
 	public List<Integer> getAllAccounts(int customerId)
 	{
 		List<Integer> accountList=new ArrayList<>();
