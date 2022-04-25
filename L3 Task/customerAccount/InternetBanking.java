@@ -3,6 +3,7 @@ import customer.*;
 import account.*;
 import logic.*;
 import admin.*;
+import loan.*;
 import transactionHistory.*;
 import java.text.*;
 import java.util.*;
@@ -16,6 +17,7 @@ public class InternetBanking
 	String role="";
 	Map<Integer,List<Integer>> customerAccountMap=new HashMap<>();
 	Map<Integer,AccountDetails> accountMap=new HashMap<>();
+	Map<Integer,LoanDetails> loanMap=new HashMap<>();
 	
 	Map<Integer,List<TransactionHistoryDetails>> transactionMap=new HashMap<>();
 	//Map<Integer,List<TransactionHistoryDetails>> transactionMap=new HashMap<>();
@@ -407,6 +409,51 @@ public class InternetBanking
 		}
 	}
 	
+	private void applyForLoan()
+	{
+		
+		System.out.println("Enter the AccountId to Apply for the Loan :");
+		int accountId=scan.nextInt();
+		scan.nextLine();
+		if(accountMap.containsKey(accountId))
+		{
+			if(!loanMap.containsKey(accountId))
+			{
+				LoanDetails loanObj=new LoanDetails();
+				loanObj.setActId(accountId);
+				int loanId=logicObj.getLoanId();
+				loanObj.setLoanId(loanId);
+				int loanCount=logicObj.getLoanCount();
+				loanObj.setLoanCount(loanCount);
+				System.out.println("Enter the Type of Loan to Apply");
+				String loanType=scan.nextLine();
+				loanObj.setLoanType(loanType);
+				double loanAmount=loanObj.loanMap.get(loanType);
+				loanObj.setLoanAmount(loanAmount);
+				loanMap=logicObj.applyForLoan(accountId,loanObj);
+				System.out.println(loanMap);
+				logicObj.loanCount=0;
+			}
+			else
+			{
+				LoanDetails newObj=loanMap.get(accountId);
+				LoanDetails loanObj=new LoanDetails();
+				loanObj.setActId(accountId);
+				int loanId=logicObj.getLoanId();
+				loanObj.setLoanId(loanId);
+				int loanCount=newObj.getLoanCount()+1;
+				loanObj.setLoanCount(loanCount);
+				System.out.println("Enter the Type of Loan to Apply");
+				String loanType=scan.nextLine();
+				loanObj.setLoanType(loanType);
+				double loanAmount=newObj.loanMap.get(loanType);
+				loanObj.setLoanAmount(loanAmount);
+				loanMap=logicObj.applyForLoan(accountId,loanObj);
+				System.out.println(loanMap);
+			}
+		}
+	}
+	
 	public static void main(String args[])
 	{
 		Scanner scan=new Scanner(System.in);
@@ -492,6 +539,8 @@ public class InternetBanking
 			System.out.println("------------- 6 . MONEY TRANSFER : ---------------");
 			System.out.println("------------- 7 . BALANCE ENQUIRY : ---------------");
 			System.out.println("------------- 8 . TRANSACTION HISTORY : ---------------");
+			System.out.println("------------- 9. CHANGE ACCOUNT STATUS : ----------------");
+			System.out.println("------------- 10. APPLY FOR LOAN : ----------------");
 			try
 			{
 				innerChoice=scan.nextInt();
@@ -608,14 +657,33 @@ public class InternetBanking
 				case 9:
 					try
 					{
-						bankObj.changeAccountStatus();
-						break;
+						if(bankObj.role=="admin")
+						{
+							bankObj.changeAccountStatus();
+							break;
+						}
+						else
+						{
+							throw new Exception("Users Cannot Update Account Status");
+						}	
 					}
 					catch(Exception e)
 					{
 						System.out.println("Account Status Can't be Changed Now : "+e.getMessage());
 						break;
-					}					
+					}
+					
+				case 10:
+					try
+					{
+						bankObj.applyForLoan();
+						break;
+					}
+					catch(Exception e)
+					{
+						System.out.println("Withdraw Can't be Done Now : "+e.getMessage());
+						break;
+					}						
 					
 				default:
 					try

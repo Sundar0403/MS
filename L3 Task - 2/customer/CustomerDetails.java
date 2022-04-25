@@ -12,12 +12,12 @@ public class CustomerDetails
 		this.tokenId=tokenId;
 	}
 	
-	public int getVehicleType()
+	public int getTokenId()
 	{
 		return tokenId;
 	}
 	
-	public void setVehicleType((String vehicleType)
+	public void setVehicleType(String vehicleType)
 	{
 		this.vehicleType=vehicleType;
 	}
@@ -35,5 +35,10 @@ public class CustomerDetails
 	public String getVehicleName()
 	{
 		return vehicleName;
+	}
+	
+	public String toString()
+	{
+		return "TokenId ={Vehicle Type = "+vehicleType+" Vehicle Name = "+vehicleName+"}";
 	}
 }

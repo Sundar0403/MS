@@ -2,12 +2,14 @@ package cache;
 import java.util.*;
 import customer.*;
 import account.*;
+import loan.*;
 import transactionHistory.*;
 
 public class CacheLayer
 {
 	private Map<Integer,CustomerDetails> customerMap=new HashMap<>();
 	private Map<Integer,AccountDetails> accountMap=new HashMap<>();
+	private Map<Integer,LoanDetails> loanMap=new HashMap<>();
 	private Map<Integer,List<Integer>> customerAccountMap=new HashMap<>();
 	private Map<Integer,List<TransactionHistoryDetails>> transactionMap=new HashMap<>();
 	private List<TransactionHistoryDetails> transactionList=new ArrayList<>();
@@ -62,6 +64,12 @@ public class CacheLayer
 		AccountDetails accountObj=getAccount(accountId);
 		accountObj.setAccountStatus(false);
 		return accountObj;
+	}
+	
+	public Map<Integer,LoanDetails> applyForLoan(int accountId,LoanDetails loanObj)
+	{
+		loanMap.put(accountId,loanObj);
+		return loanMap;
 	}
 	
 	public List<TransactionHistoryDetails> getTransactionHistory(int customerId)

@@ -2,6 +2,7 @@ package logic;
 import cache.*;
 import customer.*;
 import account.*;
+import loan.*;
 import java.util.*;
 import transactionHistory.*;
 
@@ -10,11 +11,16 @@ public class InternetBankingLogic
 	CacheLayer cacheObj=new CacheLayer();
 	int custId=0;
 	int accountId=1000;
+	public int loanCount=0;
 	int transactionId=10000;
 	int loanId=100000;
 	public int getCustId()
 	{
 		return ++custId;
+	}
+	public int getLoanCount()
+	{
+		return ++loanCount;
 	}
 	public int getAccountId()
 	{
@@ -33,6 +39,13 @@ public class InternetBankingLogic
 		Map<Integer,CustomerDetails> newMap=new HashMap<>();
 		newMap=cacheObj.userSignUp(custId,custObj);
 		return newMap;
+	}
+	
+	public Map<Integer,LoanDetails> applyForLoan(int accountId,LoanDetails loanObj)
+	{
+		Map<Integer,LoanDetails> loanMap=new HashMap<>();
+		loanMap=cacheObj.applyForLoan(accountId,loanObj);
+		return loanMap;
 	}
 	
 	public Map<Integer,AccountDetails> userAccount(int accountId,AccountDetails accountObj)

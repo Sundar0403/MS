@@ -1,13 +1,24 @@
 package loan;
+import java.util.*;
 
 public class LoanDetails
 {
 	private int actId;
 	private int loanId;
+	public Map<String,Double> loanMap=new HashMap<>();
 	private double loanAmount;
-	private double loanEmi;
+	private String loanType;
+	private int loanCount;
 	private boolean loanPending=true;
 	private boolean loanApproval=false;
+	
+	public LoanDetails()
+	{
+		loanMap.put("EducationLoan",200000.0);
+		loanMap.put("HousingLoan",600000.0);
+		loanMap.put("GoldLoan",300000.0);
+		loanMap.put("PersonalLoan",500000.0);
+	}
 	
 	public void setActId(int actId)
 	{
@@ -39,19 +50,29 @@ public class LoanDetails
 		return loanAmount;
 	}
 	
-	public void setLoanEmi(double loanEmi)
+	public void setLoanType(String loanType)
 	{
-		this.loanEmi=loanEmi;
+		this.loanType=loanType;
 	}
 	
-	public double getLoanEmi()
+	public String getLoanType()
 	{
-		return loanEmi;
+		return loanType;
+	}
+	
+	public void setLoanCount(int loanCount)
+	{
+		this.loanCount=loanCount;
+	}
+	
+	public int getLoanCount()
+	{
+		return loanCount;
 	}
 	
 	public void setLoanPending(boolean loanPending)
 	{
-		this.loanStatus=loanStatus;
+		this.loanPending=loanPending;
 	}
 	
 	public boolean getLoanPending()
@@ -71,6 +92,6 @@ public class LoanDetails
 	
 	public String toString()
 	{
-		return "LoanId ="+loanId +" {"+"Loan Amount="+loanAmount+" , "+"Loan EMI="+loanEmi+" , "+"Loan Pending="+loanStatus+" , "+" Loan Approval="+loanApproval+"}";
+		return "LoanId ="+loanId +" {"+"Loan Amount="+loanAmount+" , "+"LoanType="+loanType+","+"Loan Count="+loanCount+" , "+"Loan Pending="+loanPending+" , "+" Loan Approval="+loanApproval+"}";
 	}
 }
