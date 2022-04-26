@@ -4,6 +4,7 @@ import java.util.*;
 public class CustomerDetails
 {
 	private int tokenId;
+	private int spotNumber;
 	private String vehicleType;
 	private String vehicleName;
 	
@@ -15,6 +16,16 @@ public class CustomerDetails
 	public int getTokenId()
 	{
 		return tokenId;
+	}
+	
+	public void setSpotNumber(int spotNumber)
+	{
+		this.spotNumber=spotNumber;	
+	}
+	
+	public int getSpotNumber()
+	{
+		return spotNumber;
 	}
 	
 	public void setVehicleType(String vehicleType)

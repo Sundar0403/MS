@@ -1,11 +1,12 @@
 package payment;
+import java.util.*;
 
 public class PaymentGateway
 {
 	private int tokenId;
 	private double payableAmount;
 	private double paidAmount=0.0;
-	private String exitTime;
+	private Date exitTime;
 	private boolean paymentStatus=false;
 	
 	public void setTokenId(int tokenId)
@@ -18,12 +19,12 @@ public class PaymentGateway
 		return tokenId;
 	}
 	
-	public void setExitTime(String exitTime)
+	public void setExitTime(Date exitTime)
 	{
 		this.exitTime=exitTime;
 	}
 	
-	public String getExitTime()
+	public Date getExitTime()
 	{
 		return exitTime;
 	}

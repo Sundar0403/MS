@@ -7,7 +7,7 @@ public class ParkingDetails
 	private int tokenId;
 	private int floor;
 	private String vehicleType;
-	//private int parkingCount;
+	private int spotNumber;
 	private Date entryTime;
 	//private SimpleDateFormat exitTime;
 	//private double payableAmount;
@@ -21,6 +21,16 @@ public class ParkingDetails
 	public int getTokenId()
 	{
 		return tokenId;
+	}
+	
+	public void setSpotNumber(int spotNumber)
+	{
+		this.spotNumber=spotNumber;	
+	}
+	
+	public int getSpotNumber()
+	{
+		return spotNumber;
 	}
 	
 	public void setFloor(int floor)
