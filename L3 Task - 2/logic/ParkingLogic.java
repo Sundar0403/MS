@@ -71,6 +71,13 @@ public class ParkingLogic
 		return newList;
 	}
 	
+	public List<EmptySpot> removeEmpty(int i,int floor,String vehicleType)
+	{
+		List<EmptySpot> newList=new ArrayList<>();
+		newList=cacheObj.removeEmpty(i,floor,vehicleType);
+		return newList;
+	}
+	
 	public Map<Integer,Map<String,List<EmptySpot>>> getEmptyMapDetails()
 	{
 		Map<Integer,Map<String,List<EmptySpot>>> newMap=new HashMap<>();

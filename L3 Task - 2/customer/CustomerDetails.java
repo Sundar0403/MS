@@ -7,6 +7,7 @@ public class CustomerDetails
 	private int spotNumber;
 	private String vehicleType;
 	private String vehicleName;
+	private double customerInfoWallet;
 	
 	public void setTokenId(int tokenId)
 	{
@@ -48,8 +49,18 @@ public class CustomerDetails
 		return vehicleName;
 	}
 	
+	public void setCustomerInfoWallet(double customerInfoWallet)
+	{
+		this.customerInfoWallet=customerInfoWallet;
+	}
+	
+	public double getCustomerInfoWallet()
+	{
+		return customerInfoWallet;
+	}
+	
 	public String toString()
 	{
-		return "TokenId ={Vehicle Type = "+vehicleType+" Vehicle Name = "+vehicleName+"}";
+		return "TokenId ={Spot Number = "+spotNumber+" Vehicle Type = "+vehicleType+" Vehicle Name = "+vehicleName+" Customer Info Wallet = $"+customerInfoWallet+"}";
 	}
 }

@@ -8,7 +8,7 @@ public class ParkingDetails
 	private int floor;
 	private String vehicleType;
 	private int spotNumber;
-	private Date entryTime;
+	private long entryTime;
 	//private SimpleDateFormat exitTime;
 	//private double payableAmount;
 	private boolean paymentStatus=false;
@@ -63,12 +63,12 @@ public class ParkingDetails
 		return parkingCount;
 	}*/
 	
-	public void setEntryTime(Date entryTime)
+	public void setEntryTime(long entryTime)
 	{
 		this.entryTime=entryTime;
 	}
 	
-	public Date getEntryTime()
+	public long getEntryTime()
 	{
 		return entryTime;
 	}
@@ -85,7 +85,7 @@ public class ParkingDetails
 	
 	public String toString()
 	{
-		return "TokenId ={Floor = "+floor+" Vehicle Type = "+vehicleType+" Entry Time = "+entryTime+" Payment Status = "+paymentStatus+"}";
+		return "TokenId ={Floor = "+floor+" Vehicle Type = "+vehicleType+" Entry Time = "+new Date(entryTime)+" Payment Status = "+paymentStatus+"}";
 	}
 }
 

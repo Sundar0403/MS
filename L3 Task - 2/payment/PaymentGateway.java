@@ -6,7 +6,7 @@ public class PaymentGateway
 	private int tokenId;
 	private double payableAmount;
 	private double paidAmount=0.0;
-	private Date exitTime;
+	private long exitTime;
 	private boolean paymentStatus=false;
 	
 	public void setTokenId(int tokenId)
@@ -19,12 +19,12 @@ public class PaymentGateway
 		return tokenId;
 	}
 	
-	public void setExitTime(Date exitTime)
+	public void setExitTime(long exitTime)
 	{
 		this.exitTime=exitTime;
 	}
 	
-	public Date getExitTime()
+	public long getExitTime()
 	{
 		return exitTime;
 	}

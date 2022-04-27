@@ -11,7 +11,7 @@ public class CacheLayer
 	Map<Integer,CustomerDetails> customerMap=new HashMap<>();
 	Map<Integer,ParkingDetails> parkingMap=new HashMap<>();
 	Map<Integer,PaymentGateway> paymentMap=new HashMap<>();
-	
+	Scanner scan=new Scanner(System.in);
 	
 	List<FilledSpot> filledList=new ArrayList<>();
 	Map<String,List<EmptySpot>> emptyMap=new HashMap<>();
@@ -20,82 +20,117 @@ public class CacheLayer
 	List<EmptySpot> newList=new ArrayList<>();
 	public CacheLayer()
 	{
+		System.out.println("Enter the Number of Floors :");
+		int floor=scan.nextInt();
+		scan.nextLine();
+		
+		System.out.println("Enter the Number of Spots :");
+		int spots=scan.nextInt();
+		scan.nextLine();
+		int n=spots/5;
+		int arr[]=new int[5];
+		int sum=0;
+		for(int i=0;i<5;i++)
+		{
+			sum=sum+n;
+			arr[i]=sum;
+		}
 		if(count==0)
 		{
-			//newList=new ArrayList<>();
 			
-			for(int i=1;i<=4;i++)
+			
+			for(int i=1;i<=floor;i++)
 			{
 				
-				for(int j=1;j<=10;j++)
+				
+				for(int j=1;j<=spots;j++)
 				{
 					
-					newList=new ArrayList<>();
-					EmptySpot emptyObj=new EmptySpot();
-					if(j<=2)
-					{
-						emptyMap=new HashMap<>();
-						emptyObj.setSpotNumber(j);
-						emptyObj.setVehicleType("Compact");
-						emptyObj.setFloor(i);
-						newList.add(emptyObj);
-						emptyMap.put("Compact",newList);
-						System.out.println(emptyMap);
-						emptySetMap.put(i,emptyMap);
-					}
-					else if(j<=4)
-					{
-						emptyMap=new HashMap<>();
-						//EmptySpot emptyObj=new EmptySpot();
-						emptyObj.setSpotNumber(j);
-						emptyObj.setVehicleType("Large");
-						emptyObj.setFloor(i);
-						newList.add(emptyObj);
-						emptyMap.put("Large",newList);
-						System.out.println(emptyMap);
-						emptySetMap.put(i,emptyMap);
-					}
-					else if(j<=6)
-					{
-						//EmptySpot emptyObj=new EmptySpot();
-						emptyMap=new HashMap<>();
-						emptyObj.setSpotNumber(j);
-						emptyObj.setVehicleType("Handicapped");
-						emptyObj.setFloor(i);
-						newList.add(emptyObj);
-						emptyMap.put("Handicapped",newList);
-						System.out.println(emptyMap);
-						emptySetMap.put(i,emptyMap);
-					}
-					else if(j<=8)
-					{
-						//EmptySpot emptyObj=new EmptySpot();
-						emptyMap=new HashMap<>();
-						emptyObj.setSpotNumber(j);
-						emptyObj.setVehicleType("Motor Cycle");
-						emptyObj.setFloor(i);
-						newList.add(emptyObj);
-						emptyMap.put("Motor Cycle",newList);
-						System.out.println(emptyMap);
-						emptySetMap.put(i,emptyMap);
-					}
-					else if(j<=10)
-					{
-						//EmptySpot emptyObj=new EmptySpot();						
-						emptyMap=new HashMap<>();
-						emptyObj.setSpotNumber(j);
-						emptyObj.setVehicleType("Electric Vehicle");
-						emptyObj.setFloor(i);
-						newList.add(emptyObj);
-						emptyMap.put("Electric Vehicle",newList);
-						System.out.println(emptyMap);
-						emptySetMap.put(i,emptyMap);
-					}
-					
-					
-				}
+				EmptySpot emptyObj=new EmptySpot();
+					emptyObj.setSpotNumber(j);
+					emptyObj.setFloor(i);
 				
-				//newList.clear();		
+				   emptyMap=emptySetMap.get(i);
+					if(emptyMap==null)
+					{
+						emptyMap=new HashMap<>();
+						emptySetMap.put(i,emptyMap);
+					}
+				
+					
+					if(j<=arr[0])
+					{
+						
+						
+						newList=emptyMap.get("Compact");
+						if(newList==null)
+						{
+							newList=new ArrayList<>();
+							emptyMap.put("Compact",newList);
+						}
+
+						emptyObj.setVehicleType("Compact");
+						
+						newList.add(emptyObj);
+
+					}
+					
+					else if(j<=arr[1])
+					{
+						newList=emptyMap.get("Large");
+						if(newList==null)
+						{
+							newList=new ArrayList<>();
+							emptyMap.put("Large",newList);
+						}
+
+						emptyObj.setVehicleType("Large");
+	
+						newList.add(emptyObj);
+
+					}
+					
+					else if(j<=arr[2])
+					{
+						newList=emptyMap.get("Handicapped");
+						if(newList==null)
+						{
+							newList=new ArrayList<>();
+							emptyMap.put("Handicapped",newList);
+						}
+
+						emptyObj.setVehicleType("Handicapped");
+						newList.add(emptyObj);
+
+					}
+					
+					else if(j<=arr[3])
+					{
+						
+						newList=emptyMap.get("Motor Cycle");
+						if(newList==null)
+						{
+							newList=new ArrayList<>();
+							emptyMap.put("Motor Cycle",newList);
+						}
+						emptyObj.setVehicleType("Motor Cycle");
+						newList.add(emptyObj);
+					}
+					
+					else if(j<=spots)
+					{
+						newList=emptyMap.get("Electric Vehicle");
+						if(newList==null)
+						{
+							newList=new ArrayList<>();
+							emptyMap.put("Electric Vehicle",newList);
+						}
+						emptyObj.setVehicleType("Electric Vehicle");
+						newList.add(emptyObj);
+					}
+					
+					
+				}	
 			}
 			count++;
 			System.out.println(emptySetMap);
@@ -103,9 +138,12 @@ public class CacheLayer
 		
 	}	
 	
-	public List<EmptySpot> removeEmpty(EmptySpot emptyObj)
+	public List<EmptySpot> removeEmpty(int i,int floor,String vehicleType)
 	{
-		newList.remove(emptyObj);
+		emptyMap=emptySetMap.get(floor);
+		newList=emptyMap.get(vehicleType);
+		newList.remove(i);
+		System.out.println(newList);
 		return newList;
 	}
 	
