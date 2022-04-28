@@ -3,50 +3,50 @@ import java.util.*;
 
 public class CustomerDetails
 {
-	private int tokenId;
-	private int spotNumber;
-	private String vehicleType;
-	private String vehicleName;
+	private int customerId;
+	private String customerName;
+	private String customerAddress;
+	private String password;
 	private double customerInfoWallet;
 	
-	public void setTokenId(int tokenId)
+	public void setCustomerId(int customerId)
 	{
-		this.tokenId=tokenId;
+		this.customerId=customerId;
 	}
 	
-	public int getTokenId()
+	public int getCustomerId()
 	{
-		return tokenId;
+		return customerId;
 	}
 	
-	public void setSpotNumber(int spotNumber)
+	public void setCustomerName(String customerName)
 	{
-		this.spotNumber=spotNumber;	
+		this.customerName=customerName;	
 	}
 	
-	public int getSpotNumber()
+	public String getCustomerName()
 	{
-		return spotNumber;
+		return customerName;
 	}
 	
-	public void setVehicleType(String vehicleType)
+	public void setCustomerAddress(String customerAddress)
 	{
-		this.vehicleType=vehicleType;
+		this.customerAddress=customerAddress;
 	}
 	
-	public String getVehicleType()
+	public String getCustomerAddress()
 	{
-		return vehicleType;
+		return customerAddress;
 	}
 	
-	public void setVehicleName(String vehicleName)
+	public void setPassword(String password)
 	{
-		this.vehicleName=vehicleName;
+		this.password=password;
 	}
 	
-	public String getVehicleName()
+	public String getPassword()
 	{
-		return vehicleName;
+		return password;
 	}
 	
 	public void setCustomerInfoWallet(double customerInfoWallet)
@@ -61,6 +61,6 @@ public class CustomerDetails
 	
 	public String toString()
 	{
-		return "TokenId ={Spot Number = "+spotNumber+" Vehicle Type = "+vehicleType+" Vehicle Name = "+vehicleName+" Customer Info Wallet = $"+customerInfoWallet+"}";
+		return "CustomerId ={CustomerName = "+customerName+" CustomerAddress = "+customerAddress+" Password = "+password+" Customer Info Wallet = $"+customerInfoWallet+"}";
 	}
 }

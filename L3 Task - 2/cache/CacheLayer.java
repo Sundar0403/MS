@@ -16,6 +16,9 @@ public class CacheLayer
 	List<FilledSpot> filledList=new ArrayList<>();
 	Map<String,List<EmptySpot>> emptyMap=new HashMap<>();
 	Map<Integer,Map<String,List<EmptySpot>>> emptySetMap=new HashMap<>();
+	
+	Map<String,List<FilledSpot>> filledMap=new HashMap<>();
+	Map<Integer,Map<String,List<FilledSpot>>> filledSetMap=new HashMap<>();
 	int count=0;
 	List<EmptySpot> newList=new ArrayList<>();
 	public CacheLayer()
@@ -27,6 +30,11 @@ public class CacheLayer
 		System.out.println("Enter the Number of Spots :");
 		int spots=scan.nextInt();
 		scan.nextLine();
+		if(spots<5)
+		{
+			System.out.println("Minimum Spots should be 5");
+			spots=5;
+		}
 		int n=spots/5;
 		int arr[]=new int[5];
 		int sum=0;
@@ -182,27 +190,47 @@ public class CacheLayer
 		return payable;
 	}
 	
-	public List<FilledSpot> getFilledDetails()
+	public List<FilledSpot> getFilledDetails(int floor,String vehicleType)
 	{
+		filledMap=filledSetMap.get(floor);
+		filledList=filledMap.get(vehicleType);
 		return filledList;
 	}
-	public List<EmptySpot> getEmptyDetails()
+	public List<EmptySpot> getEmptyDetails(int floor,String vehicleType)
 	{
+		emptyMap=emptySetMap.get(floor);
+		newList=emptyMap.get(vehicleType);
 		return newList;
 	}
-	public List<FilledSpot> setFilledDetails(FilledSpot filledObj)
+	public List<FilledSpot> setFilledDetails(FilledSpot filledObj,int floor,String vehicleType)
 	{
+		filledMap=filledSetMap.get(floor);
+		if(filledMap==null)
+		{
+			filledMap=new HashMap<>();
+			filledSetMap.put(floor,filledMap);
+		}
+		filledList=filledMap.get(vehicleType);
+		if(filledList==null)
+		{
+			filledList=new ArrayList<>();
+			filledMap.put(vehicleType,filledList);
+		}
 		filledList.add(filledObj);
 		return filledList;
 	}
-	public List<EmptySpot> setEmptyDetails1(EmptySpot emptyObj)
+	public List<EmptySpot> setEmptyDetails1(EmptySpot emptyObj,int floor,String vehicleType)
 	{
+		emptyMap=emptySetMap.get(floor);
+		newList=emptyMap.get(vehicleType);
 		newList.add(emptyObj);
 		return newList;
 	}
-	public List<FilledSpot> removeFilled(FilledSpot filled)
+	public List<FilledSpot> removeFilled(int i,int floor,String vehicleType)
 	{
-		filledList.remove(filled);
+		filledMap=filledSetMap.get(floor);
+		filledList=filledMap.get(vehicleType);
+		filledList.remove(i);
 		return filledList;
 	}
 	

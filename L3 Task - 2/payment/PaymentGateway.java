@@ -4,7 +4,7 @@ import java.util.*;
 public class PaymentGateway
 {
 	private int tokenId;
-	private double payableAmount;
+	private String paymentMode;
 	private double paidAmount=0.0;
 	private long exitTime;
 	private boolean paymentStatus=false;
@@ -29,6 +29,16 @@ public class PaymentGateway
 		return exitTime;
 	}
 	
+	public void setPaymentMode(String paymentMode)
+	{
+		this.paymentMode=paymentMode;
+	}
+	
+	public String setPaymentMode()
+	{
+		return paymentMode;
+	}
+	
 	public void setPaidAmount(double paidAmount)
 	{
 		this.paidAmount=paidAmount;
@@ -51,6 +61,6 @@ public class PaymentGateway
 	
 	public String toString()
 	{
-		return "TokenId ={Exit Time = "+exitTime+" Paid Amount = "+paidAmount+" Payment Status = "+paymentStatus+"}";
+		return "TokenId ={Exit Time = "+new Date(exitTime)+" Payment Mode = "+paymentMode+" Paid Amount = $"+paidAmount+" Payment Status = "+paymentStatus+"}";
 	}
 }

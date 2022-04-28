@@ -53,16 +53,6 @@ public class ParkingDetails
 		return vehicleType;
 	}
 	
-	/*public void setParkingCount(int parkingCount)
-	{
-		this.parkingCount=parkingCount;
-	}
-	
-	public int getParkingCount()
-	{
-		return parkingCount;
-	}*/
-	
 	public void setEntryTime(long entryTime)
 	{
 		this.entryTime=entryTime;
