@@ -11,14 +11,13 @@ import java.util.*;
 
 public class ParkingManagement
 {
-	Map<Integer,CustomerDetails> vehicleMap=new HashMap<>();
+	Map<Integer,CustomerDetails> customerMap=new HashMap<>();
 	Map<Integer,ParkingDetails> parkingMap=new HashMap<>();
-	Map<Integer,PaymentGateway> paymentMap=new HashMap<>();
-	List<EmptySpot> emptyList=new ArrayList<>();
-	List<FilledSpot> filledList=new ArrayList<>();
+	Map<String,VehicleDetails> vehicleMap=new HashMap<>();
+	List<Spot> emptyList=new ArrayList<>();
+	List<Spot> filledList=new ArrayList<>();
 	
 	ParkingLogic logicObj=new ParkingLogic();
-	VehicleDetails vehicleObj=new VehicleDetails();
 	Scanner scan=new Scanner(System.in);
 	SimpleDateFormat simple=new SimpleDateFormat("h:mm:ss");
 	Date date=new Date();
@@ -30,11 +29,12 @@ public class ParkingManagement
 	{
 		try
 		{
-			System.out.println("------------------- SPOT NUMBER 1 COMPACT VEHICLES ---------------------------");
-			System.out.println("------------------- SPOT NUMBER 2 LARGE VEHICLES -----------------------------");
-			System.out.println("------------------- SPOT NUMBER 3 HANDICAPPED VEHICLES -----------------------");
-			System.out.println("------------------- SPOT NUMBER 4 MOTOR CYCLES -------------------------------");
-			System.out.println("------------------- SPOT NUMBER 5 ELECTRIC VEHICLES --------------------------");
+			System.out.println("ENTER YOUR VEHICLE TYPE FROM THE GIVEN BELOW TYPES :");
+			System.out.println("------------------- Compact ---------------------------");
+			System.out.println("------------------- Large -----------------------------");
+			System.out.println("------------------- Handicapped -----------------------");
+			System.out.println("------------------- Motor Cycle -------------------------------");
+			System.out.println("------------------- Electric Vehicle --------------------------");
 		
 			int tokenId=logicObj.getTokenId();
 	
@@ -44,11 +44,12 @@ public class ParkingManagement
 			{
 				throw new Exception("Enter Valid Vehicle Type");
 			}
-			System.out.println("Enter the Vehicle Name :");
-			String vehicleName=scan.nextLine();
+;
+			System.out.println("Enter the Vehicle Number :");
+			String vehicleNumber=scan.nextLine();
 			int floor=0;
 			
-			Map<Integer,Map<String,List<EmptySpot>>> newMap=logicObj.getEmptyMapDetails();
+			Map<Integer,Map<String,List<Spot>>> newMap=logicObj.getEmptyMapDetails();
 			int count=0;
 			for(int i=0;i<newMap.size();i++)
 			{
@@ -61,17 +62,18 @@ public class ParkingManagement
 					count++;
 				}
 			}
-			System.out.println(floor);	
+			//System.out.println(floor);	
 			emptyList=logicObj.getEmptyDetails(floor,vehicleType);
 			
-			EmptySpot emptyObj=emptyList.get(0);
+			Spot emptyObj=emptyList.get(0);
 				
-			FilledSpot filledObj=new FilledSpot();
+			Spot filledObj=new Spot();
 			filledObj.setSpotNumber(emptyObj.getSpotNumber());
 			filledObj.setVehicleType(vehicleType);
 			filledObj.setFloor(floor);
-			filledList=logicObj.setFilledDetails(filledObj,floor,vehicleType);
-			System.out.println(filledList);
+			filledList=logicObj.setFilledDetails(tokenId,filledObj);
+			System.out.println();
+			//System.out.println(filledList);
 			emptyList=logicObj.removeEmpty(0,floor,vehicleType);
 								
 				
@@ -81,13 +83,25 @@ public class ParkingManagement
 			parkingObj.setSpotNumber(emptyObj.getSpotNumber());
 			parkingObj.setFloor(floor);
 			parkingObj.setVehicleType(vehicleType);
+			parkingObj.setVehicleNumber(vehicleNumber);
 			
 			entryTime=System.currentTimeMillis();
 			parkingObj.setEntryTime(entryTime);
 			parkingMap=logicObj.setSlot(tokenId,parkingObj);
-			System.out.println(parkingMap);
-			emptyList=newMap.get(floor).get(vehicleType);
-			System.out.println(emptyList);
+			System.out.println("-----------------------------");
+			System.out.println("TOKEN-ID        : "+parkingObj.getTokenId());
+			System.out.println("FLOOR-NO        : "+parkingObj.getFloor());
+			System.out.println("VEHICLE-TYPE    : "+parkingObj.getVehicleType());
+			System.out.println("VEHICLE-NUMBER  : "+parkingObj.getVehicleNumber());
+			System.out.println("SPOT-NUMBER     : "+parkingObj.getSpotNumber());
+			System.out.println("-----------------------------");
+			//System.out.println(parkingMap);
+			//emptyList=newMap.get(floor).get(vehicleType);
+			//System.out.println(emptyList);
+			
+			System.out.println();
+			//System.out.println(newMap);
+			
 			System.out.println("The Spot is Booked Successfully");
 		}
 		catch(Exception e)
@@ -100,84 +114,130 @@ public class ParkingManagement
 	public void setCustomerInfoPortal() throws Exception
 	{
 		System.out.println("---------------------------- REGISTER TO CUSTOMER INFO PORTAL ---------------------------------");
-		CustomerDetails customerObj=new CustomerDetails();
+		
+		
 		int customerId=logicObj.getCustomerId();
+		VehicleDetails vehicleObj=new VehicleDetails();
+		System.out.println(" Enter Your Vehicle Number ");
+		String vehicleNumber=scan.nextLine();
+		System.out.println(" Enter Your Vehicle Type ");
+		String vehicleType=scan.nextLine();
+		
+		
+		vehicleObj.setVehicleNumber(vehicleNumber);
+		vehicleObj.setVehicleType(vehicleType);
+		vehicleObj.setCustomerId(customerId);
+		vehicleMap=logicObj.setVehicle(vehicleNumber,vehicleObj);
+		//System.out.println(vehicleMap);
+		CustomerDetails customerObj=new CustomerDetails();
+		
+		//int customerId=vehicleObj.getCustomerId();
 		customerObj.setCustomerId(customerId);
 		
 		System.out.println("Enter the Customer Name :");
 		String name=scan.nextLine();
 		customerObj.setCustomerName(name);
-		System.out.println("Enter the Customer Address :");
-		String address=scan.nextLine();
-		customerObj.setCustomerAddress(address);
-		System.out.println("Enter the Password :");
-		String password=scan.nextLine();
-		customerObj.setPassword(password);
+		System.out.println("Enter the Customer Mobile Number :");
+		long mobNo=scan.nextLong();
+		scan.nextLine();
+		customerObj.setCustomerMobileNo(mobNo);
+
 		System.out.println("Enter the Amount to Add to Your Customer Info Wallet For Further Use :");
 		double amount=scan.nextDouble();
 		scan.nextLine();
 		customerObj.setCustomerInfoWallet(amount);
 		
-		vehicleMap=logicObj.setCustomer(customerId,customerObj);
-		System.out.println(vehicleMap);
+		customerMap=logicObj.setCustomer(customerId,customerObj);
+		System.out.println();
+		System.out.println();
+		System.out.println("----------------------------------");
+		System.out.println("*CUSTOMER-ID        : "+customerObj.getCustomerId());
+		System.out.println("*CUSTOMER-NAME      : "+customerObj.getCustomerName());
+		System.out.println("*MOBILENUMBER       : "+customerObj.getCustomerMobileNo());
+		System.out.println("*WALLET BALANCE     : $"+customerObj.getCustomerInfoWallet());
+		System.out.println("----------------------------------");
 	}
 	
 	public void getCustomerInfoPortal() throws Exception
 	{
-		System.out.println("------------------------------- WELCOME TO CUSTOMER INFO PORTAL ----------------------------------------");
-		System.out.println("Enter the Customer Id:");
-		int customerId=scan.nextInt();
-		scan.nextLine();
-		CustomerDetails customerObj=vehicleMap.get(customerId);
-		System.out.println("Enter the Password :");
-		String password=scan.nextLine();
-		if(customerObj.getPassword().equals(password))
+		try
 		{
+			System.out.println("------------------------------- WELCOME TO CUSTOMER INFO PORTAL ----------------------------------------");
+			System.out.println("Enter the Vehicle Number ");
+			String vehicleNumber=scan.nextLine();
+		
+			VehicleDetails vehicleObj=logicObj.getVehicleDetails(vehicleNumber);
+			if(vehicleObj==null)
+			{
+				throw new Exception(" The User Credentials Are Incorrect");
+			}
+			
+			int customerId=vehicleObj.getCustomerId();
+			
+			CustomerDetails customerObj=logicObj.getCustomer(customerId);
+			System.out.println("WELCOME "+customerObj.getCustomerName()+"!");
+				
 			double wallet=customerObj.getCustomerInfoWallet();
 			System.out.println("Enter the Amount to Add to Your Customer Info Wallet For Further Use :");
 			double amount=scan.nextDouble();
 			scan.nextLine();
 			double add=amount+wallet;
 			customerObj.setCustomerInfoWallet(add);
-			
-			System.out.println(vehicleMap);
+					
+			System.out.println(customerMap);
 		}
-		else
+		catch(Exception e)
 		{
-			throw new Exception(" The User Credentials Are Incorrect");
+			throw new Exception("Error Occured");
 		}
+			
 	}
 	
 	public void exitParking() throws Exception
 	{
 		try
 		{
-			PaymentGateway paymentObj=new PaymentGateway();
 			boolean success=true;
 			System.out.println("Enter Token Id :");
 			int tokenId=scan.nextInt();
 			scan.nextLine();
-			paymentObj.setTokenId(tokenId);
-			System.out.println("Enter the Customer Id:");
-			int customerId=scan.nextInt();
-			scan.nextLine();
-			
-			CustomerDetails customerObj=vehicleMap.get(customerId);
-			double wallet=customerObj.getCustomerInfoWallet();
 			ParkingDetails parkingObj=logicObj.getParkingDetails(tokenId);
+			
+			long entryTime=parkingObj.getEntryTime();
 			int floor=parkingObj.getFloor();
 			int spotNumber=parkingObj.getSpotNumber();
 			String vehicleType=parkingObj.getVehicleType();
+			String vehicleNumber=parkingObj.getVehicleNumber();
+			
+			VehicleDetails vehicleObj=logicObj.getVehicleDetails(vehicleNumber);
+			int customerId=vehicleObj.getCustomerId();
+			
+			CustomerDetails customerObj=logicObj.getCustomer(customerId);
 
+
+			double wallet=customerObj.getCustomerInfoWallet();
 			long exitTime=System.currentTimeMillis();		
 		
 			double payableAmount=logicObj.getPayableAmount(entryTime,exitTime);
 			System.out.println("The Amount Payable for The Parking is : "+payableAmount);
+			System.out.println("The Amount In Customer Info Wallet is : "+wallet);
 			
+			if(payableAmount<wallet)
+			{
+				double paidAmount=payableAmount-wallet;
+				customerObj.setCustomerInfoWallet(Math.abs(paidAmount));
+				parkingObj.setPaidAmount(payableAmount);
+			}
+			else
+			{
 			System.out.println("Enter Payment Mode :");
 			System.out.println("1.Cash");
 			System.out.println("2.Card");
+			
+	
 			String mode=scan.nextLine();
+	
+			
 			if(mode.equals("Card"))
 			{
 				System.out.println("Enter the Card Number:");
@@ -188,46 +248,54 @@ public class ParkingManagement
 					System.out.println("Card Details are Incorrect");
 				}
 			}
-		
-			double paidAmount=payableAmount-wallet;
-			if(paidAmount<0)
-			{
-				customerObj.setCustomerInfoWallet(Math.abs(paidAmount));
-			}
+			System.out.println("Enter the Amount to Pay :");
+			double pay=scan.nextDouble();
+			scan.nextLine();
+			double paidAmount=pay+wallet;
+			
 			if(payableAmount>wallet)
 			{
 				customerObj.setCustomerInfoWallet(0.0);
 			}
-			paymentObj.setExitTime(exitTime);
-			paymentObj.setPaymentMode(mode);
-			paymentObj.setPaidAmount(payableAmount);
-			paymentObj.setPaymentStatus(success);
+			
+			parkingObj.setPaidAmount(paidAmount);
+			}
+			
+
 			parkingObj.setPaymentStatus(success);
-			paymentMap=logicObj.processPayment(tokenId,paymentObj);
-			System.out.println(paymentMap);
-		
+			parkingMap=logicObj.setSlot(tokenId,parkingObj);
+			System.out.println();
 			System.out.println(parkingMap);
-			System.out.println(vehicleMap);
+		
+			customerMap=logicObj.setCustomer(customerId,customerObj);
+			System.out.println();
+			System.out.println("After Payment the Available Balance in Wallet is : "+customerObj.getCustomerInfoWallet());
+			System.out.println(customerMap);
 				
-			filledList=logicObj.getFilledDetails(floor,vehicleType);
+			filledList=logicObj.getFilledDetails(tokenId);
 			for(int i=0;i<filledList.size();i++)
 			{
-				FilledSpot filledObj=filledList.get(i);
+				Spot filledObj=filledList.get(i);
 				//System.out.println(emptyObj);
 				if(spotNumber==filledObj.getSpotNumber())
 				{
-					EmptySpot emptyObj=new EmptySpot();
+					Spot emptyObj=new Spot();
 					emptyObj.setSpotNumber(spotNumber);
 					emptyObj.setVehicleType(vehicleType);
 					emptyObj.setFloor(floor);
 					emptyList=logicObj.setEmptyDetails(emptyObj,floor,vehicleType);
+					System.out.println();
 					System.out.println(emptyList);
-					filledList=logicObj.removeFilled(i,floor,vehicleType);
+					filledList=logicObj.removeFilled(i,tokenId);
 					break;				
 				}
 			}
-			Map<Integer,Map<String,List<EmptySpot>>> newMap=logicObj.getEmptyMapDetails();
+			Map<Integer,Map<String,List<Spot>>> newMap=logicObj.getEmptyMapDetails();
 			System.out.println(newMap);
+			
+			System.out.println();
+			System.out.println();
+			System.out.println("THANKS FOR COMING VISIT AGAIN.......");
 		}
 		catch(Exception e)
 		{
@@ -245,6 +313,13 @@ public class ParkingManagement
 		
 		while(flag)
 		{
+			System.out.println();
+			System.out.println();
+			
+			System.out.println("----------------------- 1.ENTRY & PARK THE VEHICLES -----------------------");
+			System.out.println("----------------------- 2.CUSTOMER INFO PORTAL ----------------------------");
+			System.out.println("----------------------- 3.PAY & EXIT FROM THE LOT -------------------------");
+			
 			System.out.println("Enter your Choice :");
 			int choice=scan.nextInt();
 			scan.nextLine();
@@ -270,6 +345,8 @@ public class ParkingManagement
 					try
 					{
 						System.out.println("EXISTING USER OR NOT :");
+						System.out.println("-------- YES ---------");
+						System.out.println("--------- NO ---------");
 						String value=scan.nextLine();
 						if(value.equals("NO"))
 						{

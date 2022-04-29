@@ -5,6 +5,7 @@ import customer.*;
 import slot.*;
 import payment.*;
 import filled.*;
+import vehicle.*;
 import java.util.*;
 
 public class ParkingLogic
@@ -29,27 +30,45 @@ public class ParkingLogic
 		return customerMap;
 	}
 	
-	public List<EmptySpot> getEmptyDetails(int floor,String vehicleType) throws Exception
+	public List<Spot> getEmptyDetails(int floor,String vehicleType) throws Exception
 	{
-		List<EmptySpot> newList=cacheObj.getEmptyDetails(floor,vehicleType);
+		List<Spot> newList=cacheObj.getEmptyDetails(floor,vehicleType);
 		return newList;
 	}
 	
-	public List<FilledSpot> getFilledDetails(int floor,String vehicleType) throws Exception
+	public VehicleDetails getVehicleDetails(String vehicleNumber) throws Exception
 	{
-		List<FilledSpot> newList=cacheObj.getFilledDetails(floor,vehicleType);
+		VehicleDetails vehicleObj=cacheObj.getVehicleDetails(vehicleNumber);
+		return vehicleObj;
+	}
+	
+	public Map<String,VehicleDetails> setVehicle(String vehicleNumber,VehicleDetails vehicleObj) throws Exception
+	{
+		Map<String,VehicleDetails> vehicleMap=cacheObj.setVehicle(vehicleNumber,vehicleObj);
+		return vehicleMap;
+	}
+	
+	public CustomerDetails getCustomer(int customerId) throws Exception
+	{
+		CustomerDetails customerObj=cacheObj.getCustomer(customerId);
+		return customerObj;
+	}
+	
+	public List<Spot> getFilledDetails(int tokenId) throws Exception
+	{
+		List<Spot> newList=cacheObj.getFilledDetails(tokenId);
 		return newList;
 	}
 	
-	public List<FilledSpot> setFilledDetails(FilledSpot filledObj,int floor,String vehicleType) throws Exception
+	public List<Spot> setFilledDetails(int tokenId,Spot filledObj) throws Exception
 	{
-		List<FilledSpot> filledList=cacheObj.setFilledDetails(filledObj,floor,vehicleType);
+		List<Spot> filledList=cacheObj.setFilledDetails(tokenId,filledObj);
 		return filledList;
 	}
 	
-	public List<EmptySpot> setEmptyDetails(EmptySpot emptyObj,int floor,String vehicleType) throws Exception
+	public List<Spot> setEmptyDetails(Spot emptyObj,int floor,String vehicleType) throws Exception
 	{
-		List<EmptySpot> emptyList=cacheObj.setEmptyDetails1(emptyObj,floor,vehicleType);
+		List<Spot> emptyList=cacheObj.setEmptyDetails1(emptyObj,floor,vehicleType);
 		return emptyList;
 	}
 	
@@ -64,21 +83,21 @@ public class ParkingLogic
 		return parkingMap;
 	}
 	
-	public List<FilledSpot> removeFilled(int i,int floor,String vehicleType) throws Exception
+	public List<Spot> removeFilled(int i,int tokenId) throws Exception
 	{
-		List<FilledSpot> newList=cacheObj.removeFilled(i,floor,vehicleType);
+		List<Spot> newList=cacheObj.removeFilled(i,tokenId);
 		return newList;
 	}
 	
-	public List<EmptySpot> removeEmpty(int i,int floor,String vehicleType) throws Exception
+	public List<Spot> removeEmpty(int i,int floor,String vehicleType) throws Exception
 	{
-		List<EmptySpot> newList=cacheObj.removeEmpty(i,floor,vehicleType);
+		List<Spot> newList=cacheObj.removeEmpty(i,floor,vehicleType);
 		return newList;
 	}
 	
-	public Map<Integer,Map<String,List<EmptySpot>>> getEmptyMapDetails() throws Exception
+	public Map<Integer,Map<String,List<Spot>>> getEmptyMapDetails() throws Exception
 	{
-		Map<Integer,Map<String,List<EmptySpot>>> newMap=cacheObj.getEmptyMap1();
+		Map<Integer,Map<String,List<Spot>>> newMap=cacheObj.getEmptyMap1();
 		return newMap;
 	} 
 	
@@ -94,9 +113,9 @@ public class ParkingLogic
 		return parkingObj;
 	}
 	
-	public Map<Integer,PaymentGateway> processPayment(int tokenId,PaymentGateway paymentObj) throws Exception
+	/*public Map<Integer,PaymentGateway> processPayment(int tokenId,PaymentGateway paymentObj) throws Exception
 	{
 		Map<Integer,PaymentGateway> paymentMap=cacheObj.processPayment(tokenId,paymentObj);
 		return paymentMap;
-	}
+	}*/
 }

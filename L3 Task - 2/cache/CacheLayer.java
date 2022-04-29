@@ -4,23 +4,23 @@ import empty.*;
 import filled.*;
 import slot.*;
 import payment.*;
+import vehicle.*;
 import java.util.*;
 
 public class CacheLayer
 {
 	Map<Integer,CustomerDetails> customerMap=new HashMap<>();
 	Map<Integer,ParkingDetails> parkingMap=new HashMap<>();
-	Map<Integer,PaymentGateway> paymentMap=new HashMap<>();
+	Map<String,VehicleDetails> vehicleMap=new HashMap<>();
 	Scanner scan=new Scanner(System.in);
 	
-	List<FilledSpot> filledList=new ArrayList<>();
-	Map<String,List<EmptySpot>> emptyMap=new HashMap<>();
-	Map<Integer,Map<String,List<EmptySpot>>> emptySetMap=new HashMap<>();
-	
-	Map<String,List<FilledSpot>> filledMap=new HashMap<>();
-	Map<Integer,Map<String,List<FilledSpot>>> filledSetMap=new HashMap<>();
+	List<Spot> filledList=new ArrayList<>();
+	Map<String,List<Spot>> spotMap=new HashMap<>();
+	Map<Integer,Map<String,List<Spot>>> spotSetMap=new HashMap<>();
+	Map<Integer,List<Spot>> filledMap=new HashMap<>();
+
 	int count=0;
-	List<EmptySpot> newList=new ArrayList<>();
+	List<Spot> newList=new ArrayList<>();
 	public CacheLayer()
 	{
 		System.out.println("Enter the Number of Floors :");
@@ -54,15 +54,15 @@ public class CacheLayer
 				for(int j=1;j<=spots;j++)
 				{
 					
-				EmptySpot emptyObj=new EmptySpot();
+				Spot emptyObj=new Spot();
 					emptyObj.setSpotNumber(j);
 					emptyObj.setFloor(i);
 				
-				   emptyMap=emptySetMap.get(i);
-					if(emptyMap==null)
+				   spotMap=spotSetMap.get(i);
+					if(spotMap==null)
 					{
-						emptyMap=new HashMap<>();
-						emptySetMap.put(i,emptyMap);
+						spotMap=new HashMap<>();
+						spotSetMap.put(i,spotMap);
 					}
 				
 					
@@ -70,11 +70,11 @@ public class CacheLayer
 					{
 						
 						
-						newList=emptyMap.get("Compact");
+						newList=spotMap.get("Compact");
 						if(newList==null)
 						{
 							newList=new ArrayList<>();
-							emptyMap.put("Compact",newList);
+							spotMap.put("Compact",newList);
 						}
 
 						emptyObj.setVehicleType("Compact");
@@ -85,11 +85,11 @@ public class CacheLayer
 					
 					else if(j<=arr[1])
 					{
-						newList=emptyMap.get("Large");
+						newList=spotMap.get("Large");
 						if(newList==null)
 						{
 							newList=new ArrayList<>();
-							emptyMap.put("Large",newList);
+							spotMap.put("Large",newList);
 						}
 
 						emptyObj.setVehicleType("Large");
@@ -100,11 +100,11 @@ public class CacheLayer
 					
 					else if(j<=arr[2])
 					{
-						newList=emptyMap.get("Handicapped");
+						newList=spotMap.get("Handicapped");
 						if(newList==null)
 						{
 							newList=new ArrayList<>();
-							emptyMap.put("Handicapped",newList);
+							spotMap.put("Handicapped",newList);
 						}
 
 						emptyObj.setVehicleType("Handicapped");
@@ -115,11 +115,11 @@ public class CacheLayer
 					else if(j<=arr[3])
 					{
 						
-						newList=emptyMap.get("Motor Cycle");
+						newList=spotMap.get("Motor Cycle");
 						if(newList==null)
 						{
 							newList=new ArrayList<>();
-							emptyMap.put("Motor Cycle",newList);
+							spotMap.put("Motor Cycle",newList);
 						}
 						emptyObj.setVehicleType("Motor Cycle");
 						newList.add(emptyObj);
@@ -127,11 +127,11 @@ public class CacheLayer
 					
 					else if(j<=spots)
 					{
-						newList=emptyMap.get("Electric Vehicle");
+						newList=spotMap.get("Electric Vehicle");
 						if(newList==null)
 						{
 							newList=new ArrayList<>();
-							emptyMap.put("Electric Vehicle",newList);
+							spotMap.put("Electric Vehicle",newList);
 						}
 						emptyObj.setVehicleType("Electric Vehicle");
 						newList.add(emptyObj);
@@ -141,26 +141,44 @@ public class CacheLayer
 				}	
 			}
 			count++;
-			System.out.println(emptySetMap);
+			//System.out.println(spotSetMap);
 		}
 		
 	}	
 	
-	public List<EmptySpot> removeEmpty(int i,int floor,String vehicleType)
+	public List<Spot> removeEmpty(int i,int floor,String vehicleType) throws Exception
 	{
-		emptyMap=emptySetMap.get(floor);
-		newList=emptyMap.get(vehicleType);
+		spotMap=spotSetMap.get(floor);
+		newList=spotMap.get(vehicleType);
 		newList.remove(i);
-		System.out.println(newList);
+		//System.out.println(newList);
 		return newList;
 	}
 	
-	public Map<Integer,Map<String,List<EmptySpot>>> getEmptyMap1()
+	public Map<Integer,Map<String,List<Spot>>> getEmptyMap1() throws Exception
 	{
-		return emptySetMap;
+		return spotSetMap;
 	} 
 	
-	public double getPayableAmount(long entryTime,long exitTime)
+	public Map<String,VehicleDetails> setVehicle(String vehicleNumber,VehicleDetails vehicleObj) throws Exception
+	{
+		vehicleMap.put(vehicleNumber,vehicleObj);
+		return vehicleMap;
+	}
+	
+	public VehicleDetails getVehicleDetails(String vehicleNumber) throws Exception
+	{
+		VehicleDetails vehicleObj=vehicleMap.get(vehicleNumber);
+		return vehicleObj;
+	}
+	
+	public CustomerDetails getCustomer(int customerId) throws Exception
+	{
+		CustomerDetails customerObj=customerMap.get(customerId);
+		return customerObj;
+	}
+	
+	public double getPayableAmount(long entryTime,long exitTime) throws Exception
 	{
 		double payable=0.0;
 		long entry=entryTime/(1000);
@@ -190,71 +208,63 @@ public class CacheLayer
 		return payable;
 	}
 	
-	public List<FilledSpot> getFilledDetails(int floor,String vehicleType)
+	public List<Spot> getFilledDetails(int tokenId) throws Exception
 	{
-		filledMap=filledSetMap.get(floor);
-		filledList=filledMap.get(vehicleType);
+		filledList=filledMap.get(tokenId);
 		return filledList;
 	}
-	public List<EmptySpot> getEmptyDetails(int floor,String vehicleType)
+	public List<Spot> getEmptyDetails(int floor,String vehicleType) throws Exception
 	{
-		emptyMap=emptySetMap.get(floor);
-		newList=emptyMap.get(vehicleType);
+		spotMap=spotSetMap.get(floor);
+		newList=spotMap.get(vehicleType);
 		return newList;
 	}
-	public List<FilledSpot> setFilledDetails(FilledSpot filledObj,int floor,String vehicleType)
+	public List<Spot> setFilledDetails(int tokenId,Spot filledObj) throws Exception
 	{
-		filledMap=filledSetMap.get(floor);
-		if(filledMap==null)
-		{
-			filledMap=new HashMap<>();
-			filledSetMap.put(floor,filledMap);
-		}
-		filledList=filledMap.get(vehicleType);
+		filledList=filledMap.get(tokenId);
 		if(filledList==null)
 		{
 			filledList=new ArrayList<>();
-			filledMap.put(vehicleType,filledList);
+			filledMap.put(tokenId,filledList);
 		}
 		filledList.add(filledObj);
 		return filledList;
 	}
-	public List<EmptySpot> setEmptyDetails1(EmptySpot emptyObj,int floor,String vehicleType)
+	public List<Spot> setEmptyDetails1(Spot emptyObj,int floor,String vehicleType) throws Exception
 	{
-		emptyMap=emptySetMap.get(floor);
-		newList=emptyMap.get(vehicleType);
+		spotMap=spotSetMap.get(floor);
+		newList=spotMap.get(vehicleType);
 		newList.add(emptyObj);
 		return newList;
 	}
-	public List<FilledSpot> removeFilled(int i,int floor,String vehicleType)
+	public List<Spot> removeFilled(int i,int tokenId)
 	{
-		filledMap=filledSetMap.get(floor);
-		filledList=filledMap.get(vehicleType);
+		filledList=filledMap.get(tokenId);
 		filledList.remove(i);
 		return filledList;
 	}
 	
-	public Map<Integer,CustomerDetails> setCustomer(int tokenId,CustomerDetails customerObj)
+	public Map<Integer,CustomerDetails> setCustomer(int tokenId,CustomerDetails customerObj) throws Exception
 	{
 		customerMap.put(tokenId,customerObj);
 		return customerMap;
 	}
 	
-	public Map<Integer,ParkingDetails> setSlot(int tokenId,ParkingDetails parkingObj)
+	public Map<Integer,ParkingDetails> setSlot(int tokenId,ParkingDetails parkingObj) throws Exception
 	{
 		parkingMap.put(tokenId,parkingObj);
 		return parkingMap;
 	}
 	
-	public ParkingDetails getParkingDetails(int tokenId)
+	public ParkingDetails getParkingDetails(int tokenId) throws Exception
 	{
 		ParkingDetails parkingObj=parkingMap.get(tokenId);
 		return parkingObj;
 	}
 	
-	public Map<Integer,PaymentGateway> processPayment(int tokenId,PaymentGateway paymentObj)
+	/*public Map<Integer,PaymentGateway> processPayment(int tokenId,PaymentGateway paymentObj)
 	{
 		paymentMap.put(tokenId,paymentObj);
 		return paymentMap;
-	}
+	}*/
 }

@@ -5,8 +5,8 @@ public class CustomerDetails
 {
 	private int customerId;
 	private String customerName;
-	private String customerAddress;
-	private String password;
+	private long customerMobileNo;
+	//private String password;
 	private double customerInfoWallet;
 	
 	public void setCustomerId(int customerId)
@@ -29,17 +29,17 @@ public class CustomerDetails
 		return customerName;
 	}
 	
-	public void setCustomerAddress(String customerAddress)
+	public void setCustomerMobileNo(long customerMobileNo)
 	{
-		this.customerAddress=customerAddress;
+		this.customerMobileNo=customerMobileNo;
 	}
 	
-	public String getCustomerAddress()
+	public long getCustomerMobileNo()
 	{
-		return customerAddress;
+		return customerMobileNo;
 	}
 	
-	public void setPassword(String password)
+	/*public void setPassword(String password)
 	{
 		this.password=password;
 	}
@@ -47,7 +47,7 @@ public class CustomerDetails
 	public String getPassword()
 	{
 		return password;
-	}
+	}*/
 	
 	public void setCustomerInfoWallet(double customerInfoWallet)
 	{
@@ -61,6 +61,6 @@ public class CustomerDetails
 	
 	public String toString()
 	{
-		return "CustomerId ={CustomerName = "+customerName+" CustomerAddress = "+customerAddress+" Password = "+password+" Customer Info Wallet = $"+customerInfoWallet+"}";
+		return "CustomerId ={CustomerName = "+customerName+" Customer Mobile No = "+customerMobileNo+" Customer Info Wallet = $"+customerInfoWallet+"}";
 	}
 }
