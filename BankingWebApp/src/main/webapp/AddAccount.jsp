@@ -8,11 +8,17 @@
 <link rel="stylesheet" type="text/css" href="Admin.css">
 </head>
 <body>
+<%if(session.getAttribute("customerId")==null)
+			{
+				RequestDispatcher reqDispatch=request.getRequestDispatcher("Login.jsp");
+				reqDispatch.forward(request,response);
+			}%>
 <jsp:include page="CommonOptions.jsp"/>
 <div>
-<h3><marquee style="color:white;" scrollamount="15">Welcome to Account Addition!!!!</marquee></h3>
+
 </div>
-<div class="id4">
+<div class="id4" style="margin-top:-300px;">
+<h3><marquee style="color:white;" scrollamount="15">Welcome to Account Addition!!!!</marquee></h3>
 	<form action="AddAccount" method="post" name="account">
 <fieldset class="red">
 	<h2>Account Addition</h2>

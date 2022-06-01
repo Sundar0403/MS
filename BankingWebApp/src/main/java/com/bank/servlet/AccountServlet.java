@@ -52,10 +52,14 @@ public class AccountServlet extends HttpServlet {
 		catch(CustomException e)
 		{
 			System.out.println("Details Can't Received");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 		catch(Exception e)
 		{
 			System.out.println("Details Can't Received");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 		
 	}

@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import account.AccountDetails;
 import excep.CustomException;
@@ -52,6 +53,7 @@ public class TransferServlet extends HttpServlet {
 		int fromActId=Integer.parseInt(request.getParameter("fromActId"));
 		int toActId=Integer.parseInt(request.getParameter("toActId"));
 		double amount=Double.parseDouble(request.getParameter("transferAmount"));
+		HttpSession session=request.getSession(false);
 		
 		try
 		{
@@ -61,16 +63,25 @@ public class TransferServlet extends HttpServlet {
 			System.out.println("----------------This is in Servlet Layer------------------");
 			System.out.println(accountMap);
 			request.setAttribute("AccountDetails",accountMap);
+			if(session.getAttribute("customerId")==null)
+			{
+				RequestDispatcher reqDispatch=request.getRequestDispatcher("Login.jsp");
+				reqDispatch.forward(request,response);
+			}
 			RequestDispatcher req=request.getRequestDispatcher("AdminOptions.jsp");
 			req.forward(request, response);
 		}
 		catch(CustomException e)
 		{
 			System.out.println("Can't get the Detils");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 		catch(Exception e)
 		{
 			System.out.println("Can't get the Detils");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 	}
 

@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class AddAccount
@@ -43,7 +44,7 @@ public class AddAccount extends HttpServlet {
 		//doGet(request, response);
 		BankLogic bankObj=new BankLogic();
 		AccountDetails accObj=new AccountDetails();
-		
+		HttpSession session=request.getSession(false);
 		int customerId=Integer.parseInt(request.getParameter("customerId"));
 		double accountBalance=Double.parseDouble(request.getParameter("accountBalance"));
 		accObj.setAccountBalance(accountBalance);
@@ -56,16 +57,25 @@ public class AddAccount extends HttpServlet {
 			System.out.println("----------------This is in Servlet Layer------------------");
 			System.out.println(accountMap);
 			request.setAttribute("AccountDetails",accountMap);
+			if(session.getAttribute("customerId")==null)
+			{
+				RequestDispatcher reqDispatch=request.getRequestDispatcher("Login.jsp");
+				reqDispatch.forward(request,response);
+			}
 			RequestDispatcher req=request.getRequestDispatcher("AdminOptions.jsp");
 			req.forward(request, response);
 		}
 		catch(CustomException e)
 		{
 			System.out.println("Account Addition Can't be Done");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 		catch(Exception e)
 		{
 			System.out.println("Account Addition Can't be Done");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 		
 		

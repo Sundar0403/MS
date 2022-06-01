@@ -62,7 +62,13 @@ public class LoginServlet extends HttpServlet {
 				Map<Integer,Map<Integer,AccountDetails>> accountMap=bankObj.readAccount();
 				System.out.println("servlet :"+accountMap);
 				request.setAttribute("AccountDetails",accountMap);
+				session.setAttribute("customerId",username);
 				System.out.println("1");
+				if(session.getAttribute("customerId")==null)
+				{
+					RequestDispatcher reqDispatch=request.getRequestDispatcher("Login.jsp");
+					reqDispatch.forward(request,response);
+				}
 				RequestDispatcher reqDispatch=request.getRequestDispatcher("AdminOptions.jsp");
 				System.out.println("2");
 				reqDispatch.forward(request,response);
@@ -89,11 +95,15 @@ public class LoginServlet extends HttpServlet {
 		catch(CustomException e)
 		{
 			System.out.println("Details Can't Received");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("LoginError.jsp");
+			reqDispatch.forward(request,response);
 			e.printStackTrace();
 		}
 		catch(Exception e)
 		{
 			System.out.println("Details Can't Received");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("LoginError.jsp");
+			reqDispatch.forward(request,response);
 			e.printStackTrace();
 		}	
 	}

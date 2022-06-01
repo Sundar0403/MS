@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import account.AccountDetails;
 import excep.CustomException;
@@ -44,20 +45,30 @@ public class DeactivatedAccount extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		BankLogic bankObj=new BankLogic();
+		HttpSession session=request.getSession(false);
 		try
 		{
 			Map<Integer,Map<Integer,AccountDetails>> accountMap=bankObj.readAccount();
 			request.setAttribute("AccountDetails",accountMap);
+			if(session.getAttribute("customerId")==null)
+			{
+				RequestDispatcher reqDispatch=request.getRequestDispatcher("Login.jsp");
+				reqDispatch.forward(request,response);
+			}
 			RequestDispatcher reqDispatch=request.getRequestDispatcher("DeactivatedAccount.jsp");
 			reqDispatch.forward(request,response);
 		}
 		catch(CustomException e)
 		{
 			System.out.println("Details Can't Received");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 		catch(Exception e)
 		{
 			System.out.println("Details Can't Received");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 	}
 

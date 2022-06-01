@@ -39,7 +39,6 @@
 	height:300px;
 	width:300px;
 	margin-top:0px;
-	margin-bottom:0px;
 	margin-left:800px;
 	margin-right:600px;
 }
@@ -52,6 +51,7 @@ fieldset.blue
 {
 	background-color:rgb(100,200,300);
 	height:200px;
+	padding:20px;
 	width:200px;
 }
 
@@ -59,13 +59,15 @@ fieldset.red
 {
 	background-color:rgb(100,200,300);
 	height:300px;
+	padding:20px;
 	width:200px;
 }
 fieldset.green
 {
 	background-color:rgb(100,200,300);
-	height:400px;
-	width:200px;
+	height:450px;
+	padding:20px;
+	width:220px;
 }
 
 p

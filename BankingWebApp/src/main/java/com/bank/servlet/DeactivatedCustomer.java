@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import excep.CustomException;
 import logic.BankLogic;
@@ -44,22 +45,32 @@ public class DeactivatedCustomer extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		BankLogic bankObj=new BankLogic();
+		HttpSession session=request.getSession(false);
 		try
 		{
 			Map<Integer,CustomerDetails> inputMap=bankObj.readCustomer();
 			System.out.println("---------------This is in Servlet Layer------------");
 			System.out.println(inputMap);
 			request.setAttribute("CustomerDetails", inputMap);
+			if(session.getAttribute("customerId")==null)
+			{
+				RequestDispatcher reqDispatch=request.getRequestDispatcher("Login.jsp");
+				reqDispatch.forward(request,response);
+			}
 			RequestDispatcher req=request.getRequestDispatcher("DeactivatedCustomer.jsp");
 			req.forward(request,response);
 		}
 		catch(CustomException e)
 		{
 			System.out.println("Details Cant be Received :");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 		catch(Exception e)
 		{
 			System.out.println("Details Cant be Received :");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 	}
 

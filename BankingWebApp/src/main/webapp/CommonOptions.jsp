@@ -10,7 +10,11 @@
 <body>
 <div>
 <form>
-
+<%if(session.getAttribute("customerId")==null)
+			{
+				RequestDispatcher reqDispatch=request.getRequestDispatcher("Login.jsp");
+				reqDispatch.forward(request,response);
+			}%>
 	<a href="AddAccount.jsp"><input style="margin-left:1300px;"type="button" class="add" value="Add Account"></a>
 	<a href="AddCustomer.jsp"><input style="margin-left:1300px;"type="button" class="add" value="Add Customer"></a></form>
 	<form action="LogoutServlet" method="post" name="logout"><button>Logout</button></form><br>

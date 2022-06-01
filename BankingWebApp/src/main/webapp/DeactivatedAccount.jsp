@@ -11,6 +11,12 @@
 <link rel="stylesheet" type="text/css" href="CustomerOptions.css">
 </head>
 <body>
+
+<% if(session.getAttribute("customerId")==null)
+			{
+				RequestDispatcher reqDispatch=request.getRequestDispatcher("Login.jsp");
+				reqDispatch.forward(request,response);
+			}%>
 	<jsp:include page="CommonOptions.jsp" />
 
 	<center>

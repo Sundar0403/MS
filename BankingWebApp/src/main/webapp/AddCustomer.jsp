@@ -9,7 +9,7 @@
 </head>
 <body>
 	<jsp:include page="CommonOptions.jsp"/>
-	<div class="id3">
+	<div class="id3" style="margin-top:-300px;">
 	<form action="AddCustomer" class="new" method="post" name="customer">
 <fieldset class="green">
 	<h2>Customer Addition</h2>

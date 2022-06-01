@@ -56,10 +56,14 @@ public class Update extends HttpServlet {
 		catch(CustomException e)
 		{
 			System.out.println("Details Cant be Received :");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 		catch(Exception e)
 		{
 			System.out.println("Details Cant be Received :");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 	}
 	}

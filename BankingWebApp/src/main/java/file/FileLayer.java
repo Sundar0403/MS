@@ -30,6 +30,7 @@ public class FileLayer {
 	public long lastActNo=324500000;
 	private File custFile=new File("/home/inc3/eclipse-workspace/BankingWebApp/Sa");
 	private File actFile=new File("//home/inc3/eclipse-workspace/BankingWebApp/Sundar");
+	private File userFile=new File("/home/inc3/eclipse-workspace/BankingWebApp/file");
 	UtilityClass utilObj=new UtilityClass();
 	AccountDetails accObj=new AccountDetails();
 	public long getAccountNo()
@@ -184,6 +185,27 @@ public class FileLayer {
 		{
 			System.out.println("This is a Deactivated Account Can't be Deposit");
 		}
+	}
+	
+	public Map<Integer,String> userCredentials()
+	{
+		Map<Integer,String> userMap=new HashMap<>();
+		userMap.put(1,"101");
+		userMap.put(2,"102");
+		userMap.put(3,"103");
+		userMap.put(4,"104");
+		userMap.put(5,"105");
+		userMap.put(6,"106");
+		userMap.put(7,"107");
+		userMap.put(8,"108");
+		userMap.put(9,"109");
+		userMap.put(10,"110");
+		userMap.put(11,"111");
+		userMap.put(12,"112");
+		userMap.put(13,"113");
+		userMap.put(14,"114");
+		userMap.put(15,"115");
+		return userMap;
 	}
 	
 	public void accountTransfer(int fromActId,int toActId,double amount) throws CustomException

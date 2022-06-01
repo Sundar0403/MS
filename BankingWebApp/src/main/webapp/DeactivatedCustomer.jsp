@@ -11,8 +11,13 @@
 <link rel="stylesheet" type="text/css" href="CustomerOptions.css">
 </head>
 <body>
+<%if(session.getAttribute("customerId")==null)
+{
+	RequestDispatcher reqDispatch=request.getRequestDispatcher("Login.jsp");
+	reqDispatch.forward(request,response);
+} %>
 <jsp:include page="CommonOptions.jsp"/>
-<center><h2>CUSTOMER DETAILS</h2></center>
+<center><h2>DEACTIVATED CUSTOMER DETAILS</h2></center>
 <table style="background-color:white;">
 	<tr class="main">
 		<th>Customer Id</th>

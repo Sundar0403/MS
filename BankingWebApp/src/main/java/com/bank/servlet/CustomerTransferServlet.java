@@ -77,10 +77,14 @@ public class CustomerTransferServlet extends HttpServlet {
 		catch(CustomException e)
 		{
 			System.out.println("Can't get the Detils");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 		catch(Exception e)
 		{
 			System.out.println("Can't get the Detils");
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 	}
 

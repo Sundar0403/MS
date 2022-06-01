@@ -59,6 +59,8 @@ public class AccountsWithdraw extends HttpServlet {
 		catch(Exception e)
 		{
 			System.out.println("Exception Occured :"+e.getMessage());
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 	}
 

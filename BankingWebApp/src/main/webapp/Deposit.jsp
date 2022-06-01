@@ -19,6 +19,11 @@ form.true
 </style>
 </head>
 <body>
+<% if(session.getAttribute("customerId")==null)
+				{
+					RequestDispatcher reqDispatch=request.getRequestDispatcher("Login.jsp");
+					reqDispatch.forward(request,response);
+				}%>
 <jsp:include page="CommonOptions.jsp"/>
 	<center><h2>Deposit Amount</h2></center>
 	<form class="true" action="Deposit" method="post">

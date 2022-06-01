@@ -58,6 +58,8 @@ public class Deactivate extends HttpServlet {
 		catch(CustomException e)
 		{
 			System.out.println("Exception Occured :"+e.getMessage());
+			RequestDispatcher reqDispatch=request.getRequestDispatcher("Error.jsp");
+			reqDispatch.forward(request,response);
 		}
 	}
 
